@@ -17,6 +17,8 @@
 @property (strong, nonatomic) NSString *phone;
 @property (strong, nonatomic) NSString *twitter;
 @property (nonatomic) float affinity;
-@property (strong, nonatomic) NSDate *dateLastContact;
+@property (strong, nonatomic) NSDate *dateOfLastInteraction;
+@property (strong, nonatomic) NSMutableArray *notifications;
+
 
 @end

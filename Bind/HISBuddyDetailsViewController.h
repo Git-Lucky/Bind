@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 #import "HISBuddy.h"
 #import "HISCollectionViewDataSource.h"
 
@@ -14,5 +15,6 @@
 
 @property (strong, nonatomic) HISBuddy *buddy;
 @property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
+@property (strong, nonatomic) NSIndexPath *indexPath;
 
 @end

@@ -12,8 +12,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    // Reset the Icon Alert Number back to Zero
+    application.applicationIconBadgeNumber = 0;
+    
+    // Detect the Notification after a user taps it
+    UILocalNotification *localNotification =
+    [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotification) {
+        NSLog(@"Recieved Notification %@",localNotification);
+    }
+    
     return YES;
+}
+
+- (void)application:(UIApplication *)app didReceiveLocalNotification:(UILocalNotification *)notif {
+	// Handle the notification when the app is running
+	NSLog(@"Recieved Notification %@",notif);
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

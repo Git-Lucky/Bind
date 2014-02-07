@@ -39,6 +39,31 @@
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self.dataSource;
+    
+//    for (HISBuddy *buddy in self.dataSource.buddies) {
+//        NSDate *currentDate = [NSDate date];
+//        NSDateComponents *comps = [[NSDateComponents alloc] init];
+//        [comps setDay:3];
+//        [comps setMonth:2];
+//        [comps setYear:2014];
+//        
+//        buddy.dateOfLastInteraction = [[NSCalendar currentCalendar] dateFromComponents:comps];
+//        
+//        NSTimeInterval timeElapsed = [self daysBetween:buddy.dateOfLastInteraction and:currentDate];
+//        NSLog(@"%f", timeElapsed);
+//        
+//        buddy.affinity = buddy.affinity - timeElapsed;
+//    } 
+    
+}
+
+
+- (int)daysBetween:(NSDate *)date1 and:(NSDate *)date2
+{
+    NSUInteger unitFlags = NSDayCalendarUnit;
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [calendar components:unitFlags fromDate:date1 toDate:date2 options:0];
+    return [components day];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -75,6 +100,7 @@
         HISBuddy *buddy = [self.dataSource.buddies objectAtIndex:indexPath.row];
         
         destVC.buddy = buddy;
+        destVC.indexPath = indexPath;
         destVC.dataSource = self.dataSource;
     }
 }
@@ -107,18 +133,5 @@
         }
     }
 }
-
-//NSData *data = [NSData dataWithContentsOfFile:[[self documentsDirectoryPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",self.student.name]]];
-//if (data) {
-//    self.student.image = [UIImage imageWithData:data];
-//    [self.imageButton setBackgroundImage:self.student.image forState:UIControlStateNormal];
-//}
-//if (self.student.imagePath) {
-//    [self.imageButton setTitle:@"" forState:UIControlStateNormal];
-//}
-//if (self.imageButton.imageView.image) {
-//    self.imageButton.adjustsImageWhenHighlighted = NO;
-//    //        [self.imageButton setUserInteractionEnabled:NO];
-//}
 
 @end

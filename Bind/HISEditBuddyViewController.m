@@ -9,7 +9,7 @@
 #import "HISEditBuddyViewController.h"
 #import "HISCollectionViewDataSource.h"
 
-@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate>
+@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *currentImageView;
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *twitterField;
 @property (weak, nonatomic) IBOutlet UIImageView *editedImageView;
 @property (weak, nonatomic) IBOutlet UIButton *startPickerButton;
+@property (weak, nonatomic) IBOutlet UIProgressView *affinityLevel;
 
 @end
 
@@ -38,7 +39,7 @@
     
     [self setPlaceholdersWithBuddyDetails];
     
-    [self.startPickerButton setTitle:@"Camera Icon Here" forState:UIControlStateNormal];
+    [self.startPickerButton setTitle:@"Click to Edit" forState:UIControlStateNormal];
     
     [HISCollectionViewDataSource makeRoundView:self.currentImageView];
     [HISCollectionViewDataSource makeRoundView:self.editedImageView];
@@ -50,14 +51,15 @@
     self.phoneField.placeholder = self.buddy.phone;
     self.emailField.placeholder = self.buddy.email;
     self.twitterField.placeholder = self.buddy.twitter;
+    self.affinityLevel.progress = self.buddy.affinity;
     
     if (self.buddy.pic) {
         self.currentImageView.image = self.buddy.pic;
     } else if (self.buddy.imagePath) {
         self.currentImageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
     } else {
-        // TODO: put placeholder image here
-        self.currentImageView.image = nil;
+        self.startPickerButton.titleLabel.textColor = [UIColor blackColor];
+        self.currentImageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     }
 }
 
@@ -94,6 +96,8 @@
     } else {
         self.editedBuddy.twitter = self.twitterField.text;
     }
+    self.editedBuddy.affinity = self.buddy.affinity;
+    
     [self performSegueWithIdentifier:@"editedBuddy" sender:self];
 }
 
@@ -144,6 +148,24 @@
     }];
 }
 
+- (IBAction)deleteFriend:(id)sender {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Delete Friend" message:@"Are you sure you want to delete this friend?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
+    [alertView show];
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    
+    if([buttonTitle isEqualToString:@"Delete"]) {
+        [self performSegueWithIdentifier:@"deleteBuddy" sender:self];
+    } else {
+        return;
+    }
+}
+
+
 #pragma mark - Toolbar
 
 - (IBAction)cancel:(id)sender {
@@ -155,7 +177,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"removedFriend"]) {
-        //TODO: add a warning here before allowing segue
+        
     }
 }
 @end

@@ -14,7 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        
     }
     return self;
 }
@@ -42,7 +42,9 @@
     }
     
     self.name.text = self.buddy.name;
-    self.affinity.value = self.buddy.affinity;
+    self.affinityLevel.progress = self.buddy.affinity;
+    self.dividerImageView.image = [UIImage imageNamed:@"dividerpng.png"];
+
 }
 
 @end

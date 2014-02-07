@@ -9,13 +9,15 @@
 #import "HISBuddyDetailsViewController.h"
 #import "HISEditBuddyViewController.h"
 
-@interface HISBuddyDetailsViewController ()
+@interface HISBuddyDetailsViewController () <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIActionSheetDelegate>
+
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UISlider *affinityBar;
-@property (weak, nonatomic) IBOutlet UILabel *phone;
-@property (weak, nonatomic) IBOutlet UILabel *email;
-@property (weak, nonatomic) IBOutlet UILabel *twitter;
+@property (weak, nonatomic) IBOutlet UIProgressView *affinityLevel;
+@property (weak, nonatomic) IBOutlet UIButton *phoneButton;
+@property (weak, nonatomic) IBOutlet UIButton *emailButton;
+@property (weak, nonatomic) IBOutlet UIButton *twitterButton;
+
 @end
 
 @implementation HISBuddyDetailsViewController
@@ -43,21 +45,161 @@
 - (void)setOutletsWithBuddyDetails
 {
     self.nameLabel.text = self.buddy.name;
-    self.affinityBar.value = self.buddy.affinity;
-    self.phone.text = self.buddy.phone;
-    self.email.text = self.buddy.email;
-    self.twitter.text = self.buddy.twitter;
-    
+    self.affinityLevel.progress = self.buddy.affinity;
+    [self.phoneButton  setTitle:self.buddy.phone forState:UIControlStateNormal];
+    [self.emailButton setTitle:self.buddy.email forState:UIControlStateNormal];
+    self.emailButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    [self.twitterButton setTitle:self.buddy.twitter forState:UIControlStateNormal];
+    self.twitterButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     if (self.buddy.pic) {
         self.imageView.image = self.buddy.pic;
     } else if (self.buddy.imagePath) {
         self.imageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
     } else {
-        // TODO: put placeholder image here
-        self.imageView.image = nil;
+        self.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     }
 }
 
+
+
+- (IBAction)phoneButton:(id)sender {
+    
+    if([MFMessageComposeViewController canSendText]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Call", @"Text", nil];
+        [actionSheet showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", self.buddy.phone]]];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Call"]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", self.buddy.phone]]];
+        self.buddy.affinity = self.buddy.affinity + .2;
+        self.affinityLevel.progress = self.buddy.affinity;
+//        [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Text"]) {
+        [self showSMS:nil];
+        
+    } else {
+        return;
+    }
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+            break;
+            
+        case MessageComposeResultFailed:
+        {
+            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warningAlert show];
+            break;
+        }
+            
+        case MessageComposeResultSent:
+        {
+            //TODO: add timestamp and don't continue adding points for message after the first one for a day
+            NSLog(@"affinity before: %f and progress bar %f", self.buddy.affinity, self.affinityLevel.progress);
+            self.buddy.affinity = self.buddy.affinity + .12;
+            self.affinityLevel.progress = self.buddy.affinity;
+            NSLog(@"affinity after: %f and progress bar %f", self.buddy.affinity, self.affinityLevel.progress);
+            break;
+        }
+            
+        
+        default:
+            break;
+    }
+//    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)showSMS:(NSString*)file {
+    
+    if(![MFMessageComposeViewController canSendText]) {
+        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warningAlert show];
+        return;
+    }
+    
+    NSArray *recipents = @[self.buddy.phone];
+    NSString *message = @"I really miss you buddy";
+    
+    MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+    messageController.messageComposeDelegate = self;
+    [messageController setRecipients:recipents];
+    [messageController setBody:message];
+    
+    // Present message view controller on screen
+    [self presentViewController:messageController animated:YES completion:nil];
+}
+
+- (IBAction)emailNow:(id)sender {
+        // Email Subject
+        NSString *emailTitle = @"BooYah";
+        // Email Content
+        NSString *messageBody = @"iOS programming is so fun!";
+        // To address
+        NSArray *toRecipents = [NSArray arrayWithObject:self.buddy.email];
+        
+        MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+        mailComposeViewController.mailComposeDelegate = self;
+        [mailComposeViewController setSubject:emailTitle];
+        [mailComposeViewController setMessageBody:messageBody isHTML:NO];
+        [mailComposeViewController setToRecipients:toRecipents];
+        
+        // Present mail view controller on screen
+        [self presentViewController:mailComposeViewController animated:YES completion:NULL];
+}
+    
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            self.buddy.affinity = self.buddy.affinity + .08;
+            self.affinityLevel.progress = self.buddy.affinity;
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+//    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (IBAction)weHungOutButton:(id)sender {
+    self.buddy.affinity = self.buddy.affinity + .25;
+    self.affinityLevel.progress = self.buddy.affinity;
+    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+}
+
+- (IBAction)theyCalledMeButton:(id)sender {
+    self.buddy.affinity = self.buddy.affinity + .12;
+    self.affinityLevel.progress = self.buddy.affinity;
+    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+}
+
+- (IBAction)drainHalfAffinity:(id)sender {
+    self.buddy.affinity = self.buddy.affinity - .25;
+    self.affinityLevel.progress = self.buddy.affinity;
+    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+}
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -69,7 +211,6 @@
 }
 
 - (IBAction)editedFriend:(UIStoryboardSegue *)segue {
-    //TODO: When clicking save in Edit friend make it behave properly, first in ITS own method and then in this unwind segue
     if ([segue.sourceViewController isKindOfClass:[HISEditBuddyViewController class]]) {
         HISEditBuddyViewController *editBuddyViewController = (HISEditBuddyViewController *)segue.sourceViewController;
         self.buddy = editBuddyViewController.buddy;
