@@ -27,8 +27,8 @@
     }
     cell.name.text = buddy.name;
 //    [cell.segmentedBar setProgress:buddy.affinity animated:YES];
-    cell.affinityLevel.progress = buddy.affinity;
-    cell.affinityLevel.progressViewStyle = UIProgressViewStyleBar;
+//    cell.affinityLevel.progress = buddy.affinity;
+//    cell.affinityLevel.progressViewStyle = UIProgressViewStyleBar;
     cell.dividerImageView.image = [UIImage imageNamed:@"dividerpng.png"];
     
     [HISCollectionViewDataSource makeRoundView:cell.imageView];

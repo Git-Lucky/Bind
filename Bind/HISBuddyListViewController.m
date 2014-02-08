@@ -40,20 +40,20 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self.dataSource;
     
-//    for (HISBuddy *buddy in self.dataSource.buddies) {
-//        NSDate *currentDate = [NSDate date];
-//        NSDateComponents *comps = [[NSDateComponents alloc] init];
-//        [comps setDay:3];
-//        [comps setMonth:2];
-//        [comps setYear:2014];
-//        
-//        buddy.dateOfLastInteraction = [[NSCalendar currentCalendar] dateFromComponents:comps];
-//        
-//        NSTimeInterval timeElapsed = [self daysBetween:buddy.dateOfLastInteraction and:currentDate];
-//        NSLog(@"%f", timeElapsed);
-//        
-//        buddy.affinity = buddy.affinity - timeElapsed;
-//    } 
+    for (HISBuddy *buddy in self.dataSource.buddies) {
+        NSDate *currentDate = [NSDate date];
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        [comps setDay:3];
+        [comps setMonth:2];
+        [comps setYear:2014];
+        
+        buddy.dateOfLastInteraction = [[NSCalendar currentCalendar] dateFromComponents:comps];
+        
+        NSTimeInterval timeElapsed = [self daysBetween:buddy.dateOfLastInteraction and:currentDate];
+        NSLog(@"%f", timeElapsed);
+        
+        buddy.affinity = buddy.affinity - timeElapsed;
+    } 
     
 }
 
