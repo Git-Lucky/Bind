@@ -13,5 +13,6 @@
 @interface HISLocalNotificationController : NSObject
 
 - (void)scheduleNotificationsForBuddy:(HISBuddy *)buddy;
+- (void)cancelNotificationsForBuddy:(HISBuddy *)buddy;
 
 @end

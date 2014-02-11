@@ -28,23 +28,23 @@
 }
 */
 
-- (void)setBuddy:(HISBuddy *)buddy
-{
-    _buddy = buddy;
-    
-    if (self.buddy.pic) {
-        self.imageView.image = self.buddy.pic;
-    }
-    else if (self.buddy.imagePath) {
-        self.imageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
-    } else {
-        self.imageView.image = nil;
-    }
-    
-    self.name.text = self.buddy.name;
-    self.affinityLevel.progress = self.buddy.affinity;
-    self.dividerImageView.image = [UIImage imageNamed:@"dividerpng.png"];
-
-}
+//- (void)setBuddy:(HISBuddy *)buddy
+//{
+//    _buddy = buddy;
+//    
+//    if (self.buddy.pic) {
+//        self.imageView.image = self.buddy.pic;
+//    }
+//    else if (self.buddy.imagePath) {
+//        self.imageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
+//    } else {
+//        self.imageView.image = nil;
+//    }
+//    
+//    self.name.text = self.buddy.name;
+//    self.affinityLevel.progress = self.buddy.affinity;
+//    self.dividerImageView.image = [UIImage imageNamed:@"dividerpng.png"];
+//
+//}
 
 @end

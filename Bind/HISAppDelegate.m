@@ -7,27 +7,66 @@
 //
 
 #import "HISAppDelegate.h"
+#import "HISCollectionViewDataSource.h"
+#import "HISBuddy.h"
+#import "HISBuddyDetailsViewController.h"
+
+@interface HISAppDelegate ()
+
+@property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
+
+@end
 
 @implementation HISAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Reset the Icon Alert Number back to Zero
-    application.applicationIconBadgeNumber = 0;
     
     // Detect the Notification after a user taps it
     UILocalNotification *localNotification =
     [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (localNotification) {
-        NSLog(@"Recieved Notification %@",localNotification);
+        application.applicationIconBadgeNumber = -1;
+        self.dataSource = [[HISCollectionViewDataSource alloc] init];
+        [HISCollectionViewDataSource load];
+        
+        for (HISBuddy *buddy in self.dataSource.buddies) {
+            if ([buddy.buddyID isEqualToString:[localNotification.userInfo objectForKey:@"ID"]]) {
+                UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+                HISBuddyDetailsViewController *detailsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"detailsVC"];
+                detailsVC.buddy = buddy;
+                [navController pushViewController:detailsVC animated:NO];
+                break;
+            }
+        }
+
+        
+     NSLog(@"Recieved Notification *****didFinish - %@", localNotification);
     }
+    
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000]];
     
     return YES;
 }
 
-- (void)application:(UIApplication *)app didReceiveLocalNotification:(UILocalNotification *)notif {
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
 	// Handle the notification when the app is running
-	NSLog(@"Recieved Notification %@",notif);
+	NSLog(@"Recieved Notification *****didReceive %@", [notification.userInfo objectForKey:@"ID"]);
+    application.applicationIconBadgeNumber = -1;
+    
+    self.dataSource = [[HISCollectionViewDataSource alloc] init];
+    [HISCollectionViewDataSource load];
+    
+    for (HISBuddy *buddy in self.dataSource.buddies) {
+        if ([buddy.buddyID isEqualToString:[notification.userInfo objectForKey:@"ID"]]) {
+            UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+            HISBuddyDetailsViewController *detailsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"detailsVC"];
+            detailsVC.buddy = buddy;
+            //TODO: need to add if statement checking if view is already loaded to handle double back problem
+            [navController pushViewController:detailsVC animated:NO];
+            break;
+        }
+    }
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

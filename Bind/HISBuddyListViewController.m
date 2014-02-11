@@ -10,15 +10,16 @@
 #import "HISCVCellWide.h"
 #import "HISCollectionViewDataSource.h"
 #import "HISBuddyDetailsViewController.h"
-#import "HISBuddy.h"
 #import "HISEditBuddyViewController.h"
 #import "HISGetStartedViewController.h"
+#import "HISLocalNotificationController.h"
 
 
 @interface HISBuddyListViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
+@property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
 
 @end
 
@@ -40,36 +41,30 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self.dataSource;
     
-    for (HISBuddy *buddy in self.dataSource.buddies) {
-        NSDate *currentDate = [NSDate date];
-        NSDateComponents *comps = [[NSDateComponents alloc] init];
-        [comps setDay:3];
-        [comps setMonth:2];
-        [comps setYear:2014];
-        
-        buddy.dateOfLastInteraction = [[NSCalendar currentCalendar] dateFromComponents:comps];
-        
-        NSTimeInterval timeElapsed = [self daysBetween:buddy.dateOfLastInteraction and:currentDate];
-        NSLog(@"%f", timeElapsed);
-        
-        buddy.affinity = buddy.affinity - timeElapsed;
-    } 
+    self.collectionView.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
     
-}
-
-
-- (int)daysBetween:(NSDate *)date1 and:(NSDate *)date2
-{
-    NSUInteger unitFlags = NSDayCalendarUnit;
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *components = [calendar components:unitFlags fromDate:date1 toDate:date2 options:0];
-    return [components day];
+//    for (HISBuddy *buddy in self.dataSource.buddies) {
+//        NSDate *currentDate = [NSDate date];
+//        NSDateComponents *comps = [[NSDateComponents alloc] init];
+//        [comps setDay:3];
+//        [comps setMonth:2];
+//        [comps setYear:2014];
+//        
+//        buddy.dateOfLastInteraction = [[NSCalendar currentCalendar] dateFromComponents:comps];
+//        
+//        NSTimeInterval timeElapsed = [self daysBetween:buddy.dateOfLastInteraction and:currentDate];
+//        NSLog(@"%f", timeElapsed);
+//        
+//        buddy.affinity = buddy.affinity - timeElapsed;
+//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.collectionView reloadData];
 }
+
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -112,6 +107,7 @@
         if (oldBuddy) {
             
             [self.dataSource.buddies removeObject:oldBuddy];
+            [self.localNotificationController cancelNotificationsForBuddy:oldBuddy];
             [self.collectionView reloadData];
             
             [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];

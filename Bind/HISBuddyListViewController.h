@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HISCreateBuddyViewController.h"
+#import "HISBuddy.h"
 
 @interface HISBuddyListViewController : UIViewController <UICollectionViewDelegate>
 
 @property (strong, nonatomic) HISCreateBuddyViewController *createBuddyViewController;
-//@property (strong, nonatomic) HISBuddy * buddyToAdd;
 
 @end

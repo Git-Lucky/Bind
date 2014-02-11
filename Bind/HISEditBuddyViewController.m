@@ -9,7 +9,7 @@
 #import "HISEditBuddyViewController.h"
 #import "HISCollectionViewDataSource.h"
 
-@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate>
+@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *currentImageView;
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *twitterField;
 @property (weak, nonatomic) IBOutlet UIImageView *editedImageView;
 @property (weak, nonatomic) IBOutlet UIButton *startPickerButton;
-@property (weak, nonatomic) IBOutlet UIProgressView *affinityLevel;
+
 
 @end
 
@@ -40,6 +40,7 @@
     [self setPlaceholdersWithBuddyDetails];
     
     [self.startPickerButton setTitle:@"Click to Edit" forState:UIControlStateNormal];
+    self.view.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
     
     [HISCollectionViewDataSource makeRoundView:self.currentImageView];
     [HISCollectionViewDataSource makeRoundView:self.editedImageView];
@@ -51,7 +52,6 @@
     self.phoneField.placeholder = self.buddy.phone;
     self.emailField.placeholder = self.buddy.email;
     self.twitterField.placeholder = self.buddy.twitter;
-    self.affinityLevel.progress = self.buddy.affinity;
     
     if (self.buddy.pic) {
         self.currentImageView.image = self.buddy.pic;
@@ -165,6 +165,62 @@
     }
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+//makes the phone field edit on the fly
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ([[textField description] isEqualToString:[self.phoneField description]]) {
+        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        NSArray *components = [newString componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+        NSString *decimalString = [components componentsJoinedByString:@""];
+        
+        NSUInteger length = decimalString.length;
+        BOOL hasLeadingOne = length > 0 && [decimalString characterAtIndex:0] == '1';
+        
+        if (length == 0 || (length > 10 && !hasLeadingOne) || (length > 11)) {
+            textField.text = decimalString;
+            return NO;
+        }
+        
+        NSUInteger index = 0;
+        NSMutableString *formattedString = [NSMutableString string];
+        
+        if (hasLeadingOne) {
+            [formattedString appendString:@"1 "];
+            index += 1;
+        }
+        
+        if (length - index > 3) {
+            NSString *areaCode = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"(%@) ",areaCode];
+            index += 3;
+        }
+        
+        if (length - index > 3) {
+            NSString *prefix = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"%@-",prefix];
+            index += 3;
+        }
+        
+        NSString *remainder = [decimalString substringFromIndex:index];
+        [formattedString appendString:remainder];
+        
+        textField.text = formattedString;
+        
+        return NO;
+    }
+    return 1;
+}
 
 #pragma mark - Toolbar
 
@@ -174,10 +230,10 @@
 }
 
 #pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"removedFriend"]) {
-        
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([segue.identifier isEqualToString:@"removedFriend"]) {
+//        
+//    }
+//}
 @end

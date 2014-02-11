@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "M13ProgressViewSegmentedBar.h"
 
 @interface HISCollectionViewDataSource : NSObject <UICollectionViewDataSource>
 

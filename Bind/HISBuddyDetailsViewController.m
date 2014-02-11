@@ -8,15 +8,18 @@
 
 #import "HISBuddyDetailsViewController.h"
 #import "HISEditBuddyViewController.h"
+#import "M13ProgressViewPie.h"
+#import "HISLocalNotificationController.h"
 
 @interface HISBuddyDetailsViewController () <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIProgressView *affinityLevel;
 @property (weak, nonatomic) IBOutlet UIButton *phoneButton;
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
+@property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
+@property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
 
 @end
 
@@ -35,17 +38,19 @@
 {
     [super viewDidLoad];
     
-    self.navigationController.title = @"Your Buddy!";
+    self.view.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
+    self.progressViewPie.backgroundRingWidth = 0;
     
     [HISCollectionViewDataSource makeRoundView:self.imageView];
     
     [self setOutletsWithBuddyDetails];
+    
+    self.localNotificationController = [[HISLocalNotificationController alloc] init];
 }
 
 - (void)setOutletsWithBuddyDetails
 {
     self.nameLabel.text = self.buddy.name;
-    self.affinityLevel.progress = self.buddy.affinity;
     [self.phoneButton  setTitle:self.buddy.phone forState:UIControlStateNormal];
     [self.emailButton setTitle:self.buddy.email forState:UIControlStateNormal];
     self.emailButton.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -58,6 +63,8 @@
     } else {
         self.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     }
+    self.progressViewPie.animationDuration = 1;
+    [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
 }
 
 
@@ -76,12 +83,9 @@
     
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Call"]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", self.buddy.phone]]];
-        self.buddy.affinity = self.buddy.affinity + .2;
-        self.affinityLevel.progress = self.buddy.affinity;
-//        [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+        [self addAffinity:.2];
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Text"]) {
         [self showSMS:nil];
-        
     } else {
         return;
     }
@@ -103,10 +107,7 @@
         case MessageComposeResultSent:
         {
             //TODO: add timestamp and don't continue adding points for message after the first one for a day
-            NSLog(@"affinity before: %f and progress bar %f", self.buddy.affinity, self.affinityLevel.progress);
-            self.buddy.affinity = self.buddy.affinity + .12;
-            self.affinityLevel.progress = self.buddy.affinity;
-            NSLog(@"affinity after: %f and progress bar %f", self.buddy.affinity, self.affinityLevel.progress);
+            [self addAffinity:.12];
             break;
         }
             
@@ -114,7 +115,6 @@
         default:
             break;
     }
-//    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -168,8 +168,7 @@
             NSLog(@"Mail saved");
             break;
         case MFMailComposeResultSent:
-            self.buddy.affinity = self.buddy.affinity + .08;
-            self.affinityLevel.progress = self.buddy.affinity;
+            [self addAffinity:.08];
             NSLog(@"Mail sent");
             break;
         case MFMailComposeResultFailed:
@@ -178,28 +177,41 @@
         default:
             break;
     }
-//    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
     // Close the Mail Interface
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (IBAction)weHungOutButton:(id)sender {
-    self.buddy.affinity = self.buddy.affinity + .25;
-    self.affinityLevel.progress = self.buddy.affinity;
-    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+    [self addAffinity:.25];
 }
 
 - (IBAction)theyCalledMeButton:(id)sender {
-    self.buddy.affinity = self.buddy.affinity + .12;
-    self.affinityLevel.progress = self.buddy.affinity;
+    [self addAffinity:.12];
+}
+
+- (IBAction)drainAffinity:(id)sender {
+    self.buddy.affinity = self.buddy.affinity - .25;
+    [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
     [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
 }
 
-- (IBAction)drainHalfAffinity:(id)sender {
-    self.buddy.affinity = self.buddy.affinity - .25;
-    self.affinityLevel.progress = self.buddy.affinity;
-    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+- (void)addAffinity:(double)number
+{
+    if (self.buddy.affinity < 1) {
+        self.buddy.affinity = self.buddy.affinity + number;
+        [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
+        self.buddy.hasChanged = YES;
+        
+        [self.localNotificationController cancelNotificationsForBuddy:self.buddy];
+        
+        self.buddy.dateOfLastInteraction = [NSDate date];
+        
+        [self.localNotificationController scheduleNotificationsForBuddy:self.buddy];
+        
+        [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+    }
 }
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -218,7 +230,7 @@
         
         if (editedBuddy) {
             [self.dataSource.buddies removeObject:self.buddy];
-            [self.dataSource.buddies addObject:editedBuddy];
+            [self.dataSource.buddies insertObject:editedBuddy atIndex:self.indexPath.row];
             [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
             self.buddy = editedBuddy;
             [self setOutletsWithBuddyDetails];

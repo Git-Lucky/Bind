@@ -43,6 +43,8 @@
     self.imagePicker.layer.borderWidth = 2;
     self.imagePicker.layer.cornerRadius = self.imagePicker.layer.frame.size.width / 2;
     
+    self.view.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
+    
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
 }
 

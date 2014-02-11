@@ -16,7 +16,6 @@
     if (!self) {
         return nil;
     }
-    
     self.name = [aDecoder decodeObjectForKey:@"name"];
     self.imagePath = [aDecoder decodeObjectForKey:@"imagePath"];
     self.twitter = [aDecoder decodeObjectForKey:@"twitter"];
@@ -24,8 +23,7 @@
     self.phone = [aDecoder decodeObjectForKey:@"phone"];
     self.affinity = [[aDecoder decodeObjectForKey:@"affinity"] floatValue];
     self.dateOfLastInteraction = [aDecoder decodeObjectForKey:@"date"];
-    self.notifications = [aDecoder decodeObjectForKey:@"notifications"];
-    
+    self.buddyID = [aDecoder decodeObjectForKey:@"buddyID"];
     return self;
 }
 
@@ -38,7 +36,7 @@
     [aCoder encodeObject:self.phone forKey:@"phone"];
     [aCoder encodeObject:[NSNumber numberWithFloat:self.affinity] forKey:@"affinity"];
     [aCoder encodeObject:self.dateOfLastInteraction forKey:@"date"];
-    [aCoder encodeObject:self.notifications forKey:@"notifications"];
+    [aCoder encodeObject:self.buddyID forKey:@"buddyID"];
 }
 
 - (void)setPic:(UIImage *)pic {

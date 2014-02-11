@@ -8,7 +8,11 @@
 
 #import "HISCollectionViewDataSource.h"
 #import "HISCVCellWide.h"
+#import "HISCVCell.h"
 
+@interface HISCollectionViewDataSource ()
+
+@end
 
 @implementation HISCollectionViewDataSource
 
@@ -16,22 +20,34 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    HISCVCellWide *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    
+    HISCVCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     HISBuddy *buddy = self.buddies[indexPath.row];
+    
+    NSString *firstName;
+    firstName = [[buddy.name componentsSeparatedByString:@" "] firstObject];
+    cell.name.text = firstName;
     
     if (buddy.imagePath) {
         cell.imageView.image = [UIImage imageWithContentsOfFile:buddy.imagePath];
     } else {
         cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     }
-    cell.name.text = buddy.name;
-//    [cell.segmentedBar setProgress:buddy.affinity animated:YES];
-//    cell.affinityLevel.progress = buddy.affinity;
-//    cell.affinityLevel.progressViewStyle = UIProgressViewStyleBar;
-    cell.dividerImageView.image = [UIImage imageNamed:@"dividerpng.png"];
+    
+    [cell.progressViewPie setProgress:buddy.affinity animated:YES];
+    cell.progressViewPie.backgroundRingWidth = 0;
+    if (!buddy.hasAnimated) {
+        [cell.progressViewPie setAnimationDuration: 1 ];
+        buddy.hasAnimated = YES;
+    } else if (buddy.hasChanged) {
+        [cell.progressViewPie setAnimationDuration: 1 ];
+        buddy.hasChanged = NO;
+    } else {
+        [cell.progressViewPie setAnimationDuration: 0 ];
+    }
     
     [HISCollectionViewDataSource makeRoundView:cell.imageView];
+    
+    cell.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
     
     return cell;
 }
@@ -45,8 +61,8 @@
 {
     view.layer.cornerRadius = view.frame.size.width / 2;
     view.clipsToBounds = YES;
-    view.layer.borderColor = [UIColor colorWithRed:0.645 green:0.252 blue:0.862 alpha:1.000].CGColor;
-    view.layer.borderWidth = 1;
+    view.layer.borderColor = [UIColor colorWithRed:0.940 green:0.964 blue:0.975 alpha:1.000].CGColor;
+    view.layer.borderWidth = 2;
 }
 
 - (NSMutableArray *)buddies
@@ -69,7 +85,24 @@
 
 + (NSMutableArray *)load
 {
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:[HISCollectionViewDataSource archivedFriendsPath]];
+     NSMutableArray *unarchivedArray = [NSKeyedUnarchiver unarchiveObjectWithFile:[HISCollectionViewDataSource archivedFriendsPath]];
+    
+    //loop through all objects and update affinity value
+    NSDate *now = [NSDate date];
+    for (HISBuddy *buddy in unarchivedArray) {
+        if (buddy.dateOfLastInteraction) {
+            NSLog(@"Affinity before %f", buddy.affinity);
+            NSDate *lastInteraction = buddy.dateOfLastInteraction;
+            NSInteger daysBetween = [self daysBetween:lastInteraction and:now];
+            float percentLost = (CGFloat)daysBetween/100.f;
+            buddy.affinity -= percentLost;
+            if (buddy.affinity < 0) {
+                buddy.affinity = 0.01;
+            }
+            NSLog(@"Affinity After %f", buddy.affinity);
+        }
+    }
+    return unarchivedArray;
 }
 
 + (NSString *)archivedFriendsPath
@@ -81,6 +114,14 @@
 {
     NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
     return [documentsURL path];
+}
+
++ (NSInteger)daysBetween:(NSDate *)date1 and:(NSDate *)date2
+{
+    NSUInteger unitFlags = NSDayCalendarUnit;
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [calendar components:unitFlags fromDate:date1 toDate:date2 options:0];
+    return [components day];
 }
 
 

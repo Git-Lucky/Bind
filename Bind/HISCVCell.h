@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "M13ProgressViewPie.h"
 
 @interface HISCVCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
+@property (weak, nonatomic) IBOutlet UILabel *name;
 
 @end

@@ -18,7 +18,9 @@
 @property (strong, nonatomic) NSString *twitter;
 @property (nonatomic) float affinity;
 @property (strong, nonatomic) NSDate *dateOfLastInteraction;
-@property (strong, nonatomic) NSMutableArray *notifications;
+@property (nonatomic) BOOL hasAnimated;
+@property (nonatomic) BOOL hasChanged;
+@property (strong, nonatomic) NSString *buddyID;
 
 
 @end
