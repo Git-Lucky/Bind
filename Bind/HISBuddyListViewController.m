@@ -41,22 +41,8 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self.dataSource;
     
-    self.collectionView.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
-    
-//    for (HISBuddy *buddy in self.dataSource.buddies) {
-//        NSDate *currentDate = [NSDate date];
-//        NSDateComponents *comps = [[NSDateComponents alloc] init];
-//        [comps setDay:3];
-//        [comps setMonth:2];
-//        [comps setYear:2014];
-//        
-//        buddy.dateOfLastInteraction = [[NSCalendar currentCalendar] dateFromComponents:comps];
-//        
-//        NSTimeInterval timeElapsed = [self daysBetween:buddy.dateOfLastInteraction and:currentDate];
-//        NSLog(@"%f", timeElapsed);
-//        
-//        buddy.affinity = buddy.affinity - timeElapsed;
-//    }
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,7 +50,15 @@
     [self.collectionView reloadData];
 }
 
-
+- (void)processAndDisplayBackgroundImage:(NSString *)imageName
+{
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:imageName] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -110,7 +104,7 @@
             [self.localNotificationController cancelNotificationsForBuddy:oldBuddy];
             [self.collectionView reloadData];
             
-            [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+            [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
         }
     }
 }
@@ -125,7 +119,7 @@
             [self.dataSource.buddies addObject:newBuddy];
             [self.collectionView reloadData];
             
-            [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+            [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
         }
     }
 }

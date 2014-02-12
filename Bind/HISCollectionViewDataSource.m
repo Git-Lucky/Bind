@@ -16,6 +16,18 @@
 
 @implementation HISCollectionViewDataSource
 
++ (HISCollectionViewDataSource *)sharedDataSource
+{
+    static dispatch_once_t pred;
+    static HISCollectionViewDataSource *sharedDataSource = nil;
+    
+    dispatch_once(&pred, ^{
+        sharedDataSource = [[HISCollectionViewDataSource alloc] init];
+    });
+    
+    return sharedDataSource;
+}
+
 #pragma mark - Collection View
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -27,6 +39,7 @@
     firstName = [[buddy.name componentsSeparatedByString:@" "] firstObject];
     cell.name.text = firstName;
     
+    
     if (buddy.imagePath) {
         cell.imageView.image = [UIImage imageWithContentsOfFile:buddy.imagePath];
     } else {
@@ -34,7 +47,9 @@
     }
     
     [cell.progressViewPie setProgress:buddy.affinity animated:YES];
-    cell.progressViewPie.backgroundRingWidth = 0;
+    
+//    cell.progressViewPie.backgroundRingWidth = 1;
+    
     if (!buddy.hasAnimated) {
         [cell.progressViewPie setAnimationDuration: 1 ];
         buddy.hasAnimated = YES;
@@ -47,7 +62,7 @@
     
     [HISCollectionViewDataSource makeRoundView:cell.imageView];
     
-    cell.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
@@ -60,15 +75,15 @@
 + (void)makeRoundView:(UIView *)view
 {
     view.layer.cornerRadius = view.frame.size.width / 2;
-    view.clipsToBounds = YES;
-    view.layer.borderColor = [UIColor colorWithRed:0.940 green:0.964 blue:0.975 alpha:1.000].CGColor;
-    view.layer.borderWidth = 2;
+    view.layer.masksToBounds = YES;
+//    view.layer.borderColor = [UIColor colorWithRed:0.940 green:0.964 blue:0.975 alpha:1.000].CGColor;
+//    view.layer.borderWidth = 0;
 }
 
 - (NSMutableArray *)buddies
 {
     if (!_buddies && [HISCollectionViewDataSource archivedFriendsPath]) {
-        _buddies = [HISCollectionViewDataSource load];
+        _buddies = [self load];
     }
     if (!_buddies) {
         _buddies = [[NSMutableArray alloc] init];
@@ -78,12 +93,12 @@
 
 #pragma mark - Archiver
 
-+ (BOOL)saveRootObject:(id)rootObject
+- (BOOL)saveRootObject
 {
-    return [NSKeyedArchiver archiveRootObject:rootObject toFile:[HISCollectionViewDataSource archivedFriendsPath]];
+    return [NSKeyedArchiver archiveRootObject:self.buddies toFile:[HISCollectionViewDataSource archivedFriendsPath]];
 }
 
-+ (NSMutableArray *)load
+- (NSMutableArray *)load
 {
      NSMutableArray *unarchivedArray = [NSKeyedUnarchiver unarchiveObjectWithFile:[HISCollectionViewDataSource archivedFriendsPath]];
     
@@ -93,7 +108,7 @@
         if (buddy.dateOfLastInteraction) {
             NSLog(@"Affinity before %f", buddy.affinity);
             NSDate *lastInteraction = buddy.dateOfLastInteraction;
-            NSInteger daysBetween = [self daysBetween:lastInteraction and:now];
+            NSInteger daysBetween = [HISCollectionViewDataSource daysBetween:lastInteraction and:now];
             float percentLost = (CGFloat)daysBetween/100.f;
             buddy.affinity -= percentLost;
             if (buddy.affinity < 0) {

@@ -13,10 +13,13 @@
 
 @property (strong, nonatomic) NSMutableArray *buddies;
 
++ (HISCollectionViewDataSource *)sharedDataSource;
+
 + (NSString *)archivedFriendsPath;
 + (NSString *)documentsDirectoryPath;
-+ (NSMutableArray *)load;
-+ (BOOL)saveRootObject:(id)rootObject;
 + (void)makeRoundView:(UIView *)view;
+
+- (NSMutableArray *)load;
+- (BOOL)saveRootObject;
 
 @end

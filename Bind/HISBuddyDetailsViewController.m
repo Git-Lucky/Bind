@@ -13,12 +13,11 @@
 
 @interface HISBuddyDetailsViewController () <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIActionSheetDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *phoneButton;
-@property (weak, nonatomic) IBOutlet UIButton *emailButton;
-@property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
+@property (weak, nonatomic) IBOutlet UIButton *composeMessageButton;
+@property (weak, nonatomic) IBOutlet UIButton *textMessageButton;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
 
 @end
@@ -39,23 +38,19 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
-    self.progressViewPie.backgroundRingWidth = 0;
+    
+    self.navigationItem.title = self.buddy.name;
     
     [HISCollectionViewDataSource makeRoundView:self.imageView];
     
     [self setOutletsWithBuddyDetails];
+    [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
     
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
 }
 
 - (void)setOutletsWithBuddyDetails
 {
-    self.nameLabel.text = self.buddy.name;
-    [self.phoneButton  setTitle:self.buddy.phone forState:UIControlStateNormal];
-    [self.emailButton setTitle:self.buddy.email forState:UIControlStateNormal];
-    self.emailButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [self.twitterButton setTitle:self.buddy.twitter forState:UIControlStateNormal];
-    self.twitterButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     if (self.buddy.pic) {
         self.imageView.image = self.buddy.pic;
     } else if (self.buddy.imagePath) {
@@ -64,10 +59,30 @@
         self.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     }
     self.progressViewPie.animationDuration = 1;
+    
     [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
+    
+    [self makeButtonRoundWithWhiteBorder:self.phoneButton];
+    [self makeButtonRoundWithWhiteBorder:self.textMessageButton];
+    [self makeButtonRoundWithWhiteBorder:self.composeMessageButton];
 }
 
+- (void)makeButtonRoundWithWhiteBorder:(UIButton *)button
+{
+    button.layer.borderWidth = 1;
+    button.layer.borderColor = [UIColor whiteColor].CGColor;
+    button.layer.cornerRadius = button.frame.size.width / 2;
+}
 
+- (void)processAndDisplayBackgroundImage:(NSString *)imageName
+{
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:imageName] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+}
 
 - (IBAction)phoneButton:(id)sender {
     
@@ -192,7 +207,7 @@
 - (IBAction)drainAffinity:(id)sender {
     self.buddy.affinity = self.buddy.affinity - .25;
     [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
-    [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+    [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
 }
 
 - (void)addAffinity:(double)number
@@ -208,7 +223,7 @@
         
         [self.localNotificationController scheduleNotificationsForBuddy:self.buddy];
         
-        [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+        [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
     }
 }
 
@@ -231,7 +246,7 @@
         if (editedBuddy) {
             [self.dataSource.buddies removeObject:self.buddy];
             [self.dataSource.buddies insertObject:editedBuddy atIndex:self.indexPath.row];
-            [HISCollectionViewDataSource saveRootObject:self.dataSource.buddies];
+            [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
             self.buddy = editedBuddy;
             [self setOutletsWithBuddyDetails];
         }

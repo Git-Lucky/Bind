@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E3DE17718A9E255001C278B /* whiteComposeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17618A9E255001C278B /* whiteComposeIcon.png */; };
+		0E3DE17B18A9E3DF001C278B /* whitePhoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */; };
+		0E3DE17D18A9E503001C278B /* whiteChatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17C18A9E503001C278B /* whiteChatIcon.png */; };
+		0E3DE17F18AB3341001C278B /* circlebackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17E18AB3341001C278B /* circlebackground.jpg */; };
+		0E3DE18118AB43DE001C278B /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE18018AB43DE001C278B /* LICENSE.txt */; };
+		0E3DE18418AB440D001C278B /* APAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3DE18318AB440D001C278B /* APAddressBook.m */; };
+		0E3DE18818AB4461001C278B /* APContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3DE18618AB4461001C278B /* APContact.m */; };
 		0E51592618A4234100B7ABE8 /* HISPhoneNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E51592518A4234100B7ABE8 /* HISPhoneNumberFormatter.m */; };
 		0E51592818A431F300B7ABE8 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0E51592718A431F300B7ABE8 /* placeholder.jpg */; };
 		0E51592A18A4391E00B7ABE8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E51592918A4391E00B7ABE8 /* MessageUI.framework */; };
@@ -54,6 +61,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E3DE17618A9E255001C278B /* whiteComposeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteComposeIcon.png; sourceTree = "<group>"; };
+		0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whitePhoneIcon.png; sourceTree = "<group>"; };
+		0E3DE17C18A9E503001C278B /* whiteChatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteChatIcon.png; sourceTree = "<group>"; };
+		0E3DE17E18AB3341001C278B /* circlebackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = circlebackground.jpg; sourceTree = "<group>"; };
+		0E3DE18018AB43DE001C278B /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		0E3DE18218AB440D001C278B /* APAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddressBook.h; sourceTree = "<group>"; };
+		0E3DE18318AB440D001C278B /* APAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAddressBook.m; sourceTree = "<group>"; };
+		0E3DE18518AB4461001C278B /* APContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APContact.h; sourceTree = "<group>"; };
+		0E3DE18618AB4461001C278B /* APContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APContact.m; sourceTree = "<group>"; };
+		0E3DE18718AB4461001C278B /* APTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APTypes.h; sourceTree = "<group>"; };
 		0E51592418A4234100B7ABE8 /* HISPhoneNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISPhoneNumberFormatter.h; sourceTree = "<group>"; };
 		0E51592518A4234100B7ABE8 /* HISPhoneNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISPhoneNumberFormatter.m; sourceTree = "<group>"; };
 		0E51592718A431F300B7ABE8 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
@@ -133,6 +150,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E3DE18918AB4465001C278B /* AddressBook */ = {
+			isa = PBXGroup;
+			children = (
+				0E3DE18218AB440D001C278B /* APAddressBook.h */,
+				0E3DE18318AB440D001C278B /* APAddressBook.m */,
+				0E3DE18518AB4461001C278B /* APContact.h */,
+				0E3DE18618AB4461001C278B /* APContact.m */,
+				0E3DE18718AB4461001C278B /* APTypes.h */,
+			);
+			name = AddressBook;
+			sourceTree = "<group>";
+		};
+		0E3DE18A18AB44AA001C278B /* M13 */ = {
+			isa = PBXGroup;
+			children = (
+				0E8C200C18A605A600B1F52E /* M13ProgressView.h */,
+				0E8C200D18A605A600B1F52E /* M13ProgressView.m */,
+				0E8C200E18A605A600B1F52E /* M13ProgressViewPie.h */,
+				0E8C200F18A605A600B1F52E /* M13ProgressViewPie.m */,
+			);
+			name = M13;
+			sourceTree = "<group>";
+		};
 		0EFD7A33189CA9370088B675 = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +210,8 @@
 				0E8C201418A6067D00B1F52E /* Main.storyboard */,
 				0EFD7A86189DD9610088B675 /* Model */,
 				0EFD7A87189DD9980088B675 /* Controller */,
+				0E3DE18A18AB44AA001C278B /* M13 */,
+				0E3DE18918AB4465001C278B /* AddressBook */,
 				0EFD7A7F189D8AF80088B675 /* Images.xcassets */,
 				0EFD7A46189CA9370088B675 /* Supporting Files */,
 			);
@@ -181,6 +223,10 @@
 			children = (
 				0EFD7A4E189CA9370088B675 /* HISAppDelegate.h */,
 				0EFD7A4F189CA9370088B675 /* HISAppDelegate.m */,
+				0E3DE17E18AB3341001C278B /* circlebackground.jpg */,
+				0E3DE17C18A9E503001C278B /* whiteChatIcon.png */,
+				0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */,
+				0E3DE17618A9E255001C278B /* whiteComposeIcon.png */,
 				0E8C200A18A6001200B1F52E /* facePlate.png */,
 				0E51592718A431F300B7ABE8 /* placeholder.jpg */,
 				0EF1E51D18A41732008053D2 /* dividerpng.png */,
@@ -189,6 +235,7 @@
 				0EFD7A81189D967D0088B675 /* BlueGradient.png */,
 				0EFD7A47189CA9370088B675 /* Bind-Info.plist */,
 				0EFD7A48189CA9370088B675 /* InfoPlist.strings */,
+				0E3DE18018AB43DE001C278B /* LICENSE.txt */,
 				0EFD7A4B189CA9370088B675 /* main.m */,
 				0EFD7A4D189CA9370088B675 /* Bind-Prefix.pch */,
 			);
@@ -247,10 +294,6 @@
 				0EFD7A9A18A1B6AD0088B675 /* HISEditBuddyViewController.m */,
 				0E9A3F5418A353A700D500BD /* HISGetStartedViewController.h */,
 				0E9A3F5518A353A700D500BD /* HISGetStartedViewController.m */,
-				0E8C200C18A605A600B1F52E /* M13ProgressView.h */,
-				0E8C200D18A605A600B1F52E /* M13ProgressView.m */,
-				0E8C200E18A605A600B1F52E /* M13ProgressViewPie.h */,
-				0E8C200F18A605A600B1F52E /* M13ProgressViewPie.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -340,13 +383,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EFD7A82189D967D0088B675 /* BlueGradient.png in Resources */,
+				0E3DE17F18AB3341001C278B /* circlebackground.jpg in Resources */,
 				0E51592818A431F300B7ABE8 /* placeholder.jpg in Resources */,
 				0EFD7A4A189CA9370088B675 /* InfoPlist.strings in Resources */,
 				0EFD7A80189D8AF80088B675 /* Images.xcassets in Resources */,
 				0E8C200B18A6001200B1F52E /* facePlate.png in Resources */,
+				0E3DE18118AB43DE001C278B /* LICENSE.txt in Resources */,
 				0EFD7A79189CB14F0088B675 /* circle_maskT.png in Resources */,
+				0E3DE17718A9E255001C278B /* whiteComposeIcon.png in Resources */,
 				0E8C201518A6067D00B1F52E /* Main.storyboard in Resources */,
 				0EFD7A9218A03AFE0088B675 /* happyfacepurp.jpg in Resources */,
+				0E3DE17B18A9E3DF001C278B /* whitePhoneIcon.png in Resources */,
+				0E3DE17D18A9E503001C278B /* whiteChatIcon.png in Resources */,
 				0EF1E51E18A41732008053D2 /* dividerpng.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +418,7 @@
 				0EFD7A4C189CA9370088B675 /* main.m in Sources */,
 				0EFD7A9018A029FC0088B675 /* HISCreateBuddyViewController.m in Sources */,
 				0E51592618A4234100B7ABE8 /* HISPhoneNumberFormatter.m in Sources */,
+				0E3DE18418AB440D001C278B /* APAddressBook.m in Sources */,
 				0EFD7A8D18A01E4F0088B675 /* HISBuddyListViewController.m in Sources */,
 				0EFD7A50189CA9370088B675 /* HISAppDelegate.m in Sources */,
 				0EFD7A9B18A1B6AD0088B675 /* HISEditBuddyViewController.m in Sources */,
@@ -380,6 +429,7 @@
 				0EFD7A8A18A01C1F0088B675 /* HISCVCellWide.m in Sources */,
 				0E51592D18A457AB00B7ABE8 /* HISLocalNotificationController.m in Sources */,
 				0EFD7A7E189D892E0088B675 /* HISCVCell.m in Sources */,
+				0E3DE18818AB4461001C278B /* APContact.m in Sources */,
 				0E8C201118A605A600B1F52E /* M13ProgressViewPie.m in Sources */,
 				0E8C201018A605A600B1F52E /* M13ProgressView.m in Sources */,
 			);

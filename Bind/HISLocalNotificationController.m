@@ -70,9 +70,9 @@
         _alertMessages = [[NSMutableArray alloc] init];
     }
     NSString *message1 = [NSString stringWithFormat:@"It's been a while since you last connected with %@.", self.buddyName];
-    NSString *message2 = [NSString stringWithFormat:@"%@ misses you. Why don't you give em a call?", self.buddyName];
+    NSString *message2 = [NSString stringWithFormat:@"%@ misses you. Why don't you give 'em a call?", self.buddyName];
     NSString *message3 = [NSString stringWithFormat:@"%@ is drifting towards your outer circle.", self.buddyName];
-    NSString *message4 = [NSString stringWithFormat:@"All the fun times %@ is having without me. Nothing a quick text won't solve", self.buddyName];
+    NSString *message4 = [NSString stringWithFormat:@"All the fun times %@ is having without me. Let's text!", self.buddyName];
     NSString *message5 = [NSString stringWithFormat:@"If only there was something to remind me to call %@, our closeness would be epic.", self.buddyName];
     
     [_alertMessages addObject:message1];
@@ -86,7 +86,7 @@
 
 - (NSDate *)addNumberOfDays:(NSInteger)days toDate:(NSDate *)date
 {
-    return [date dateByAddingTimeInterval:60*60*24*days];
+    return [date dateByAddingTimeInterval:10];
     
 //    60*60*24*days
 }

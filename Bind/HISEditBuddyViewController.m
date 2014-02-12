@@ -8,6 +8,7 @@
 
 #import "HISEditBuddyViewController.h"
 #import "HISCollectionViewDataSource.h"
+#import "M13ProgressViewPie.h"
 
 @interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
@@ -18,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *twitterField;
 @property (weak, nonatomic) IBOutlet UIImageView *editedImageView;
 @property (weak, nonatomic) IBOutlet UIButton *startPickerButton;
+@property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
 
 
 @end
@@ -39,19 +41,26 @@
     
     [self setPlaceholdersWithBuddyDetails];
     
-    [self.startPickerButton setTitle:@"Click to Edit" forState:UIControlStateNormal];
-    self.view.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
+    [self.startPickerButton setTitle:@"Tap to Edit" forState:UIControlStateNormal];
     
     [HISCollectionViewDataSource makeRoundView:self.currentImageView];
     [HISCollectionViewDataSource makeRoundView:self.editedImageView];
+    
+    self.startPickerButton.layer.cornerRadius = self.startPickerButton.layer.frame.size.width / 2;
+    self.startPickerButton.layer.masksToBounds = YES;
+    
+    self.progressViewPie.backgroundRingWidth = 0;
+    [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
+
+    [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
 }
 
 - (void)setPlaceholdersWithBuddyDetails
 {
-    self.nameField.placeholder = self.buddy.name;
-    self.phoneField.placeholder = self.buddy.phone;
-    self.emailField.placeholder = self.buddy.email;
-    self.twitterField.placeholder = self.buddy.twitter;
+    self.nameField.text = self.buddy.name;
+    self.phoneField.text = self.buddy.phone;
+    self.emailField.text = self.buddy.email;
+    self.twitterField.text = self.buddy.twitter;
     
     if (self.buddy.pic) {
         self.currentImageView.image = self.buddy.pic;
@@ -63,40 +72,56 @@
     }
 }
 
+- (void)processAndDisplayBackgroundImage:(NSString *)imageName
+{
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:imageName] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+}
+
 - (IBAction)saveButton:(id)sender
 {
     self.editedBuddy = [[HISBuddy alloc] init];
+    
+    self.editedBuddy.name = self.nameField.text;
+    self.editedBuddy.phone = self.phoneField.text;
+    self.editedBuddy.email = self.emailField.text;
+    self.editedBuddy.twitter = self.twitterField.text;
+    self.editedBuddy.affinity = self.buddy.affinity;
     
     if (self.editedImageView.image) {
         self.editedBuddy.pic = self.editedImageView.image;
     } else {
         self.editedBuddy.pic = self.currentImageView.image;
     }
-    
-    if ([self.nameField.text isEqualToString:@""]) {
-        self.editedBuddy.name = self.buddy.name;
-    } else {
-        self.editedBuddy.name = self.nameField.text;
-    }
-    
-    if ([self.phoneField.text isEqualToString:@""]) {
-        self.editedBuddy.phone = self.buddy.phone;
-    } else {
-        self.editedBuddy.phone = self.phoneField.text;
-    }
-    
-    if ([self.emailField.text isEqualToString:@""]) {
-        self.editedBuddy.email = self.buddy.email;
-    } else {
-        self.editedBuddy.email = self.emailField.text;
-    }
-    
-    if ([self.twitterField.text isEqualToString:@""]) {
-        self.editedBuddy.twitter = self.buddy.twitter;
-    } else {
-        self.editedBuddy.twitter = self.twitterField.text;
-    }
-    self.editedBuddy.affinity = self.buddy.affinity;
+//
+//    if ([self.nameField.text isEqualToString:@""]) {
+//        self.editedBuddy.name = self.buddy.name;
+//    } else {
+//        self.editedBuddy.name = self.nameField.text;
+//    }
+//    
+//    if ([self.phoneField.text isEqualToString:@""]) {
+//        self.editedBuddy.phone = self.buddy.phone;
+//    } else {
+//        self.editedBuddy.phone = self.phoneField.text;
+//    }
+//    
+//    if ([self.emailField.text isEqualToString:@""]) {
+//        self.editedBuddy.email = self.buddy.email;
+//    } else {
+//        self.editedBuddy.email = self.emailField.text;
+//    }
+//    
+//    if ([self.twitterField.text isEqualToString:@""]) {
+//        self.editedBuddy.twitter = self.buddy.twitter;
+//    } else {
+//        self.editedBuddy.twitter = self.twitterField.text;
+//    }
+    [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
     
     [self performSegueWithIdentifier:@"editedBuddy" sender:self];
 }

@@ -35,6 +35,7 @@
                 UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
                 HISBuddyDetailsViewController *detailsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"detailsVC"];
                 detailsVC.buddy = buddy;
+                [navController popToRootViewControllerAnimated:NO];
                 [navController pushViewController:detailsVC animated:NO];
                 break;
             }
@@ -44,7 +45,8 @@
      NSLog(@"Recieved Notification *****didFinish - %@", localNotification);
     }
     
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000]];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
     
     return YES;
 }
@@ -63,6 +65,7 @@
             HISBuddyDetailsViewController *detailsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"detailsVC"];
             detailsVC.buddy = buddy;
             //TODO: need to add if statement checking if view is already loaded to handle double back problem
+            [navController popToRootViewControllerAnimated:NO];
             [navController pushViewController:detailsVC animated:NO];
             break;
         }

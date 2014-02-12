@@ -14,6 +14,10 @@
 
 @interface HISCreateBuddyViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate>
 
+{
+    UITextField *_selectedTextField;
+}
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *imagePicker;
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
@@ -39,13 +43,20 @@
 {
     [super viewDidLoad];
     
-    self.imagePicker.layer.borderColor = [UIColor grayColor].CGColor;
+    self.imagePicker.layer.borderColor = [UIColor colorWithWhite:0.976 alpha:1.000].CGColor;
     self.imagePicker.layer.borderWidth = 2;
     self.imagePicker.layer.cornerRadius = self.imagePicker.layer.frame.size.width / 2;
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
+    [self resizeTextField:self.phoneField];
+    [self resizeTextField:self.nameField];
+    [self resizeTextField:self.emailField];
+    [self resizeTextField:self.twitterField];
     
+    [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
+
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (HISBuddy *)buddyToAdd
@@ -56,6 +67,22 @@
     return _buddyToAdd;
 }
 
+- (void)processAndDisplayBackgroundImage:(NSString *)imageName
+{
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:imageName] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+}
+
+- (void)resizeTextField:(UITextField *)textField
+{
+    CGRect frameRect = textField.frame;
+    frameRect.size.height = 200;
+    textField.frame = frameRect;
+}
 
 #pragma mark - Photo Picker
 
@@ -117,13 +144,45 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
-    return YES;
+    NSInteger nextTag = textField.tag + 1;
+    // Try to find next responder
+    UIResponder* nextResponder = [textField.superview viewWithTag:nextTag];
+    if (nextResponder) {
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+    } else {
+        // Not found, so remove keyboard.
+        [textField resignFirstResponder];
+    }
+    return NO;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    _selectedTextField = textField;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
+}
+
+- (void)keyboardWillShow:(NSNotification *)note
+{
+    NSValue *keyboardFrame = [note userInfo][UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardFrameRect = keyboardFrame.CGRectValue;
+    CGFloat keyboardHeight = keyboardFrameRect.size.height;
+    
+    if (CGRectGetMaxY(_selectedTextField.frame) > keyboardHeight) {
+        //[uiview animate ...
+        //self.containerView.frame = CGRectMake(0, keyboardHeight - 10, CGRectGetWidth(self.containerView.frame), CGRectGetHeight(self.containerView.frame));
+    }
+    
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 //makes the phone field edit on the fly
@@ -187,6 +246,8 @@
             self.buddyToAdd.dateOfLastInteraction = [NSDate date];
             
             [self.localNotificationController scheduleNotificationsForBuddy:self.buddyToAdd];
+            
+            [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
         }
     }
 }
