@@ -230,7 +230,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" image="whitePhoneIcon.png"/>
                                 <connections>
-                                    <action selector="phoneButton:" destination="3Tt-sj-RX4" eventType="touchUpInside" id="1cB-g4-lp3"/>
+                                    <action selector="phoneButton:" destination="3Tt-sj-RX4" eventType="touchUpInside" id="3CN-Tx-SAn"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYo-Bg-dRG">
@@ -268,7 +268,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="phoneButton:" destination="3Tt-sj-RX4" eventType="touchUpInside" id="WGS-J8-Lqr"/>
+                                    <action selector="textButton:" destination="3Tt-sj-RX4" eventType="touchUpInside" id="22A-Cr-GnN"/>
                                 </connections>
                             </button>
                         </subviews>

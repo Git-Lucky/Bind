@@ -112,7 +112,7 @@
             float percentLost = (CGFloat)daysBetween/100.f;
             buddy.affinity -= percentLost;
             if (buddy.affinity < 0) {
-                buddy.affinity = 0.01;
+                buddy.affinity = 0.05;
             }
             NSLog(@"Affinity After %f", buddy.affinity);
         }

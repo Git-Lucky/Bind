@@ -18,7 +18,7 @@
 @interface HISBuddyListViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
+//@property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
 
 @end
@@ -39,7 +39,7 @@
     [super viewDidLoad];
     
     self.collectionView.delegate = self;
-    self.collectionView.dataSource = self.dataSource;
+    self.collectionView.dataSource = [HISCollectionViewDataSource sharedDataSource];
     
     self.collectionView.backgroundColor = [UIColor clearColor];
     [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
@@ -62,20 +62,17 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    if (self.dataSource.buddies.count == 0) {
+    if ([HISCollectionViewDataSource sharedDataSource].buddies.count == 0) {
 //        HISGetStartedViewController *getStartedViewController = [[HISGetStartedViewController alloc] init];
 //        getStartedViewController.view.backgroundColor = [UIColor clearColor]; // can be with 'alpha'
 //        [self presentViewController:getStartedViewController animated:YES completion:nil];
     }
 }
 
-- (HISCollectionViewDataSource *)dataSource
-{
-    if (!_dataSource){
-        _dataSource = [[HISCollectionViewDataSource alloc] init];
-    }
-    return _dataSource;
-}
+//- (HISCollectionViewDataSource *)dataSource
+//{
+//    return _dataSource;
+//}
 
 #pragma mark - Navigation
 
@@ -86,11 +83,11 @@
         NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] lastObject];
         
         HISBuddyDetailsViewController *destVC = segue.destinationViewController;
-        HISBuddy *buddy = [self.dataSource.buddies objectAtIndex:indexPath.row];
+        HISBuddy *buddy = [[HISCollectionViewDataSource sharedDataSource].buddies objectAtIndex:indexPath.row];
         
         destVC.buddy = buddy;
         destVC.indexPath = indexPath;
-        destVC.dataSource = self.dataSource;
+//        destVC.dataSource = self.dataSource;
     }
 }
 - (IBAction)removedFriend:(UIStoryboardSegue *)segue
@@ -100,7 +97,8 @@
         HISBuddy *oldBuddy = removeBuddyVC.buddy;
         if (oldBuddy) {
             
-            [self.dataSource.buddies removeObject:oldBuddy];
+//            [self.dataSource.buddies removeObject:oldBuddy];
+            [[HISCollectionViewDataSource sharedDataSource].buddies removeObject:oldBuddy];
             [self.localNotificationController cancelNotificationsForBuddy:oldBuddy];
             [self.collectionView reloadData];
             
@@ -116,7 +114,8 @@
         HISBuddy *newBuddy = createBuddy.buddyToAdd;
         
         if (newBuddy) {
-            [self.dataSource.buddies addObject:newBuddy];
+//            [self.dataSource.buddies addObject:newBuddy];
+            [[HISCollectionViewDataSource sharedDataSource].buddies addObject:newBuddy];
             [self.collectionView reloadData];
             
             [[HISCollectionViewDataSource sharedDataSource] saveRootObject];

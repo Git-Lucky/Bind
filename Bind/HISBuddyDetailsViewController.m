@@ -84,26 +84,41 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:image];
 }
 
-- (IBAction)phoneButton:(id)sender {
+//- (IBAction)phoneButton:(id)sender {
+//    
+//    if([MFMessageComposeViewController canSendText]) {
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Call", @"Text", nil];
+//        [actionSheet showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
+//    } else {
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", self.buddy.phone]]];
+//    }
+//}
+
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    
+//    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Call"]) {
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", self.buddy.phone]]];
+//        [self addAffinity:.2];
+//    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Text"]) {
+//        [self showSMS:nil];
+//    } else {
+//        return;
+//    }
+//}
+- (IBAction)phoneButton:(id)sender
+{
+    NSString *phoneString = self.buddy.phone;
+    phoneString = [phoneString stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    phoneString = [phoneString stringByReplacingOccurrencesOfString:@")" withString:@""];
+    phoneString = [phoneString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    phoneString = [phoneString stringByReplacingOccurrencesOfString:@"-" withString:@""];
     
-    if([MFMessageComposeViewController canSendText]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Call", @"Text", nil];
-        [actionSheet showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
-    } else {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", self.buddy.phone]]];
-    }
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phoneString]]];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Call"]) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", self.buddy.phone]]];
-        [self addAffinity:.2];
-    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Text"]) {
-        [self showSMS:nil];
-    } else {
-        return;
-    }
+- (IBAction)textButton:(id)sender
+{
+    [self showSMS:nil];
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
@@ -244,8 +259,10 @@
         HISBuddy *editedBuddy = editBuddyViewController.editedBuddy;
         
         if (editedBuddy) {
-            [self.dataSource.buddies removeObject:self.buddy];
-            [self.dataSource.buddies insertObject:editedBuddy atIndex:self.indexPath.row];
+//            [self.dataSource.buddies removeObject:self.buddy];
+//            [self.dataSource.buddies insertObject:editedBuddy atIndex:self.indexPath.row];
+            [[HISCollectionViewDataSource sharedDataSource].buddies removeObject:self.buddy];
+            [[HISCollectionViewDataSource sharedDataSource].buddies insertObject:editedBuddy atIndex:self.indexPath.row];
             [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
             self.buddy = editedBuddy;
             [self setOutletsWithBuddyDetails];

@@ -23,12 +23,11 @@
 {
     
     // Detect the Notification after a user taps it
-    UILocalNotification *localNotification =
-    [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (localNotification) {
         application.applicationIconBadgeNumber = -1;
         self.dataSource = [[HISCollectionViewDataSource alloc] init];
-        [HISCollectionViewDataSource load];
+        [[HISCollectionViewDataSource sharedDataSource] load];
         
         for (HISBuddy *buddy in self.dataSource.buddies) {
             if ([buddy.buddyID isEqualToString:[localNotification.userInfo objectForKey:@"ID"]]) {

@@ -14,7 +14,7 @@
 @interface HISBuddyDetailsViewController : UIViewController
 
 @property (strong, nonatomic) HISBuddy *buddy;
-@property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
+//@property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
 @property (strong, nonatomic) NSIndexPath *indexPath;
 
 @end
