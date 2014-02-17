@@ -49,10 +49,11 @@
     self.imagePath = jpgPath;
 }
 
-- (void)calculateAffinityEntropy
-{
-    
-}
+//- (void)setAffinity:(CGFloat)affinity
+//{
+//    _previousAffinity = _affinity;
+//    _affinity = affinity;
+//}
 
 - (int)daysElapsed:(NSDate *)day1 and:(NSDate *)day2
 {

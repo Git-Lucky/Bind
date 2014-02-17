@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *phoneButton;
+@property (nonatomic, readwrite) CGRect phoneButtonBounds;
 @property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
 @property (weak, nonatomic) IBOutlet UIButton *composeMessageButton;
 @property (weak, nonatomic) IBOutlet UIButton *textMessageButton;
@@ -37,16 +38,25 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.451 green:0.566 blue:0.984 alpha:1.000];
-    
     self.navigationItem.title = self.buddy.name;
     
     [HISCollectionViewDataSource makeRoundView:self.imageView];
     
     [self setOutletsWithBuddyDetails];
-    [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
+    [self processAndDisplayBackgroundImage:@"BlueGradient.png"];
+    
+    self.phoneButtonBounds = self.phoneButton.bounds;
+    self.phoneButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    self.phoneButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)setOutletsWithBuddyDetails
@@ -58,7 +68,6 @@
     } else {
         self.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     }
-    self.progressViewPie.animationDuration = 1;
     
     [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
     
@@ -82,6 +91,7 @@
     UIGraphicsEndImageContext();
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+    
 }
 
 //- (IBAction)phoneButton:(id)sender {
@@ -113,11 +123,15 @@
     phoneString = [phoneString stringByReplacingOccurrencesOfString:@" " withString:@""];
     phoneString = [phoneString stringByReplacingOccurrencesOfString:@"-" withString:@""];
     
+    [self addAffinity:.2];
+    
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phoneString]]];
 }
 
 - (IBAction)textButton:(id)sender
 {
+//    [[UINavigationBar appearance] setTranslucent:NO];
+    
     [self showSMS:nil];
 }
 
@@ -157,6 +171,9 @@
         return;
     }
     
+    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    
     NSArray *recipents = @[self.buddy.phone];
     NSString *message = @"I really miss you buddy";
     
@@ -167,20 +184,21 @@
     
     // Present message view controller on screen
     [self presentViewController:messageController animated:YES completion:nil];
+
 }
 
 - (IBAction)emailNow:(id)sender {
         // Email Subject
-        NSString *emailTitle = @"BooYah";
+//        NSString *emailTitle = @"BooYah";
         // Email Content
-        NSString *messageBody = @"iOS programming is so fun!";
+//        NSString *messageBody = @"iOS programming is so fun!";
         // To address
         NSArray *toRecipents = [NSArray arrayWithObject:self.buddy.email];
         
         MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
         mailComposeViewController.mailComposeDelegate = self;
-        [mailComposeViewController setSubject:emailTitle];
-        [mailComposeViewController setMessageBody:messageBody isHTML:NO];
+//        [mailComposeViewController setSubject:emailTitle];
+//        [mailComposeViewController setMessageBody:messageBody isHTML:NO];
         [mailComposeViewController setToRecipients:toRecipents];
         
         // Present mail view controller on screen
@@ -222,6 +240,7 @@
 - (IBAction)drainAffinity:(id)sender {
     self.buddy.affinity = self.buddy.affinity - .25;
     [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
+    self.buddy.hasChanged = YES;
     [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
 }
 

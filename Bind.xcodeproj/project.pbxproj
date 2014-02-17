@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E0239FF18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0239FE18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m */; };
 		0E3DE17718A9E255001C278B /* whiteComposeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17618A9E255001C278B /* whiteComposeIcon.png */; };
 		0E3DE17B18A9E3DF001C278B /* whitePhoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */; };
 		0E3DE17D18A9E503001C278B /* whiteChatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17C18A9E503001C278B /* whiteChatIcon.png */; };
@@ -18,11 +19,17 @@
 		0E51592818A431F300B7ABE8 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0E51592718A431F300B7ABE8 /* placeholder.jpg */; };
 		0E51592A18A4391E00B7ABE8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E51592918A4391E00B7ABE8 /* MessageUI.framework */; };
 		0E51592D18A457AB00B7ABE8 /* HISLocalNotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */; };
+		0E5A221A18ADD0840075D91B /* HISRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A221918ADD0840075D91B /* HISRootViewController.m */; };
+		0E5A221D18AEB9240075D91B /* HISLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A221C18AEB9240075D91B /* HISLayoutAttributes.m */; };
+		0E5A222018AEFE760075D91B /* HISCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A221F18AEFE760075D91B /* HISCollectionViewLayout.m */; };
 		0E8C200B18A6001200B1F52E /* facePlate.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8C200A18A6001200B1F52E /* facePlate.png */; };
 		0E8C201018A605A600B1F52E /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C200D18A605A600B1F52E /* M13ProgressView.m */; };
 		0E8C201118A605A600B1F52E /* M13ProgressViewPie.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C200F18A605A600B1F52E /* M13ProgressViewPie.m */; };
 		0E8C201518A6067D00B1F52E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8C201418A6067D00B1F52E /* Main.storyboard */; };
+		0E99EEE418B1CE01005A3DD0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E99EEE318B1CE01005A3DD0 /* AddressBook.framework */; };
+		0E99EEE618B1CE07005A3DD0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E99EEE518B1CE07005A3DD0 /* AddressBookUI.framework */; };
 		0E9A3F5618A353A700D500BD /* HISGetStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A3F5518A353A700D500BD /* HISGetStartedViewController.m */; };
+		0EEA37FA18AF2A6D0024E3E3 /* HISAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA37F918AF2A6D0024E3E3 /* HISAnimator.m */; };
 		0EF1E51E18A41732008053D2 /* dividerpng.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EF1E51D18A41732008053D2 /* dividerpng.png */; };
 		0EFD7A40189CA9370088B675 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EFD7A3F189CA9370088B675 /* Foundation.framework */; };
 		0EFD7A42189CA9370088B675 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EFD7A41189CA9370088B675 /* CoreGraphics.framework */; };
@@ -41,7 +48,6 @@
 		0EFD7A80189D8AF80088B675 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EFD7A7F189D8AF80088B675 /* Images.xcassets */; };
 		0EFD7A82189D967D0088B675 /* BlueGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFD7A81189D967D0088B675 /* BlueGradient.png */; };
 		0EFD7A85189DD95B0088B675 /* HISBuddy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFD7A84189DD95B0088B675 /* HISBuddy.m */; };
-		0EFD7A8A18A01C1F0088B675 /* HISCVCellWide.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFD7A8918A01C1F0088B675 /* HISCVCellWide.m */; };
 		0EFD7A8D18A01E4F0088B675 /* HISBuddyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFD7A8C18A01E4F0088B675 /* HISBuddyListViewController.m */; };
 		0EFD7A9018A029FC0088B675 /* HISCreateBuddyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFD7A8F18A029FC0088B675 /* HISCreateBuddyViewController.m */; };
 		0EFD7A9218A03AFE0088B675 /* happyfacepurp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0EFD7A9118A03AFE0088B675 /* happyfacepurp.jpg */; };
@@ -61,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E0239FD18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISGatheredCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		0E0239FE18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISGatheredCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		0E3DE17618A9E255001C278B /* whiteComposeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteComposeIcon.png; sourceTree = "<group>"; };
 		0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whitePhoneIcon.png; sourceTree = "<group>"; };
 		0E3DE17C18A9E503001C278B /* whiteChatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteChatIcon.png; sourceTree = "<group>"; };
@@ -77,14 +85,24 @@
 		0E51592918A4391E00B7ABE8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0E51592B18A457AB00B7ABE8 /* HISLocalNotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISLocalNotificationController.h; sourceTree = "<group>"; };
 		0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISLocalNotificationController.m; sourceTree = "<group>"; };
+		0E5A221818ADD0840075D91B /* HISRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISRootViewController.h; sourceTree = "<group>"; };
+		0E5A221918ADD0840075D91B /* HISRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISRootViewController.m; sourceTree = "<group>"; };
+		0E5A221B18AEB9240075D91B /* HISLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISLayoutAttributes.h; sourceTree = "<group>"; };
+		0E5A221C18AEB9240075D91B /* HISLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISLayoutAttributes.m; sourceTree = "<group>"; };
+		0E5A221E18AEFE760075D91B /* HISCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISCollectionViewLayout.h; sourceTree = "<group>"; };
+		0E5A221F18AEFE760075D91B /* HISCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISCollectionViewLayout.m; sourceTree = "<group>"; };
 		0E8C200A18A6001200B1F52E /* facePlate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facePlate.png; sourceTree = "<group>"; };
 		0E8C200C18A605A600B1F52E /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
 		0E8C200D18A605A600B1F52E /* M13ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressView.m; sourceTree = "<group>"; };
 		0E8C200E18A605A600B1F52E /* M13ProgressViewPie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressViewPie.h; sourceTree = "<group>"; };
 		0E8C200F18A605A600B1F52E /* M13ProgressViewPie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressViewPie.m; sourceTree = "<group>"; };
 		0E8C201418A6067D00B1F52E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		0E99EEE318B1CE01005A3DD0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		0E99EEE518B1CE07005A3DD0 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		0E9A3F5418A353A700D500BD /* HISGetStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISGetStartedViewController.h; sourceTree = "<group>"; };
 		0E9A3F5518A353A700D500BD /* HISGetStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISGetStartedViewController.m; sourceTree = "<group>"; };
+		0EEA37F818AF2A6D0024E3E3 /* HISAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISAnimator.h; sourceTree = "<group>"; };
+		0EEA37F918AF2A6D0024E3E3 /* HISAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISAnimator.m; sourceTree = "<group>"; };
 		0EF1E51D18A41732008053D2 /* dividerpng.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dividerpng.png; sourceTree = "<group>"; };
 		0EFD7A3C189CA9370088B675 /* Bind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EFD7A3F189CA9370088B675 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -110,8 +128,6 @@
 		0EFD7A81189D967D0088B675 /* BlueGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueGradient.png; sourceTree = "<group>"; };
 		0EFD7A83189DD95B0088B675 /* HISBuddy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISBuddy.h; sourceTree = "<group>"; };
 		0EFD7A84189DD95B0088B675 /* HISBuddy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISBuddy.m; sourceTree = "<group>"; };
-		0EFD7A8818A01C1F0088B675 /* HISCVCellWide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISCVCellWide.h; sourceTree = "<group>"; };
-		0EFD7A8918A01C1F0088B675 /* HISCVCellWide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISCVCellWide.m; sourceTree = "<group>"; };
 		0EFD7A8B18A01E4F0088B675 /* HISBuddyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISBuddyListViewController.h; sourceTree = "<group>"; };
 		0EFD7A8C18A01E4F0088B675 /* HISBuddyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISBuddyListViewController.m; sourceTree = "<group>"; };
 		0EFD7A8E18A029FC0088B675 /* HISCreateBuddyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISCreateBuddyViewController.h; sourceTree = "<group>"; };
@@ -130,6 +146,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E99EEE618B1CE07005A3DD0 /* AddressBookUI.framework in Frameworks */,
+				0E99EEE418B1CE01005A3DD0 /* AddressBook.framework in Frameworks */,
 				0E51592A18A4391E00B7ABE8 /* MessageUI.framework in Frameworks */,
 				0EFD7A42189CA9370088B675 /* CoreGraphics.framework in Frameworks */,
 				0EFD7A44189CA9370088B675 /* UIKit.framework in Frameworks */,
@@ -195,6 +213,8 @@
 		0EFD7A3E189CA9370088B675 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E99EEE518B1CE07005A3DD0 /* AddressBookUI.framework */,
+				0E99EEE318B1CE01005A3DD0 /* AddressBook.framework */,
 				0E51592918A4391E00B7ABE8 /* MessageUI.framework */,
 				0EFD7A3F189CA9370088B675 /* Foundation.framework */,
 				0EFD7A41189CA9370088B675 /* CoreGraphics.framework */,
@@ -208,6 +228,14 @@
 			isa = PBXGroup;
 			children = (
 				0E8C201418A6067D00B1F52E /* Main.storyboard */,
+				0E0239FD18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.h */,
+				0E0239FE18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m */,
+				0E5A221E18AEFE760075D91B /* HISCollectionViewLayout.h */,
+				0E5A221F18AEFE760075D91B /* HISCollectionViewLayout.m */,
+				0E5A221B18AEB9240075D91B /* HISLayoutAttributes.h */,
+				0E5A221C18AEB9240075D91B /* HISLayoutAttributes.m */,
+				0E5A221818ADD0840075D91B /* HISRootViewController.h */,
+				0E5A221918ADD0840075D91B /* HISRootViewController.m */,
 				0EFD7A86189DD9610088B675 /* Model */,
 				0EFD7A87189DD9980088B675 /* Controller */,
 				0E3DE18A18AB44AA001C278B /* M13 */,
@@ -269,10 +297,10 @@
 				0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */,
 				0EFD7A7C189D892E0088B675 /* HISCVCell.h */,
 				0EFD7A7D189D892E0088B675 /* HISCVCell.m */,
-				0EFD7A8818A01C1F0088B675 /* HISCVCellWide.h */,
-				0EFD7A8918A01C1F0088B675 /* HISCVCellWide.m */,
 				0EFD7A9318A042AF0088B675 /* HISCollectionViewDataSource.h */,
 				0EFD7A9418A042AF0088B675 /* HISCollectionViewDataSource.m */,
+				0EEA37F818AF2A6D0024E3E3 /* HISAnimator.h */,
+				0EEA37F918AF2A6D0024E3E3 /* HISAnimator.m */,
 				0E51592418A4234100B7ABE8 /* HISPhoneNumberFormatter.h */,
 				0E51592518A4234100B7ABE8 /* HISPhoneNumberFormatter.m */,
 			);
@@ -419,14 +447,18 @@
 				0EFD7A9018A029FC0088B675 /* HISCreateBuddyViewController.m in Sources */,
 				0E51592618A4234100B7ABE8 /* HISPhoneNumberFormatter.m in Sources */,
 				0E3DE18418AB440D001C278B /* APAddressBook.m in Sources */,
+				0E5A221A18ADD0840075D91B /* HISRootViewController.m in Sources */,
 				0EFD7A8D18A01E4F0088B675 /* HISBuddyListViewController.m in Sources */,
 				0EFD7A50189CA9370088B675 /* HISAppDelegate.m in Sources */,
 				0EFD7A9B18A1B6AD0088B675 /* HISEditBuddyViewController.m in Sources */,
+				0E5A221D18AEB9240075D91B /* HISLayoutAttributes.m in Sources */,
 				0E9A3F5618A353A700D500BD /* HISGetStartedViewController.m in Sources */,
 				0EFD7A56189CA9370088B675 /* HISViewController.m in Sources */,
+				0E5A222018AEFE760075D91B /* HISCollectionViewLayout.m in Sources */,
+				0EEA37FA18AF2A6D0024E3E3 /* HISAnimator.m in Sources */,
+				0E0239FF18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m in Sources */,
 				0EFD7A9818A046800088B675 /* HISBuddyDetailsViewController.m in Sources */,
 				0EFD7A9518A042AF0088B675 /* HISCollectionViewDataSource.m in Sources */,
-				0EFD7A8A18A01C1F0088B675 /* HISCVCellWide.m in Sources */,
 				0E51592D18A457AB00B7ABE8 /* HISLocalNotificationController.m in Sources */,
 				0EFD7A7E189D892E0088B675 /* HISCVCell.m in Sources */,
 				0E3DE18818AB4461001C278B /* APContact.m in Sources */,

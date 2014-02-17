@@ -12,6 +12,7 @@
 
 
 @property (strong, nonatomic) NSMutableArray *buddies;
+@property (strong, nonatomic) UIImage *navBarImage;
 
 + (HISCollectionViewDataSource *)sharedDataSource;
 
@@ -21,5 +22,6 @@
 
 - (NSMutableArray *)load;
 - (BOOL)saveRootObject;
+- (NSArray *)indexPathsOfBuddies;
 
 @end

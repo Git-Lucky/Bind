@@ -1,14 +1,15 @@
 //
 //  HISCollectionViewDataSource.m
-//  Bind
-//
+//  friends 4 life
+//  life long friends
+//  orange
 //  Created by Tim Hise on 2/3/14.
 //  Copyright (c) 2014 CleverKnot. All rights reserved.
 //
 
 #import "HISCollectionViewDataSource.h"
-#import "HISCVCellWide.h"
 #import "HISCVCell.h"
+#import "HISBuddy.h"
 
 @interface HISCollectionViewDataSource ()
 
@@ -33,35 +34,35 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     HISCVCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    HISBuddy *buddy = self.buddies[indexPath.row];
     
+    HISBuddy *buddy = self.buddies[indexPath.row];
     NSString *firstName;
     firstName = [[buddy.name componentsSeparatedByString:@" "] firstObject];
+    
     cell.name.text = firstName;
-    
-    
+
     if (buddy.imagePath) {
         cell.imageView.image = [UIImage imageWithContentsOfFile:buddy.imagePath];
     } else {
         cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     }
     
-    [cell.progressViewPie setProgress:buddy.affinity animated:YES];
-    
-//    cell.progressViewPie.backgroundRingWidth = 1;
-    
     if (!buddy.hasAnimated) {
-        [cell.progressViewPie setAnimationDuration: 1 ];
+        [cell.progressViewPie setAnimationDuration:2];
         buddy.hasAnimated = YES;
     } else if (buddy.hasChanged) {
-        [cell.progressViewPie setAnimationDuration: 1 ];
+        [cell.progressViewPie setAnimationDuration:2];
         buddy.hasChanged = NO;
     } else {
-        [cell.progressViewPie setAnimationDuration: 0 ];
+        [cell.progressViewPie setAnimationDuration:.01];
     }
     
-    [HISCollectionViewDataSource makeRoundView:cell.imageView];
+    [cell.progressViewPie setProgress:buddy.previousAffinity animated:NO];
+    [cell.progressViewPie setProgress:buddy.affinity animated:YES];
     
+    buddy.previousAffinity = buddy.affinity;
+    
+    [HISCollectionViewDataSource makeRoundView:cell.imageView];
     cell.backgroundColor = [UIColor clearColor];
     
     return cell;
@@ -106,15 +107,23 @@
     NSDate *now = [NSDate date];
     for (HISBuddy *buddy in unarchivedArray) {
         if (buddy.dateOfLastInteraction) {
-            NSLog(@"Affinity before %f", buddy.affinity);
+//            NSDateComponents *components = [[NSDateComponents alloc]init];
+//            [components setDay:1];
+//            [components setMonth:2];
+//            [components setYear:2014];
+//            NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+//            NSDate *date = [cal dateFromComponents:components];
+//            buddy.dateOfLastInteraction = date;
+            NSLog(@"Affinity before %f   date: %@", buddy.affinity, buddy.dateOfLastInteraction);
             NSDate *lastInteraction = buddy.dateOfLastInteraction;
             NSInteger daysBetween = [HISCollectionViewDataSource daysBetween:lastInteraction and:now];
+            NSLog(@"days between %ld", (long)daysBetween);
             float percentLost = (CGFloat)daysBetween/100.f;
             buddy.affinity -= percentLost;
             if (buddy.affinity < 0) {
                 buddy.affinity = 0.05;
             }
-            NSLog(@"Affinity After %f", buddy.affinity);
+            NSLog(@"Affinity After %f, date: %@", buddy.affinity, buddy.dateOfLastInteraction);
         }
     }
     return unarchivedArray;
@@ -139,5 +148,14 @@
     return [components day];
 }
 
+- (NSArray *)indexPathsOfBuddies
+{
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    [self.buddies enumerateObjectsUsingBlock:^(id event, NSUInteger idx, BOOL *stop) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:idx inSection:0];
+            [indexPaths addObject:indexPath];
+    }];
+    return indexPaths;
+}
 
 @end

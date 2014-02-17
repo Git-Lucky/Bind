@@ -11,8 +11,11 @@
 #import "HISCollectionViewDataSource.h"
 #import "HISLocalNotificationController.h"
 #import "HISPhoneNumberFormatter.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
-@interface HISCreateBuddyViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate>
+@interface HISCreateBuddyViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 {
     UITextField *_selectedTextField;
@@ -25,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *twitterField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -52,11 +56,31 @@
     [self resizeTextField:self.emailField];
     [self resizeTextField:self.twitterField];
     
-    [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
+    [self processAndDisplayBackgroundImage:@"BlueGradient.png"];
 
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    self.scrollView.delegate = self;
+    
+    [self setTapGestureToDismissKeyboard];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self registerForKeyboardNotifications];
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self deregisterFromKeyboardNotifications];
 }
 
 - (HISBuddy *)buddyToAdd
@@ -122,8 +146,27 @@
     
     UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     
+//    if ([info objectForKey:UIImagePickerControllerSourceTypeCamera]) {
+//        <#statements#>
+//    }
+    ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
+    [library writeImageToSavedPhotosAlbum:editedImage.CGImage orientation:(ALAssetOrientation)editedImage.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error )
+     {
+         NSLog(@"IMAGE SAVED TO PHOTO ALBUM");
+         [library assetForURL:assetURL resultBlock:^(ALAsset *asset )
+          {
+              NSLog(@"we have our ALAsset!");
+          }
+                 failureBlock:^(NSError *error )
+          {
+              NSLog(@"Error loading asset");
+          }];
+     }];
+    
     self.buddyToAdd.pic = editedImage;
     self.imageView.image = editedImage;
+    self.imageView.layer.borderWidth = 2;
+    self.imageView.layer.borderColor = [UIColor colorWithWhite:0.988 alpha:1.000].CGColor;
     self.imagePicker.titleLabel.text = @"";
     self.imagePicker.layer.borderWidth = 0;
     
@@ -133,6 +176,90 @@
     }];
 }
 
+#pragma mark - People Picker
+
+- (IBAction)showPicker:(id)sender
+{
+    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    
+    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    [self presentViewController:picker animated:YES completion:^{
+        
+    }];
+}
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+    
+    [self displayPerson:person];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
+    return NO;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person
+                                property:(ABPropertyID)property
+                              identifier:(ABMultiValueIdentifier)identifier
+{
+    return NO;
+}
+
+- (void)displayPerson:(ABRecordRef)person
+{
+    NSString* firstName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+    NSString* lastName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonLastNameProperty);
+    NSString* fullName;
+    if (firstName && lastName) {
+        fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+    } else if (lastName) {
+        fullName = [NSString stringWithFormat:@"%@", lastName];
+    } else if (firstName) {
+        fullName = [NSString stringWithFormat:@"%@", firstName];
+    } else {
+        fullName = @"";
+    }
+    
+    self.nameField.text = fullName;
+    
+    NSString* phone = nil;
+    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+    if (ABMultiValueGetCount(phoneNumbers) > 0) {
+        phone = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+        self.phoneField.text = phone;
+    }
+        
+    ABMutableMultiValueRef eMail  = ABRecordCopyValue(person, kABPersonEmailProperty);
+    if(ABMultiValueGetCount(eMail) > 0) {
+        eMail = (__bridge ABMutableMultiValueRef)((__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(eMail, 0));
+        self.emailField.text = (__bridge NSString *)(eMail);
+    }
+    
+    NSData *imgData = (__bridge_transfer NSData *)ABPersonCopyImageData(person);
+    
+    UIImage *image = [UIImage imageWithData:imgData];
+    
+    if (image) {
+        self.buddyToAdd.pic = image;
+        self.imageView.image = image;
+        self.imageView.layer.borderWidth = 2;
+        self.imageView.layer.borderColor = [UIColor colorWithWhite:0.988 alpha:1.000].CGColor;
+        self.imagePicker.titleLabel.text = @"";
+        self.imagePicker.layer.borderWidth = 0;
+        
+        [HISCollectionViewDataSource makeRoundView:self.imageView];
+    }
+}
 
 #pragma mark - Toolbar
 
@@ -142,6 +269,7 @@
 
 #pragma mark - Text Field Delegate
 
+//these next two methods go together to allow the user to hit next and go to next text field
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     NSInteger nextTag = textField.tag + 1;
@@ -167,25 +295,73 @@
     [self.view endEditing:YES];
 }
 
-- (void)keyboardWillShow:(NSNotification *)note
+- (void)hideKeyboard
 {
-    NSValue *keyboardFrame = [note userInfo][UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardFrameRect = keyboardFrame.CGRectValue;
-    CGFloat keyboardHeight = keyboardFrameRect.size.height;
+    [self.scrollView endEditing:YES];
+}
+
+//- (void)keyboardWillShow:(NSNotification *)note
+//{
+//    NSValue *keyboardFrame = [note userInfo][UIKeyboardFrameEndUserInfoKey];
+//    CGRect keyboardFrameRect = keyboardFrame.CGRectValue;
+//    CGFloat keyboardHeight = keyboardFrameRect.size.height;
+//    
+//    if (CGRectGetMaxY(_selectedTextField.frame) > keyboardHeight) {
+//        //[uiview animate ...
+//        //self.containerView.frame = CGRectMake(0, keyboardHeight - 10, CGRectGetWidth(self.containerView.frame), CGRectGetHeight(self.containerView.frame));
+//    }
+//    
+//}
+//
+//- (void)dealloc
+//{
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//}
+
+//makes the phone field edit on the fly
+
+#pragma mark - Scroll View Behavior
+
+- (void)setTapGestureToDismissKeyboard
+{
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     
-    if (CGRectGetMaxY(_selectedTextField.frame) > keyboardHeight) {
-        //[uiview animate ...
-        //self.containerView.frame = CGRectMake(0, keyboardHeight - 10, CGRectGetWidth(self.containerView.frame), CGRectGetHeight(self.containerView.frame));
+    // prevents the scroll view from swallowing up the touch event of child buttons
+    tapGesture.cancelsTouchesInView = NO;
+    
+    [self.scrollView addGestureRecognizer:tapGesture];
+}
+
+- (void)keyboardWasShown:(NSNotification *)notification {
+    
+    NSDictionary *info = [notification userInfo];
+    
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    CGPoint buttonOrigin = self.twitterField.frame.origin;
+    
+    CGFloat buttonHeight = self.twitterField.frame.size.height;
+    
+    CGRect visibleRect = self.view.frame;
+    
+    visibleRect.size.height -= keyboardSize.height;
+    
+    if (!CGRectContainsPoint(visibleRect, buttonOrigin)){
+        
+        CGPoint scrollPoint = CGPointMake(0.0, buttonOrigin.y - visibleRect.size.height + buttonHeight +10);
+        
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
+        
     }
     
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+    
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    
 }
 
-//makes the phone field edit on the fly
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if ([[textField description] isEqualToString:[self.phoneField description]]) {
@@ -227,8 +403,35 @@
         textField.text = formattedString;
         
         return NO;
-        }
+    }
     return 1;
+}
+
+#pragma mark - Keyboard Notifications
+
+- (void)registerForKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)deregisterFromKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidHideNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+    
 }
 
 
@@ -244,6 +447,7 @@
             self.buddyToAdd.twitter = self.twitterField.text;
             self.buddyToAdd.affinity = 1;
             self.buddyToAdd.dateOfLastInteraction = [NSDate date];
+            self.buddyToAdd.hasChanged = YES;
             
             [self.localNotificationController scheduleNotificationsForBuddy:self.buddyToAdd];
             

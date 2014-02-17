@@ -10,7 +10,7 @@
 #import "HISCollectionViewDataSource.h"
 #import "M13ProgressViewPie.h"
 
-@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
+@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *currentImageView;
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *editedImageView;
 @property (weak, nonatomic) IBOutlet UIButton *startPickerButton;
 @property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 
 @end
@@ -52,8 +53,27 @@
     self.progressViewPie.backgroundRingWidth = 0;
     [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
 
-    [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
+    [self processAndDisplayBackgroundImage:@"BlueGradient.png"];
+    
+    self.scrollView.delegate = self;
+    
+    [self setTapGestureToDismissKeyboard];
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self registerForKeyboardNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self deregisterFromKeyboardNotifications];
+}
+
 
 - (void)setPlaceholdersWithBuddyDetails
 {
@@ -86,41 +106,45 @@
 {
     self.editedBuddy = [[HISBuddy alloc] init];
     
-    self.editedBuddy.name = self.nameField.text;
-    self.editedBuddy.phone = self.phoneField.text;
-    self.editedBuddy.email = self.emailField.text;
-    self.editedBuddy.twitter = self.twitterField.text;
+//    self.editedBuddy.name = self.nameField.text;
+//    self.editedBuddy.phone = self.phoneField.text;
+//    self.editedBuddy.email = self.emailField.text;
+//    self.editedBuddy.twitter = self.twitterField.text;
+    
     self.editedBuddy.affinity = self.buddy.affinity;
+    self.editedBuddy.hasAnimated = YES;
+    //hasChanged refers to affinity which has not changed here
+    self.editedBuddy.hasChanged = YES;
     
     if (self.editedImageView.image) {
         self.editedBuddy.pic = self.editedImageView.image;
     } else {
         self.editedBuddy.pic = self.currentImageView.image;
     }
-//
-//    if ([self.nameField.text isEqualToString:@""]) {
-//        self.editedBuddy.name = self.buddy.name;
-//    } else {
-//        self.editedBuddy.name = self.nameField.text;
-//    }
-//    
-//    if ([self.phoneField.text isEqualToString:@""]) {
-//        self.editedBuddy.phone = self.buddy.phone;
-//    } else {
-//        self.editedBuddy.phone = self.phoneField.text;
-//    }
-//    
-//    if ([self.emailField.text isEqualToString:@""]) {
-//        self.editedBuddy.email = self.buddy.email;
-//    } else {
-//        self.editedBuddy.email = self.emailField.text;
-//    }
-//    
-//    if ([self.twitterField.text isEqualToString:@""]) {
-//        self.editedBuddy.twitter = self.buddy.twitter;
-//    } else {
-//        self.editedBuddy.twitter = self.twitterField.text;
-//    }
+
+    if ([self.nameField.text isEqualToString:@""]) {
+        self.editedBuddy.name = self.buddy.name;
+    } else {
+        self.editedBuddy.name = self.nameField.text;
+    }
+    
+    if ([self.phoneField.text isEqualToString:@""]) {
+        self.editedBuddy.phone = self.buddy.phone;
+    } else {
+        self.editedBuddy.phone = self.phoneField.text;
+    }
+    
+    if ([self.emailField.text isEqualToString:@""]) {
+        self.editedBuddy.email = self.buddy.email;
+    } else {
+        self.editedBuddy.email = self.emailField.text;
+    }
+    
+    if ([self.twitterField.text isEqualToString:@""]) {
+        self.editedBuddy.twitter = self.buddy.twitter;
+    } else {
+        self.editedBuddy.twitter = self.twitterField.text;
+    }
     [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
     
     [self performSegueWithIdentifier:@"editedBuddy" sender:self];
@@ -201,6 +225,53 @@
     [self.view endEditing:YES];
 }
 
+- (void)hideKeyboard
+{
+    [self.scrollView endEditing:YES];
+}
+
+#pragma mark - Scroll View Behavior
+
+- (void)setTapGestureToDismissKeyboard
+{
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    
+    // prevents the scroll view from swallowing up the touch event of child buttons
+    tapGesture.cancelsTouchesInView = NO;
+    
+    [self.scrollView addGestureRecognizer:tapGesture];
+}
+
+- (void)keyboardWasShown:(NSNotification *)notification {
+    
+    NSDictionary *info = [notification userInfo];
+    
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    CGPoint buttonOrigin = self.twitterField.frame.origin;
+    
+    CGFloat buttonHeight = self.twitterField.frame.size.height;
+    
+    CGRect visibleRect = self.view.frame;
+    
+    visibleRect.size.height -= keyboardSize.height;
+    
+    if (!CGRectContainsPoint(visibleRect, buttonOrigin)){
+        
+        CGPoint scrollPoint = CGPointMake(0.0, buttonOrigin.y - visibleRect.size.height + buttonHeight +10);
+        
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
+        
+    }
+    
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+    
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    
+}
+
 //makes the phone field edit on the fly
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -245,6 +316,33 @@
         return NO;
     }
     return 1;
+}
+
+#pragma mark - Keyboard Notifications
+
+- (void)registerForKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)deregisterFromKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidHideNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+    
 }
 
 #pragma mark - Toolbar

@@ -10,7 +10,7 @@
 
 @interface HISPhoneNumberFormatter : NSObject
 
-- (UITextField *)convertToPhoneFormat:(UITextField *)textField;
+//- (UITextField *)convertToPhoneFormat:(UITextField *)textField;
 
 @end
 

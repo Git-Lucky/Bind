@@ -7,7 +7,6 @@
 //
 
 #import "HISBuddyListViewController.h"
-#import "HISCVCellWide.h"
 #import "HISCollectionViewDataSource.h"
 #import "HISBuddyDetailsViewController.h"
 #import "HISEditBuddyViewController.h"
@@ -18,7 +17,6 @@
 @interface HISBuddyListViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-//@property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
 
 @end
@@ -42,7 +40,8 @@
     self.collectionView.dataSource = [HISCollectionViewDataSource sharedDataSource];
     
     self.collectionView.backgroundColor = [UIColor clearColor];
-    [self processAndDisplayBackgroundImage:@"circlebackground.jpg"];
+    [self processAndDisplayBackgroundImage:@"BlueGradient.png"];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

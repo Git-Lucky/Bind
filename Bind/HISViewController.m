@@ -9,11 +9,12 @@
 #import "HISViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "HISCVCell.h"
+#import "HISCollectionViewDataSource.h"
 
 @interface HISViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UICollectionView *primaryCollectionView;
 @property (weak, nonatomic) IBOutlet UICollectionView *secondaryCollectionViewTop;
+@property (weak, nonatomic) IBOutlet UICollectionView *primaryCollectionView;
 @property (strong, nonatomic) NSMutableArray *primaryCircleOfFriends;
 @property (strong, nonatomic) NSMutableArray *secondaryCircleOfFriends;
 
@@ -27,12 +28,22 @@
     [super viewDidLoad];
     
     self.primaryCollectionView.delegate = self;
-    self.primaryCollectionView.dataSource = self;
+    self.primaryCollectionView.dataSource = [HISCollectionViewDataSource sharedDataSource];
 	self.secondaryCollectionViewTop.delegate = self;
     self.secondaryCollectionViewTop.dataSource= self;
     
-    [self makeRoundView:self.primaryCollectionView];
+//    [self.primaryCollectionView reloadData];
+    
+//    [self makeRoundView:self.primaryCollectionView];
     [self makeRoundView:self.secondaryCollectionViewTop];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSLog(@"Should Have %ld Views", (long)[_primaryCollectionView numberOfItemsInSection:0]);
+    [self.primaryCollectionView reloadData];
 }
 
 - (void)giveShadowToViewController:(UIView *)View
@@ -69,6 +80,8 @@
     
     return cell;
 }
+
+
 
 - (void)makeRoundView:(UIView *)view
 {

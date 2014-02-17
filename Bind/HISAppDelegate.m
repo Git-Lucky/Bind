@@ -21,11 +21,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+    application.applicationIconBadgeNumber = 0;
     // Detect the Notification after a user taps it
     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (localNotification) {
-        application.applicationIconBadgeNumber = -1;
+        
         self.dataSource = [[HISCollectionViewDataSource alloc] init];
         [[HISCollectionViewDataSource sharedDataSource] load];
         
@@ -41,7 +41,7 @@
         }
 
         
-     NSLog(@"Recieved Notification *****didFinish - %@", localNotification);
+     NSLog(@"Recieved Notification while closed - %@", localNotification);
     }
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -52,23 +52,23 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
 	// Handle the notification when the app is running
-	NSLog(@"Recieved Notification *****didReceive %@", [notification.userInfo objectForKey:@"ID"]);
-    application.applicationIconBadgeNumber = -1;
-    
-    self.dataSource = [[HISCollectionViewDataSource alloc] init];
-    [HISCollectionViewDataSource load];
-    
-    for (HISBuddy *buddy in self.dataSource.buddies) {
-        if ([buddy.buddyID isEqualToString:[notification.userInfo objectForKey:@"ID"]]) {
-            UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
-            HISBuddyDetailsViewController *detailsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"detailsVC"];
-            detailsVC.buddy = buddy;
-            //TODO: need to add if statement checking if view is already loaded to handle double back problem
-            [navController popToRootViewControllerAnimated:NO];
-            [navController pushViewController:detailsVC animated:NO];
-            break;
-        }
-    }
+	NSLog(@"Recieved Notification while running %@", [notification.userInfo objectForKey:@"ID"]);
+//    application.applicationIconBadgeNumber = 0;
+//    
+//    self.dataSource = [[HISCollectionViewDataSource alloc] init];
+//    [HISCollectionViewDataSource load];
+//    
+//    for (HISBuddy *buddy in self.dataSource.buddies) {
+//        if ([buddy.buddyID isEqualToString:[notification.userInfo objectForKey:@"ID"]]) {
+//            UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+//            HISBuddyDetailsViewController *detailsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"detailsVC"];
+//            detailsVC.buddy = buddy;
+//            //TODO: need to add if statement checking if view is already loaded to handle double back problem
+//            [navController popToRootViewControllerAnimated:NO];
+//            [navController pushViewController:detailsVC animated:NO];
+//            break;
+//        }
+//    }
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
