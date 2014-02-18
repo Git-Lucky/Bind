@@ -56,7 +56,7 @@
     [self resizeTextField:self.emailField];
     [self resizeTextField:self.twitterField];
     
-    [self processAndDisplayBackgroundImage:@"BlueGradient.png"];
+    [self processAndDisplayBackgroundImage:backgroundImage];
 
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
     

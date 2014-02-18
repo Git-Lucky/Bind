@@ -10,6 +10,7 @@
 #import "HISEditBuddyViewController.h"
 #import "M13ProgressViewPie.h"
 #import "HISLocalNotificationController.h"
+#import <Social/Social.h>
 
 @interface HISBuddyDetailsViewController () <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIActionSheetDelegate>
 
@@ -43,7 +44,7 @@
     [HISCollectionViewDataSource makeRoundView:self.imageView];
     
     [self setOutletsWithBuddyDetails];
-    [self processAndDisplayBackgroundImage:@"BlueGradient.png"];
+    [self processAndDisplayBackgroundImage:backgroundImage];
     
     self.phoneButtonBounds = self.phoneButton.bounds;
     self.phoneButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
@@ -126,6 +127,27 @@
     [self addAffinity:.2];
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phoneString]]];
+}
+
+- (IBAction)tweetButton:(id)sender
+{
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    {
+        SLComposeViewController *tweetSheet = [SLComposeViewController
+                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
+        NSString *address = [NSString stringWithFormat:@"%@ ",self.buddy.twitter];
+        [tweetSheet setInitialText:address];
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+    }
+}
+
+- (IBAction)facebookButton:(id)sender {
+    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        
+        [controller setInitialText:@"Hello"];
+        [self presentViewController:controller animated:YES completion:Nil];
+    }
 }
 
 - (IBAction)textButton:(id)sender

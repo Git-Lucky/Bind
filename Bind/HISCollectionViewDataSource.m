@@ -101,12 +101,13 @@
 
 - (NSMutableArray *)load
 {
-     NSMutableArray *unarchivedArray = [NSKeyedUnarchiver unarchiveObjectWithFile:[HISCollectionViewDataSource archivedFriendsPath]];
+    NSMutableArray *unarchivedArray = [NSKeyedUnarchiver unarchiveObjectWithFile:[HISCollectionViewDataSource archivedFriendsPath]];
     
     //loop through all objects and update affinity value
     NSDate *now = [NSDate date];
     for (HISBuddy *buddy in unarchivedArray) {
         if (buddy.dateOfLastInteraction) {
+
 //            NSDateComponents *components = [[NSDateComponents alloc]init];
 //            [components setDay:1];
 //            [components setMonth:2];
@@ -114,16 +115,21 @@
 //            NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 //            NSDate *date = [cal dateFromComponents:components];
 //            buddy.dateOfLastInteraction = date;
-            NSLog(@"Affinity before %f   date: %@", buddy.affinity, buddy.dateOfLastInteraction);
+            
             NSDate *lastInteraction = buddy.dateOfLastInteraction;
             NSInteger daysBetween = [HISCollectionViewDataSource daysBetween:lastInteraction and:now];
+            
+            NSLog(@"Affinity before %.2f, date: %@", buddy.affinity, buddy.dateOfLastInteraction);
             NSLog(@"days between %ld", (long)daysBetween);
-            float percentLost = (CGFloat)daysBetween/100.f;
-            buddy.affinity -= percentLost;
-            if (buddy.affinity < 0) {
-                buddy.affinity = 0.05;
+            if (daysBetween > 0) {
+                float percentLost = (CGFloat)daysBetween/100.f;
+                buddy.affinity -= percentLost;
+                if (buddy.affinity < 0) {
+                    buddy.affinity = 0.05;
+                }
+                buddy.dateOfLastInteraction = now;
             }
-            NSLog(@"Affinity After %f, date: %@", buddy.affinity, buddy.dateOfLastInteraction);
+            NSLog(@"Affinity After %.2f, date: %@", buddy.affinity, buddy.dateOfLastInteraction);
         }
     }
     return unarchivedArray;

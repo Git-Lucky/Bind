@@ -40,7 +40,7 @@
     self.collectionView.dataSource = [HISCollectionViewDataSource sharedDataSource];
     
     self.collectionView.backgroundColor = [UIColor clearColor];
-    [self processAndDisplayBackgroundImage:@"BlueGradient.png"];
+    [self processAndDisplayBackgroundImage:backgroundImage];
     
 }
 

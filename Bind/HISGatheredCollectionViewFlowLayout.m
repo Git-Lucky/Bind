@@ -9,7 +9,6 @@
 #import "HISGatheredCollectionViewFlowLayout.h"
 #import "HISCollectionViewDataSource.h"
 #import "HISBuddy.h"
-#import "HISLayoutAttributes.h"
 
 @interface HISGatheredCollectionViewFlowLayout ()
 

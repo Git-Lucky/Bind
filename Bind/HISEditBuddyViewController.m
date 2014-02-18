@@ -53,7 +53,7 @@
     self.progressViewPie.backgroundRingWidth = 0;
     [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
 
-    [self processAndDisplayBackgroundImage:@"BlueGradient.png"];
+    [self processAndDisplayBackgroundImage:backgroundImage];
     
     self.scrollView.delegate = self;
     

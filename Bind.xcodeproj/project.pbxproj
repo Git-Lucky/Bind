@@ -20,7 +20,6 @@
 		0E51592A18A4391E00B7ABE8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E51592918A4391E00B7ABE8 /* MessageUI.framework */; };
 		0E51592D18A457AB00B7ABE8 /* HISLocalNotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */; };
 		0E5A221A18ADD0840075D91B /* HISRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A221918ADD0840075D91B /* HISRootViewController.m */; };
-		0E5A221D18AEB9240075D91B /* HISLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A221C18AEB9240075D91B /* HISLayoutAttributes.m */; };
 		0E5A222018AEFE760075D91B /* HISCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A221F18AEFE760075D91B /* HISCollectionViewLayout.m */; };
 		0E8C200B18A6001200B1F52E /* facePlate.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8C200A18A6001200B1F52E /* facePlate.png */; };
 		0E8C201018A605A600B1F52E /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C200D18A605A600B1F52E /* M13ProgressView.m */; };
@@ -28,6 +27,7 @@
 		0E8C201518A6067D00B1F52E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8C201418A6067D00B1F52E /* Main.storyboard */; };
 		0E99EEE418B1CE01005A3DD0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E99EEE318B1CE01005A3DD0 /* AddressBook.framework */; };
 		0E99EEE618B1CE07005A3DD0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E99EEE518B1CE07005A3DD0 /* AddressBookUI.framework */; };
+		0E99EEE818B2AAAA005A3DD0 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E99EEE718B2AAAA005A3DD0 /* Social.framework */; };
 		0E9A3F5618A353A700D500BD /* HISGetStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A3F5518A353A700D500BD /* HISGetStartedViewController.m */; };
 		0EEA37FA18AF2A6D0024E3E3 /* HISAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA37F918AF2A6D0024E3E3 /* HISAnimator.m */; };
 		0EF1E51E18A41732008053D2 /* dividerpng.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EF1E51D18A41732008053D2 /* dividerpng.png */; };
@@ -87,8 +87,6 @@
 		0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISLocalNotificationController.m; sourceTree = "<group>"; };
 		0E5A221818ADD0840075D91B /* HISRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISRootViewController.h; sourceTree = "<group>"; };
 		0E5A221918ADD0840075D91B /* HISRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISRootViewController.m; sourceTree = "<group>"; };
-		0E5A221B18AEB9240075D91B /* HISLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISLayoutAttributes.h; sourceTree = "<group>"; };
-		0E5A221C18AEB9240075D91B /* HISLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISLayoutAttributes.m; sourceTree = "<group>"; };
 		0E5A221E18AEFE760075D91B /* HISCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISCollectionViewLayout.h; sourceTree = "<group>"; };
 		0E5A221F18AEFE760075D91B /* HISCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISCollectionViewLayout.m; sourceTree = "<group>"; };
 		0E8C200A18A6001200B1F52E /* facePlate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facePlate.png; sourceTree = "<group>"; };
@@ -99,6 +97,8 @@
 		0E8C201418A6067D00B1F52E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0E99EEE318B1CE01005A3DD0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		0E99EEE518B1CE07005A3DD0 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		0E99EEE718B2AAAA005A3DD0 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		0E99EEEB18B2BBF8005A3DD0 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		0E9A3F5418A353A700D500BD /* HISGetStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISGetStartedViewController.h; sourceTree = "<group>"; };
 		0E9A3F5518A353A700D500BD /* HISGetStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISGetStartedViewController.m; sourceTree = "<group>"; };
 		0EEA37F818AF2A6D0024E3E3 /* HISAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISAnimator.h; sourceTree = "<group>"; };
@@ -146,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E99EEE818B2AAAA005A3DD0 /* Social.framework in Frameworks */,
 				0E99EEE618B1CE07005A3DD0 /* AddressBookUI.framework in Frameworks */,
 				0E99EEE418B1CE01005A3DD0 /* AddressBook.framework in Frameworks */,
 				0E51592A18A4391E00B7ABE8 /* MessageUI.framework in Frameworks */,
@@ -213,6 +214,7 @@
 		0EFD7A3E189CA9370088B675 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E99EEE718B2AAAA005A3DD0 /* Social.framework */,
 				0E99EEE518B1CE07005A3DD0 /* AddressBookUI.framework */,
 				0E99EEE318B1CE01005A3DD0 /* AddressBook.framework */,
 				0E51592918A4391E00B7ABE8 /* MessageUI.framework */,
@@ -232,8 +234,6 @@
 				0E0239FE18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m */,
 				0E5A221E18AEFE760075D91B /* HISCollectionViewLayout.h */,
 				0E5A221F18AEFE760075D91B /* HISCollectionViewLayout.m */,
-				0E5A221B18AEB9240075D91B /* HISLayoutAttributes.h */,
-				0E5A221C18AEB9240075D91B /* HISLayoutAttributes.m */,
 				0E5A221818ADD0840075D91B /* HISRootViewController.h */,
 				0E5A221918ADD0840075D91B /* HISRootViewController.m */,
 				0EFD7A86189DD9610088B675 /* Model */,
@@ -251,6 +251,7 @@
 			children = (
 				0EFD7A4E189CA9370088B675 /* HISAppDelegate.h */,
 				0EFD7A4F189CA9370088B675 /* HISAppDelegate.m */,
+				0E99EEEB18B2BBF8005A3DD0 /* Constants.h */,
 				0E3DE17E18AB3341001C278B /* circlebackground.jpg */,
 				0E3DE17C18A9E503001C278B /* whiteChatIcon.png */,
 				0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */,
@@ -451,7 +452,6 @@
 				0EFD7A8D18A01E4F0088B675 /* HISBuddyListViewController.m in Sources */,
 				0EFD7A50189CA9370088B675 /* HISAppDelegate.m in Sources */,
 				0EFD7A9B18A1B6AD0088B675 /* HISEditBuddyViewController.m in Sources */,
-				0E5A221D18AEB9240075D91B /* HISLayoutAttributes.m in Sources */,
 				0E9A3F5618A353A700D500BD /* HISGetStartedViewController.m in Sources */,
 				0EFD7A56189CA9370088B675 /* HISViewController.m in Sources */,
 				0E5A222018AEFE760075D91B /* HISCollectionViewLayout.m in Sources */,
