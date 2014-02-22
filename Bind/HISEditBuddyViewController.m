@@ -9,6 +9,7 @@
 #import "HISEditBuddyViewController.h"
 #import "HISCollectionViewDataSource.h"
 #import "M13ProgressViewPie.h"
+#import "IQActionSheetPickerView.h"
 
 @interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
@@ -17,10 +18,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *phoneField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *twitterField;
+@property (weak, nonatomic) IBOutlet UITextField *birthdayField;
 @property (weak, nonatomic) IBOutlet UIImageView *editedImageView;
 @property (weak, nonatomic) IBOutlet UIButton *startPickerButton;
 @property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *closenessBar;
+@property (strong, nonatomic) IQActionSheetPickerView *datePicker;
 
 
 @end
@@ -65,6 +69,9 @@
     [super viewWillAppear:animated];
     
     [self registerForKeyboardNotifications];
+    
+    [self.closenessBar setTintColor:[UIColor whiteColor]];
+    self.closenessBar.selectedSegmentIndex = self.buddy.priority - 1;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -81,6 +88,7 @@
     self.phoneField.text = self.buddy.phone;
     self.emailField.text = self.buddy.email;
     self.twitterField.text = self.buddy.twitter;
+    self.birthdayField.text = self.buddy.dateOfBirthString;
     
     if (self.buddy.pic) {
         self.currentImageView.image = self.buddy.pic;
@@ -113,7 +121,6 @@
     
     self.editedBuddy.affinity = self.buddy.affinity;
     self.editedBuddy.hasAnimated = YES;
-    //hasChanged refers to affinity which has not changed here
     self.editedBuddy.hasChanged = YES;
     
     if (self.editedImageView.image) {
@@ -145,6 +152,23 @@
     } else {
         self.editedBuddy.twitter = self.twitterField.text;
     }
+    
+    if (self.closenessBar.selectedSegmentIndex == 0) {
+        self.editedBuddy.priority = 1;
+    } else if (self.closenessBar.selectedSegmentIndex == 1) {
+        self.editedBuddy.priority = 2;
+    } else {
+        self.editedBuddy.priority = self.buddy.priority;
+    }
+    
+    if ([self.birthdayField.text isEqualToString:@""]) {
+        self.editedBuddy.dateOfBirthString = self.buddy.dateOfBirthString;
+        self.editedBuddy.dateOfBirth = self.buddy.dateOfBirth;
+    } else {
+        self.editedBuddy.dateOfBirthString = self.birthdayField.text;
+        self.editedBuddy.dateOfBirth = self.buddy.dateOfBirth;
+    }
+
     [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
     
     [self performSegueWithIdentifier:@"editedBuddy" sender:self];
@@ -195,6 +219,22 @@
     
     [self dismissViewControllerAnimated:YES completion:^{
     }];
+}
+
+#pragma mark - Date Picker
+
+- (IBAction)datePickerButton:(id)sender {
+    self.datePicker = [[IQActionSheetPickerView alloc] initWithTitle:@"Birthday" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+    self.datePicker.buddy = self.buddy;
+    [self.datePicker setTag:6];
+    [self.datePicker setActionSheetPickerStyle:IQActionSheetPickerStyleDatePicker];
+    [self.datePicker showInView:self.view];
+}
+
+-(void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles
+{
+    self.birthdayField.text = [titles componentsJoinedByString:@" - "];
+    self.buddy.dateOfBirthString = self.birthdayField.text;
 }
 
 - (IBAction)deleteFriend:(id)sender {
@@ -352,11 +392,12 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([segue.identifier isEqualToString:@"removedFriend"]) {
-//        
-//    }
-//}
+- (void)alert:(NSString *)message
+{
+    [[[UIAlertView alloc] initWithTitle:@"Oops"
+                                message:message
+                               delegate:nil
+                      cancelButtonTitle:nil
+                      otherButtonTitles:@"OK", nil] show];
+}
 @end

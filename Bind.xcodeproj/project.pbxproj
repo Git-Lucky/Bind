@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E0239FF18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0239FE18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m */; };
+		0E03032318B809A400BF97EF /* IQActionSheetPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E03032218B809A400BF97EF /* IQActionSheetPickerView.m */; };
 		0E3DE17718A9E255001C278B /* whiteComposeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17618A9E255001C278B /* whiteComposeIcon.png */; };
 		0E3DE17B18A9E3DF001C278B /* whitePhoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */; };
 		0E3DE17D18A9E503001C278B /* whiteChatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE17C18A9E503001C278B /* whiteChatIcon.png */; };
@@ -15,7 +16,6 @@
 		0E3DE18118AB43DE001C278B /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE18018AB43DE001C278B /* LICENSE.txt */; };
 		0E3DE18418AB440D001C278B /* APAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3DE18318AB440D001C278B /* APAddressBook.m */; };
 		0E3DE18818AB4461001C278B /* APContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3DE18618AB4461001C278B /* APContact.m */; };
-		0E51592618A4234100B7ABE8 /* HISPhoneNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E51592518A4234100B7ABE8 /* HISPhoneNumberFormatter.m */; };
 		0E51592818A431F300B7ABE8 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0E51592718A431F300B7ABE8 /* placeholder.jpg */; };
 		0E51592A18A4391E00B7ABE8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E51592918A4391E00B7ABE8 /* MessageUI.framework */; };
 		0E51592D18A457AB00B7ABE8 /* HISLocalNotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */; };
@@ -28,6 +28,7 @@
 		0E99EEE418B1CE01005A3DD0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E99EEE318B1CE01005A3DD0 /* AddressBook.framework */; };
 		0E99EEE618B1CE07005A3DD0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E99EEE518B1CE07005A3DD0 /* AddressBookUI.framework */; };
 		0E99EEE818B2AAAA005A3DD0 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E99EEE718B2AAAA005A3DD0 /* Social.framework */; };
+		0E99EEEE18B325FB005A3DD0 /* HISDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E99EEED18B325FB005A3DD0 /* HISDatePicker.m */; };
 		0E9A3F5618A353A700D500BD /* HISGetStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A3F5518A353A700D500BD /* HISGetStartedViewController.m */; };
 		0EEA37FA18AF2A6D0024E3E3 /* HISAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA37F918AF2A6D0024E3E3 /* HISAnimator.m */; };
 		0EF1E51E18A41732008053D2 /* dividerpng.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EF1E51D18A41732008053D2 /* dividerpng.png */; };
@@ -69,6 +70,8 @@
 /* Begin PBXFileReference section */
 		0E0239FD18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISGatheredCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		0E0239FE18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISGatheredCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		0E03032118B809A400BF97EF /* IQActionSheetPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQActionSheetPickerView.h; sourceTree = "<group>"; };
+		0E03032218B809A400BF97EF /* IQActionSheetPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQActionSheetPickerView.m; sourceTree = "<group>"; };
 		0E3DE17618A9E255001C278B /* whiteComposeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteComposeIcon.png; sourceTree = "<group>"; };
 		0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whitePhoneIcon.png; sourceTree = "<group>"; };
 		0E3DE17C18A9E503001C278B /* whiteChatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteChatIcon.png; sourceTree = "<group>"; };
@@ -79,8 +82,6 @@
 		0E3DE18518AB4461001C278B /* APContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APContact.h; sourceTree = "<group>"; };
 		0E3DE18618AB4461001C278B /* APContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APContact.m; sourceTree = "<group>"; };
 		0E3DE18718AB4461001C278B /* APTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APTypes.h; sourceTree = "<group>"; };
-		0E51592418A4234100B7ABE8 /* HISPhoneNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISPhoneNumberFormatter.h; sourceTree = "<group>"; };
-		0E51592518A4234100B7ABE8 /* HISPhoneNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISPhoneNumberFormatter.m; sourceTree = "<group>"; };
 		0E51592718A431F300B7ABE8 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
 		0E51592918A4391E00B7ABE8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0E51592B18A457AB00B7ABE8 /* HISLocalNotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISLocalNotificationController.h; sourceTree = "<group>"; };
@@ -99,6 +100,8 @@
 		0E99EEE518B1CE07005A3DD0 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		0E99EEE718B2AAAA005A3DD0 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		0E99EEEB18B2BBF8005A3DD0 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		0E99EEEC18B325FB005A3DD0 /* HISDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISDatePicker.h; sourceTree = "<group>"; };
+		0E99EEED18B325FB005A3DD0 /* HISDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISDatePicker.m; sourceTree = "<group>"; };
 		0E9A3F5418A353A700D500BD /* HISGetStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISGetStartedViewController.h; sourceTree = "<group>"; };
 		0E9A3F5518A353A700D500BD /* HISGetStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISGetStartedViewController.m; sourceTree = "<group>"; };
 		0EEA37F818AF2A6D0024E3E3 /* HISAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISAnimator.h; sourceTree = "<group>"; };
@@ -169,6 +172,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E03032418B809A900BF97EF /* IQDatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				0E03032118B809A400BF97EF /* IQActionSheetPickerView.h */,
+				0E03032218B809A400BF97EF /* IQActionSheetPickerView.m */,
+			);
+			name = IQDatePicker;
+			sourceTree = "<group>";
+		};
 		0E3DE18918AB4465001C278B /* AddressBook */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +250,7 @@
 				0E5A221918ADD0840075D91B /* HISRootViewController.m */,
 				0EFD7A86189DD9610088B675 /* Model */,
 				0EFD7A87189DD9980088B675 /* Controller */,
+				0E03032418B809A900BF97EF /* IQDatePicker */,
 				0E3DE18A18AB44AA001C278B /* M13 */,
 				0E3DE18918AB4465001C278B /* AddressBook */,
 				0EFD7A7F189D8AF80088B675 /* Images.xcassets */,
@@ -296,14 +309,14 @@
 				0EFD7A84189DD95B0088B675 /* HISBuddy.m */,
 				0E51592B18A457AB00B7ABE8 /* HISLocalNotificationController.h */,
 				0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */,
+				0E99EEEC18B325FB005A3DD0 /* HISDatePicker.h */,
+				0E99EEED18B325FB005A3DD0 /* HISDatePicker.m */,
 				0EFD7A7C189D892E0088B675 /* HISCVCell.h */,
 				0EFD7A7D189D892E0088B675 /* HISCVCell.m */,
 				0EFD7A9318A042AF0088B675 /* HISCollectionViewDataSource.h */,
 				0EFD7A9418A042AF0088B675 /* HISCollectionViewDataSource.m */,
 				0EEA37F818AF2A6D0024E3E3 /* HISAnimator.h */,
 				0EEA37F918AF2A6D0024E3E3 /* HISAnimator.m */,
-				0E51592418A4234100B7ABE8 /* HISPhoneNumberFormatter.h */,
-				0E51592518A4234100B7ABE8 /* HISPhoneNumberFormatter.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -446,7 +459,6 @@
 				0EFD7A85189DD95B0088B675 /* HISBuddy.m in Sources */,
 				0EFD7A4C189CA9370088B675 /* main.m in Sources */,
 				0EFD7A9018A029FC0088B675 /* HISCreateBuddyViewController.m in Sources */,
-				0E51592618A4234100B7ABE8 /* HISPhoneNumberFormatter.m in Sources */,
 				0E3DE18418AB440D001C278B /* APAddressBook.m in Sources */,
 				0E5A221A18ADD0840075D91B /* HISRootViewController.m in Sources */,
 				0EFD7A8D18A01E4F0088B675 /* HISBuddyListViewController.m in Sources */,
@@ -455,6 +467,7 @@
 				0E9A3F5618A353A700D500BD /* HISGetStartedViewController.m in Sources */,
 				0EFD7A56189CA9370088B675 /* HISViewController.m in Sources */,
 				0E5A222018AEFE760075D91B /* HISCollectionViewLayout.m in Sources */,
+				0E99EEEE18B325FB005A3DD0 /* HISDatePicker.m in Sources */,
 				0EEA37FA18AF2A6D0024E3E3 /* HISAnimator.m in Sources */,
 				0E0239FF18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m in Sources */,
 				0EFD7A9818A046800088B675 /* HISBuddyDetailsViewController.m in Sources */,
@@ -463,6 +476,7 @@
 				0EFD7A7E189D892E0088B675 /* HISCVCell.m in Sources */,
 				0E3DE18818AB4461001C278B /* APContact.m in Sources */,
 				0E8C201118A605A600B1F52E /* M13ProgressViewPie.m in Sources */,
+				0E03032318B809A400BF97EF /* IQActionSheetPickerView.m in Sources */,
 				0E8C201018A605A600B1F52E /* M13ProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,7 @@
 #import "HISBuddyListViewController.h"
 #import "HISCollectionViewDataSource.h"
 #import "HISLocalNotificationController.h"
-#import "HISPhoneNumberFormatter.h"
+#import "IQActionSheetPickerView.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
@@ -27,7 +27,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *phoneField;
 @property (weak, nonatomic) IBOutlet UITextField *twitterField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
+@property (weak, nonatomic) IBOutlet UITextField *birthdayField;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *closenessBar;
+@property (weak, nonatomic) IBOutlet UILabel *bestiesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *everyoneLabel;
+@property (weak, nonatomic) IBOutlet UIButton *datePickerButton;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
+@property (strong, nonatomic) IQActionSheetPickerView *datePicker;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
@@ -74,6 +80,8 @@
     [self registerForKeyboardNotifications];
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    [self.closenessBar setTintColor:[UIColor whiteColor]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -261,11 +269,48 @@
     }
 }
 
+#pragma mark - Date Picker
+
+- (IBAction)datePickerButton:(id)sender {
+    self.datePicker = [[IQActionSheetPickerView alloc] initWithTitle:@"Birthday" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+    self.datePicker.buddy = self.buddyToAdd;
+    [self.datePicker setTag:6];
+    [self.datePicker setActionSheetPickerStyle:IQActionSheetPickerStyleDatePicker];
+    [self.datePicker showInView:self.view];
+}
+
+-(void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles
+{
+    self.birthdayField.text = [titles componentsJoinedByString:@" - "];
+    self.buddyToAdd.dateOfBirthString = self.birthdayField.text;
+}
+
+
 #pragma mark - Toolbar
 
 - (IBAction)cancel:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark - Segment
+
+- (IBAction)closenessSegment:(id)sender {
+    if (self.closenessBar.selectedSegmentIndex == 0) {
+        self.bestiesLabel.hidden = NO;
+        self.buddyToAdd.priority = 1;
+    } else {
+        self.bestiesLabel.hidden = YES;
+    }
+    
+    if (self.closenessBar.selectedSegmentIndex == 1) {
+        self.everyoneLabel.hidden = NO;
+        self.buddyToAdd.priority = 2;
+    } else {
+        self.everyoneLabel.hidden = YES;
+    }
+}
+
+
 
 #pragma mark - Text Field Delegate
 
@@ -299,6 +344,33 @@
 {
     [self.scrollView endEditing:YES];
 }
+
+//- (void)textFieldDidEndEditing:(UITextField *)textField
+//{
+//    if ([textField.text isEqualToString:self.birthMonthField.text]) {
+//        if (textField.text.length == 1) {
+//            NSString *Ostring = @"0";
+//            NSString *formattedString = [Ostring stringByAppendingString:textField.text];
+//            textField.text = formattedString;
+//        } else if (textField.text.length > 2) {
+//            textField.text = @"";
+//        } else if ([textField.text intValue] > 12) {
+//            textField.text = @"";
+//        }
+//    }
+//    
+//    if ([textField.text isEqualToString:self.birthDayField.text]) {
+//        if (textField.text.length == 1) {
+//            NSString *Ostring = @"0";
+//            NSString *formattedString = [Ostring stringByAppendingString:textField.text];
+//            textField.text = formattedString;
+//        } else if (textField.text.length > 2) {
+//            textField.text = @"";
+//        } else if ([textField.text intValue] > 31) {
+//            textField.text = @"";
+//        }
+//    }
+//}
 
 //- (void)keyboardWillShow:(NSNotification *)note
 //{
@@ -338,9 +410,9 @@
     
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
-    CGPoint buttonOrigin = self.twitterField.frame.origin;
+    CGPoint buttonOrigin = self.birthdayField.frame.origin;
     
-    CGFloat buttonHeight = self.twitterField.frame.size.height;
+    CGFloat buttonHeight = self.birthdayField.frame.size.height;
     
     CGRect visibleRect = self.view.frame;
     
@@ -404,6 +476,8 @@
         
         return NO;
     }
+    
+    
     return 1;
 }
 
@@ -437,6 +511,25 @@
 
 #pragma mark - Segues
 
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"addedFriend"]) {
+        if (![self.nameField.text length]) {
+            [self alert:@"What is your friend's name?"];
+            return NO;
+        } else if (![self.phoneField.text length]) {
+            [self alert:@"Did you forget their phone number?"];
+            return NO;
+        } else if (!(self.closenessBar.selectedSegmentIndex == 0 || self.closenessBar.selectedSegmentIndex == 1)) {
+            [self alert:@"How close are you?"];
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"addedFriend"]) {
@@ -445,7 +538,7 @@
             self.buddyToAdd.phone = self.phoneField.text;
             self.buddyToAdd.email = self.emailField.text;
             self.buddyToAdd.twitter = self.twitterField.text;
-            self.buddyToAdd.affinity = 1;
+            self.buddyToAdd.affinity = .75;
             self.buddyToAdd.dateOfLastInteraction = [NSDate date];
             self.buddyToAdd.hasChanged = YES;
             
@@ -456,5 +549,13 @@
     }
 }
 
+- (void)alert:(NSString *)message
+{
+    [[[UIAlertView alloc] initWithTitle:@"Oops"
+                                message:message
+                               delegate:nil
+                      cancelButtonTitle:nil
+                      otherButtonTitles:@"OK", nil] show];
+}
 
 @end

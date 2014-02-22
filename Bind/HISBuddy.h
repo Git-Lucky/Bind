@@ -16,7 +16,10 @@
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *phone;
 @property (strong, nonatomic) NSString *twitter;
+@property (nonatomic) NSInteger priority;
 @property (nonatomic) CGFloat affinity;
+@property (strong, nonatomic) NSDate *dateOfBirth;
+@property (strong, nonatomic) NSString *dateOfBirthString;
 @property (strong, nonatomic) NSDate *dateOfLastInteraction;
 @property (nonatomic) BOOL hasAnimated;
 @property (nonatomic) BOOL hasChanged;

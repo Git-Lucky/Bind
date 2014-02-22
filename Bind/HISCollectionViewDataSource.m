@@ -128,8 +128,9 @@
                     buddy.affinity = 0.05;
                 }
                 buddy.dateOfLastInteraction = now;
+                NSLog(@"Affinity After %.2f, date: %@", buddy.affinity, buddy.dateOfLastInteraction);
             }
-            NSLog(@"Affinity After %.2f, date: %@", buddy.affinity, buddy.dateOfLastInteraction);
+            
         }
     }
     return unarchivedArray;

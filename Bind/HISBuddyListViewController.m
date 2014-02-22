@@ -96,7 +96,6 @@
         HISBuddy *oldBuddy = removeBuddyVC.buddy;
         if (oldBuddy) {
             
-//            [self.dataSource.buddies removeObject:oldBuddy];
             [[HISCollectionViewDataSource sharedDataSource].buddies removeObject:oldBuddy];
             [self.localNotificationController cancelNotificationsForBuddy:oldBuddy];
             [self.collectionView reloadData];
@@ -113,7 +112,7 @@
         HISBuddy *newBuddy = createBuddy.buddyToAdd;
         
         if (newBuddy) {
-//            [self.dataSource.buddies addObject:newBuddy];
+            NSLog(@"newbuddy %@", newBuddy.dateOfBirth);
             [[HISCollectionViewDataSource sharedDataSource].buddies addObject:newBuddy];
             [self.collectionView reloadData];
             

@@ -29,7 +29,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vjZ-9j-Nk8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="900" y="603"/>
+            <point key="canvasLocation" x="1426" y="611"/>
         </scene>
         <!--Buddy List View Controller-->
         <scene sceneID="RaY-go-Zeg">
@@ -246,12 +246,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="odP-WV-QDx">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="odP-WV-QDx">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dfg-hD-J5I">
-                                        <rect key="frame" x="85" y="75" width="150" height="150"/>
+                                        <rect key="frame" x="85" y="65" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Add Photo">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -261,51 +261,61 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tar-9U-Iua">
-                                        <rect key="frame" x="85" y="78" width="150" height="150"/>
+                                        <rect key="frame" x="85" y="68" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="Mwg-a8-4aD">
-                                        <rect key="frame" x="35" y="274" width="250" height="30"/>
+                                        <rect key="frame" x="35" y="264" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.22359295280612246" green="0.22359295280612246" blue="0.22359295280612246" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
                                         <connections>
                                             <outlet property="delegate" destination="91V-ve-NVq" id="iEL-CO-W7p"/>
                                         </connections>
                                     </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" alpha="0.69999998807907104" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="cJo-Gp-R9B">
+                                        <rect key="frame" x="36" y="396" width="249" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" red="0.22359295279999999" green="0.22359295279999999" blue="0.22359295279999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="91V-ve-NVq" id="egR-e7-eqz"/>
+                                        </connections>
+                                    </textField>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="CoM-Jc-blz">
-                                        <rect key="frame" x="35" y="312" width="250" height="30"/>
+                                        <rect key="frame" x="35" y="297" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.22359295280612246" green="0.22359295280612246" blue="0.22359295280612246" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="phonePad" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
                                             <outlet property="delegate" destination="91V-ve-NVq" id="cI6-XH-nLO"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="@twitter" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="NYV-BJ-m1c">
-                                        <rect key="frame" x="35" y="388" width="250" height="30"/>
+                                        <rect key="frame" x="35" y="363" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.22359295280612246" green="0.22359295280612246" blue="0.22359295280612246" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="twitter"/>
                                         <connections>
                                             <outlet property="delegate" destination="91V-ve-NVq" id="zGM-xj-coO"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="QNx-Nj-hZP">
-                                        <rect key="frame" x="35" y="350" width="250" height="30"/>
+                                        <rect key="frame" x="35" y="330" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.22359295280612246" green="0.22359295280612246" blue="0.22359295280612246" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                                         <connections>
                                             <outlet property="delegate" destination="91V-ve-NVq" id="gqO-uL-qFx"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UnE-cK-UJK">
-                                        <rect key="frame" x="58" y="236" width="204" height="30"/>
+                                        <rect key="frame" x="58" y="226" width="204" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                         <state key="normal" title="+ Import from Contacts">
@@ -315,9 +325,58 @@
                                             <action selector="showPicker:" destination="91V-ve-NVq" eventType="touchUpInside" id="uet-0N-PMt"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="How close are you?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRb-is-o8s">
+                                        <rect key="frame" x="60" y="434" width="201" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="23"/>
+                                        <color key="textColor" red="0.98913823341836737" green="0.98913823341836737" blue="0.98913823341836737" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <segmentedControl contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="U6o-cc-T50">
+                                        <rect key="frame" x="50" y="474" width="221" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="Family / Besties"/>
+                                            <segment title="Everyone else"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="closenessSegment:" destination="91V-ve-NVq" eventType="valueChanged" id="4Q3-Vy-eTI"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weekly reminders to call, along with birthdays" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWc-Qb-nHn">
+                                        <rect key="frame" x="20" y="510" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="13"/>
+                                        <color key="textColor" red="0.99489795918367352" green="0.99489795918367352" blue="0.99489795918367352" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Only reminds you to contact them on birthdays" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejl-FI-Rbu">
+                                        <rect key="frame" x="20" y="510" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="13"/>
+                                        <color key="textColor" red="0.99489795920000001" green="0.99489795920000001" blue="0.99489795920000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hLo-rg-iru">
+                                        <rect key="frame" x="35" y="396" width="250" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="datePickerButton:" destination="91V-ve-NVq" eventType="touchUpInside" id="a2c-Vf-2rl"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="*correct year is optional" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="US3-ex-6ZA">
+                                        <rect key="frame" x="168" y="400" width="162" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" red="0.13813376913265307" green="0.13813376913265307" blue="0.13813376913265307" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                             </scrollView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ZW-MW-tnS">
+                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ZW-MW-tnS">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
@@ -337,9 +396,22 @@
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" red="0.47058826684951782" green="0.89019614458084106" blue="0.99215692281723022" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstItem="odP-WV-QDx" firstAttribute="trailing" secondItem="1ZW-MW-tnS" secondAttribute="trailing" id="1ke-HM-GxY"/>
+                            <constraint firstItem="odP-WV-QDx" firstAttribute="leading" secondItem="zpi-nP-qOz" secondAttribute="leading" id="5s1-Y4-KeM"/>
+                            <constraint firstItem="odP-WV-QDx" firstAttribute="top" secondItem="zpi-nP-qOz" secondAttribute="top" id="6cf-zE-bQC"/>
+                            <constraint firstAttribute="bottom" secondItem="odP-WV-QDx" secondAttribute="bottom" id="N9F-y9-7fR"/>
+                            <constraint firstAttribute="trailing" secondItem="odP-WV-QDx" secondAttribute="trailing" id="f4O-cD-8Es"/>
+                            <constraint firstItem="odP-WV-QDx" firstAttribute="leading" secondItem="1ZW-MW-tnS" secondAttribute="leading" id="xqQ-Sg-SyW"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="bestiesLabel" destination="TWc-Qb-nHn" id="BUf-mt-4qk"/>
+                        <outlet property="birthdayField" destination="cJo-Gp-R9B" id="OTY-Sw-d7P"/>
+                        <outlet property="closenessBar" destination="U6o-cc-T50" id="PNU-pp-hmH"/>
+                        <outlet property="datePickerButton" destination="hLo-rg-iru" id="uvC-rf-Vsu"/>
                         <outlet property="emailField" destination="QNx-Nj-hZP" id="jqe-il-iS6"/>
+                        <outlet property="everyoneLabel" destination="ejl-FI-Rbu" id="9rk-Z3-viq"/>
                         <outlet property="imagePicker" destination="Dfg-hD-J5I" id="UQf-LG-NRR"/>
                         <outlet property="imageView" destination="tar-9U-Iua" id="vhK-0N-Urp"/>
                         <outlet property="nameField" destination="Mwg-a8-4aD" id="ocK-Un-DtH"/>
@@ -351,7 +423,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FET-TD-wRC" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5wX-N3-0Cs" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="900" y="-730"/>
+            <point key="canvasLocation" x="1426" y="-806"/>
         </scene>
         <!--Edit Buddy View Controller-->
         <scene sceneID="e0f-L2-Jxu">
@@ -378,7 +450,7 @@
                                         <rect key="frame" x="35" y="253" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.20394212372448983" green="0.20394212372448983" blue="0.20394212372448983" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                                         <connections>
                                             <outlet property="delegate" destination="MgP-On-bRh" id="Gcd-T7-Q9z"/>
@@ -399,20 +471,20 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999973" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="PCp-Aj-AJg">
-                                        <rect key="frame" x="35" y="329" width="250" height="30"/>
+                                        <rect key="frame" x="35" y="319" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.20394212372448983" green="0.20394212372448983" blue="0.20394212372448983" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                                         <connections>
                                             <outlet property="delegate" destination="MgP-On-bRh" id="LpK-gX-Zpx"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999973" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="@twitter" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="t1q-mj-RvV">
-                                        <rect key="frame" x="35" y="367" width="250" height="30"/>
+                                        <rect key="frame" x="35" y="352" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.20394212372448983" green="0.20394212372448983" blue="0.20394212372448983" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" keyboardType="twitter"/>
                                         <connections>
                                             <outlet property="delegate" destination="MgP-On-bRh" id="rBa-dQ-vMz"/>
@@ -430,10 +502,10 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999973" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="SaC-7l-hBm">
-                                        <rect key="frame" x="35" y="291" width="250" height="30"/>
+                                        <rect key="frame" x="35" y="286" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.20394212372448983" green="0.20394212372448983" blue="0.20394212372448983" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="phonePad" returnKeyType="next"/>
                                         <connections>
                                             <outlet property="delegate" destination="MgP-On-bRh" id="JQ1-q0-H7h"/>
@@ -443,6 +515,67 @@
                                         <rect key="frame" x="84" y="77" width="160" height="160"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
+                                    <segmentedControl contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="mWX-k1-u7W">
+                                        <rect key="frame" x="54" y="458" width="221" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="Family / Besties"/>
+                                            <segment title="Everyone else"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="closenessSegment:" destination="91V-ve-NVq" eventType="valueChanged" id="G9l-Pk-SNV"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="How close are you?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ccp-gu-sfh">
+                                        <rect key="frame" x="64" y="423" width="201" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="23"/>
+                                        <color key="textColor" red="0.98913823339999996" green="0.98913823339999996" blue="0.98913823339999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hxD-3G-WYC">
+                                        <rect key="frame" x="106" y="514" width="116" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
+                                        <state key="normal" title="Delete Friend">
+                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="4M4-BC-PqK" kind="unwind" identifier="deleteBuddy" unwindAction="removedFriend:" id="leR-j2-MNP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liQ-sv-Cmz">
+                                        <rect key="frame" x="96" y="507" width="137" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="deleteFriend:" destination="MgP-On-bRh" eventType="touchUpInside" id="xqN-w1-EPk"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" alpha="0.69999998807907104" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="xFu-Ln-fHc">
+                                        <rect key="frame" x="35" y="385" width="249" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" red="0.22359295279999999" green="0.22359295279999999" blue="0.22359295279999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="91V-ve-NVq" id="3y1-aj-xiG"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M4b-pJ-cOb">
+                                        <rect key="frame" x="35" y="386" width="249" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="datePickerButton:" destination="MgP-On-bRh" eventType="touchUpInside" id="QGS-2U-lWV"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </scrollView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E4u-nC-dU9">
@@ -463,33 +596,12 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hxD-3G-WYC">
-                                <rect key="frame" x="106" y="496" width="116" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
-                                <state key="normal" title="Delete Friend">
-                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="4M4-BC-PqK" kind="unwind" identifier="deleteBuddy" unwindAction="removedFriend:" id="leR-j2-MNP"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liQ-sv-Cmz">
-                                <rect key="frame" x="96" y="489" width="137" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="deleteFriend:" destination="MgP-On-bRh" eventType="touchUpInside" id="xqN-w1-EPk"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.45219659625696573" green="0.88978141998851923" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="birthdayField" destination="xFu-Ln-fHc" id="1Bd-ej-k4e"/>
+                        <outlet property="closenessBar" destination="mWX-k1-u7W" id="bu1-XV-GT2"/>
                         <outlet property="currentImageView" destination="Dkp-dq-vmR" id="0uJ-YR-pnC"/>
                         <outlet property="editedImageView" destination="syZ-g8-ngK" id="eMS-55-d0H"/>
                         <outlet property="emailField" destination="PCp-Aj-AJg" id="3UX-Qq-fFN"/>
@@ -504,7 +616,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XNN-cF-Lcy" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4M4-BC-PqK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1297" y="-730"/>
+            <point key="canvasLocation" x="1823" y="-806"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="jnG-5k-pJP">
