@@ -95,7 +95,7 @@
     //Set up the background layer
     _backgroundLayer = [CAShapeLayer layer];
     _backgroundLayer.strokeColor = self.primaryColor.CGColor; //self.secondaryColor.CGColor;
-    _backgroundLayer.fillColor = [UIColor colorWithWhite:0.957 alpha:0.000].CGColor;
+    _backgroundLayer.fillColor = [[UIColor clearColor] CGColor];
     _backgroundLayer.lineCap = kCALineCapRound;
     _backgroundLayer.lineWidth = _backgroundRingWidth;
     [self.layer addSublayer:_backgroundLayer];
@@ -155,13 +155,13 @@
 - (UIColor *)getTransitionColor:(float)progress
 {
     CGFloat r1,g1,b1,a1;
-    [[UIColor colorWithRed:0.138 green:0.956 blue:0.000 alpha:1.000] getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
+    [[UIColor colorWithRed:0.337 green:1.000 blue:0.000 alpha:1.000] getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
     
     CGFloat r2,g2,b2,a2;
-    [[UIColor colorWithRed:1.000 green:0.951 blue:0.000 alpha:1.000] getRed:&r2 green:&g2 blue:&b2 alpha:&a2];
+    [[UIColor colorWithRed:1.000 green:0.936 blue:0.001 alpha:1.000] getRed:&r2 green:&g2 blue:&b2 alpha:&a2];
     
     CGFloat r3,g3,b3,a3;
-    [[UIColor colorWithRed:0.932 green:0.286 blue:0.000 alpha:1.000] getRed:&r3 green:&g3 blue:&b3 alpha:&a3];
+    [[UIColor colorWithRed:0.888 green:0.272 blue:0.007 alpha:1.000] getRed:&r3 green:&g3 blue:&b3 alpha:&a3];
     
     CGFloat r,g,b,a;
     if (progress < .5f) {

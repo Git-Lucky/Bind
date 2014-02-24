@@ -63,6 +63,18 @@
     buddy.previousAffinity = buddy.affinity;
     
     [HISCollectionViewDataSource makeRoundView:cell.imageView];
+    [HISCollectionViewDataSource makeRoundView:cell.greyBackView];
+    [HISCollectionViewDataSource makeRoundView:cell.innerGreyBorder];
+    
+//    cell.imageView.layer.borderColor =[[UIColor colorWithRed:0.107 green:0.562 blue:0.764 alpha:1.000] CGColor];
+//    cell.imageView.layer.borderWidth = 3.0f;
+    
+    cell.greyBackView.backgroundColor = [UIColor clearColor];
+//    cell.greyBackView.layer.borderWidth = 2.0f;
+//    cell.greyBackView.layer.borderColor = [[UIColor colorWithRed:0.107 green:0.562 blue:0.764 alpha:1.000] CGColor];
+    
+    cell.innerGreyBorder.backgroundColor = [UIColor clearColor];
+    
     cell.backgroundColor = [UIColor clearColor];
     
     return cell;

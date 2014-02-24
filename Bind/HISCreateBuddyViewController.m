@@ -14,8 +14,9 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import "HISSwitchTableViewCell.h"
 
-@interface HISCreateBuddyViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface HISCreateBuddyViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, ABPeoplePickerNavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 {
     UITextField *_selectedTextField;
@@ -23,15 +24,23 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *imagePicker;
-@property (weak, nonatomic) IBOutlet UITextField *nameField;
-@property (weak, nonatomic) IBOutlet UITextField *phoneField;
-@property (weak, nonatomic) IBOutlet UITextField *twitterField;
-@property (weak, nonatomic) IBOutlet UITextField *emailField;
-@property (weak, nonatomic) IBOutlet UITextField *birthdayField;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *closenessBar;
+//@property (strong, nonatomic) NSMutableArray *formCells;
 @property (weak, nonatomic) IBOutlet UILabel *bestiesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *everyoneLabel;
-@property (weak, nonatomic) IBOutlet UIButton *datePickerButton;
+@property (weak, nonatomic) IBOutlet UITableView *formTableView;
+@property (strong, nonatomic) NSArray *formImages;
+@property (strong, nonatomic) IBOutlet HISFormTableViewCell *nameCell;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (strong, nonatomic) IBOutlet HISFormTableViewCell *phoneCell;
+@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
+@property (strong, nonatomic) IBOutlet HISFormTableViewCell *emailCell;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (strong, nonatomic) IBOutlet HISFormTableViewCell *twitterCell;
+@property (weak, nonatomic) IBOutlet UITextField *twitterTextField;
+@property (strong, nonatomic) IBOutlet HISFormTableViewCell *birthdayCell;
+@property (weak, nonatomic) IBOutlet UITextField *birthdayTextField;
+@property (strong, nonatomic) IBOutlet HISSwitchTableViewCell *remindersCell;
+//@property (strong ,nonatomic) HISSwitchTableViewCell *switchCell;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
 @property (strong, nonatomic) IQActionSheetPickerView *datePicker;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -53,22 +62,30 @@
 {
     [super viewDidLoad];
     
+    UIImage *namebadge = [UIImage imageNamed:@"namebadge_icon_grey.png"];
+    UIImage *phone = [UIImage imageNamed:@"phone_icon_grey.png"];
+    UIImage *mail = [UIImage imageNamed:@"closed_mail_icon_grey.png"];
+    UIImage *twitter = [UIImage imageNamed:@"twitter_icon_grey.png"];
+    UIImage *birthday = [UIImage imageNamed:@"calendar_icon_grey.png"];
+    UIImage *link = [UIImage imageNamed:@"link_icon_black.png"];
+    self.formImages = [NSArray arrayWithObjects:namebadge, phone, mail, twitter, birthday, link, nil];
+    
     self.imagePicker.layer.borderColor = [UIColor colorWithWhite:0.976 alpha:1.000].CGColor;
     self.imagePicker.layer.borderWidth = 2;
     self.imagePicker.layer.cornerRadius = self.imagePicker.layer.frame.size.width / 2;
     
-    [self resizeTextField:self.phoneField];
-    [self resizeTextField:self.nameField];
-    [self resizeTextField:self.emailField];
-    [self resizeTextField:self.twitterField];
+    [self configureTableView:self.formTableView];
     
     [self processAndDisplayBackgroundImage:backgroundImage];
 
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
     
     self.scrollView.delegate = self;
+    self.formTableView.delegate = self;
+    self.formTableView.dataSource = self;
     
     [self setTapGestureToDismissKeyboard];
+    
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 }
@@ -80,8 +97,6 @@
     [self registerForKeyboardNotifications];
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    
-    [self.closenessBar setTintColor:[UIColor whiteColor]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -97,6 +112,12 @@
         _buddyToAdd = [[HISBuddy alloc] init];
     }
     return _buddyToAdd;
+}
+
+- (void)configureTableView:(UITableView *)tableView
+{
+    tableView.layer.cornerRadius = 12;
+    tableView.layer.masksToBounds = YES;
 }
 
 - (void)processAndDisplayBackgroundImage:(NSString *)imageName
@@ -238,19 +259,19 @@
         fullName = @"";
     }
     
-    self.nameField.text = fullName;
+     self.nameTextField.text = fullName;
     
     NSString* phone = nil;
     ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
     if (ABMultiValueGetCount(phoneNumbers) > 0) {
         phone = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-        self.phoneField.text = phone;
+        self.phoneTextField.text = phone;
     }
         
     ABMutableMultiValueRef eMail  = ABRecordCopyValue(person, kABPersonEmailProperty);
     if(ABMultiValueGetCount(eMail) > 0) {
         eMail = (__bridge ABMutableMultiValueRef)((__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(eMail, 0));
-        self.emailField.text = (__bridge NSString *)(eMail);
+        self.emailTextField.text = (__bridge NSString *)(eMail);
     }
     
     NSData *imgData = (__bridge_transfer NSData *)ABPersonCopyImageData(person);
@@ -281,8 +302,8 @@
 
 -(void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles
 {
-    self.birthdayField.text = [titles componentsJoinedByString:@" - "];
-    self.buddyToAdd.dateOfBirthString = self.birthdayField.text;
+    self.birthdayTextField.text = [titles componentsJoinedByString:@" - "];
+    self.buddyToAdd.dateOfBirthString = self.birthdayTextField.text;
 }
 
 
@@ -292,23 +313,23 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Segment
-
-- (IBAction)closenessSegment:(id)sender {
-    if (self.closenessBar.selectedSegmentIndex == 0) {
-        self.bestiesLabel.hidden = NO;
-        self.buddyToAdd.priority = 1;
-    } else {
-        self.bestiesLabel.hidden = YES;
-    }
-    
-    if (self.closenessBar.selectedSegmentIndex == 1) {
-        self.everyoneLabel.hidden = NO;
-        self.buddyToAdd.priority = 2;
-    } else {
-        self.everyoneLabel.hidden = YES;
-    }
-}
+//#pragma mark - Segment
+//
+//- (IBAction)closenessSegment:(id)sender {
+//    if (self.closenessBar.selectedSegmentIndex == 0) {
+//        self.bestiesLabel.hidden = NO;
+//        self.buddyToAdd.priority = 1;
+//    } else {
+//        self.bestiesLabel.hidden = YES;
+//    }
+//    
+//    if (self.closenessBar.selectedSegmentIndex == 1) {
+//        self.everyoneLabel.hidden = NO;
+//        self.buddyToAdd.priority = 2;
+//    } else {
+//        self.everyoneLabel.hidden = YES;
+//    }
+//}
 
 
 
@@ -333,6 +354,13 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     _selectedTextField = textField;
+    
+    if ([textField.text isEqualToString:@"Name Required"]) {
+        textField.text = @"";
+    }
+    if ([textField.text isEqualToString:@"Phone Required"]) {
+        textField.text = @"";
+    }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -344,51 +372,6 @@
 {
     [self.scrollView endEditing:YES];
 }
-
-//- (void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    if ([textField.text isEqualToString:self.birthMonthField.text]) {
-//        if (textField.text.length == 1) {
-//            NSString *Ostring = @"0";
-//            NSString *formattedString = [Ostring stringByAppendingString:textField.text];
-//            textField.text = formattedString;
-//        } else if (textField.text.length > 2) {
-//            textField.text = @"";
-//        } else if ([textField.text intValue] > 12) {
-//            textField.text = @"";
-//        }
-//    }
-//    
-//    if ([textField.text isEqualToString:self.birthDayField.text]) {
-//        if (textField.text.length == 1) {
-//            NSString *Ostring = @"0";
-//            NSString *formattedString = [Ostring stringByAppendingString:textField.text];
-//            textField.text = formattedString;
-//        } else if (textField.text.length > 2) {
-//            textField.text = @"";
-//        } else if ([textField.text intValue] > 31) {
-//            textField.text = @"";
-//        }
-//    }
-//}
-
-//- (void)keyboardWillShow:(NSNotification *)note
-//{
-//    NSValue *keyboardFrame = [note userInfo][UIKeyboardFrameEndUserInfoKey];
-//    CGRect keyboardFrameRect = keyboardFrame.CGRectValue;
-//    CGFloat keyboardHeight = keyboardFrameRect.size.height;
-//    
-//    if (CGRectGetMaxY(_selectedTextField.frame) > keyboardHeight) {
-//        //[uiview animate ...
-//        //self.containerView.frame = CGRectMake(0, keyboardHeight - 10, CGRectGetWidth(self.containerView.frame), CGRectGetHeight(self.containerView.frame));
-//    }
-//    
-//}
-//
-//- (void)dealloc
-//{
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//}
 
 //makes the phone field edit on the fly
 
@@ -410,17 +393,15 @@
     
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
-    CGPoint buttonOrigin = self.birthdayField.frame.origin;
-    
-    CGFloat buttonHeight = self.birthdayField.frame.size.height;
+    CGPoint tableBottomLeftPoint = CGPointMake(self.formTableView.frame.origin.x, self.formTableView.frame.origin.y + self.formTableView.frame.size.height);
     
     CGRect visibleRect = self.view.frame;
     
     visibleRect.size.height -= keyboardSize.height;
     
-    if (!CGRectContainsPoint(visibleRect, buttonOrigin)){
+    if (!CGRectContainsPoint(visibleRect, tableBottomLeftPoint)) {
         
-        CGPoint scrollPoint = CGPointMake(0.0, buttonOrigin.y - visibleRect.size.height + buttonHeight +10);
+        CGPoint scrollPoint = CGPointMake(0.0, tableBottomLeftPoint.y - visibleRect.size.height + 10);
         
         [self.scrollView setContentOffset:scrollPoint animated:YES];
         
@@ -436,7 +417,7 @@
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if ([[textField description] isEqualToString:[self.phoneField description]]) {
+    if ([[textField description] isEqualToString:[self.phoneTextField description]]) {
         NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
         NSArray *components = [newString componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
         NSString *decimalString = [components componentsJoinedByString:@""];
@@ -481,6 +462,49 @@
     return 1;
 }
 
+#pragma mark - Form TableView Datasource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell;
+    long row = indexPath.row;
+    switch (row) {
+        case 0:
+            cell = self.nameCell;
+            break;
+        case 1:
+            cell = self.phoneCell;
+            break;
+        case 2:
+            cell = self.emailCell;
+            break;
+        case 3:
+            cell = self.twitterCell;
+            break;
+        case 4:
+            cell = self.birthdayCell;
+            break;
+        case 5:
+            cell = self.remindersCell;
+            break;
+    }
+    
+    cell.imageView.image = [self.formImages objectAtIndex:indexPath.row];
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 6;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
+}
+
+
 #pragma mark - Keyboard Notifications
 
 - (void)registerForKeyboardNotifications {
@@ -514,16 +538,25 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     if ([identifier isEqualToString:@"addedFriend"]) {
-        if (![self.nameField.text length]) {
-            [self alert:@"What is your friend's name?"];
+        if (![self.nameTextField.text length] && ![self.phoneTextField.text length]) {
+            self.nameTextField.text = @"Name Required";
+            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+            self.phoneTextField.text = @"Phone Required";
+            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
             return NO;
-        } else if (![self.phoneField.text length]) {
-            [self alert:@"Did you forget their phone number?"];
+        } else if (![self.phoneTextField.text length]) {
+            self.phoneTextField.text = @"Phone Required";
+            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
             return NO;
-        } else if (!(self.closenessBar.selectedSegmentIndex == 0 || self.closenessBar.selectedSegmentIndex == 1)) {
-            [self alert:@"How close are you?"];
+        } else if (![self.nameTextField.text length]) {
+            self.nameTextField.text = @"Name Required";
+            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
             return NO;
-        } else {
+        } else if ([self.nameTextField.text isEqualToString:@"Name Required"]) {
+            return NO;
+        } else if ([self.nameTextField.text isEqualToString:@"Phone Required"]) {
+            return NO;
+        }else {
             return YES;
         }
     }
@@ -534,10 +567,11 @@
 {
     if ([segue.identifier isEqualToString:@"addedFriend"]) {
         if (self.buddyToAdd) {
-            self.buddyToAdd.name = self.nameField.text;
-            self.buddyToAdd.phone = self.phoneField.text;
-            self.buddyToAdd.email = self.emailField.text;
-            self.buddyToAdd.twitter = self.twitterField.text;
+            self.buddyToAdd.name = self.nameTextField.text;
+            self.buddyToAdd.phone = self.phoneTextField.text;
+            self.buddyToAdd.email = self.emailTextField.text;
+            self.buddyToAdd.twitter = self.twitterTextField.text;
+            self.buddyToAdd.getsReminders = self.
             self.buddyToAdd.affinity = .75;
             self.buddyToAdd.dateOfLastInteraction = [NSDate date];
             self.buddyToAdd.hasChanged = YES;

@@ -22,6 +22,7 @@
     self.email = [aDecoder decodeObjectForKey:@"email"];
     self.phone = [aDecoder decodeObjectForKey:@"phone"];
     self.priority = [[aDecoder decodeObjectForKey:@"priority"] intValue];
+    self.getsReminders = [aDecoder decodeObjectForKey:@"reminders"];
     self.affinity = [[aDecoder decodeObjectForKey:@"affinity"] floatValue];
     self.dateOfBirth = [aDecoder decodeObjectForKey:@"dateOfBirth"];
     self.dateOfBirthString = [aDecoder decodeObjectForKey:@"dateOfBirthString"];

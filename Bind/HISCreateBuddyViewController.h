@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HISBuddy.h"
+#import "HISFormTableViewCell.h"
 
 @interface HISCreateBuddyViewController : UIViewController
 
