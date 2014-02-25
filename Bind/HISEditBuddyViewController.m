@@ -85,6 +85,8 @@
     
     self.deleteButton.backgroundColor = [UIColor redColor];
     self.deleteButton.layer.cornerRadius = 5;
+    
+    [[UITextField appearance] setTintColor:[UIColor colorWithWhite:0.230 alpha:1.000]];
 }
 
 - (void)viewWillAppear:(BOOL)animated

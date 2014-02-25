@@ -84,6 +84,7 @@
     self.formTableView.dataSource = self;
     
     [self setTapGestureToDismissKeyboard];
+    [[UITextField appearance] setTintColor:[UIColor colorWithWhite:0.230 alpha:1.000]];
 }
 
 - (void)viewWillAppear:(BOOL)animated

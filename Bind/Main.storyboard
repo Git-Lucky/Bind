@@ -901,7 +901,7 @@
         <image name="phone_icon_full.png" width="95" height="95"/>
         <image name="twitter_icon.png" width="95" height="95"/>
     </resources>
-    <color key="tintColor" red="0.96696018006090689" green="0.96118484751240496" blue="0.9871651785714286" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="0.96930792438251179" green="0.96239343743654748" blue="0.99826610331632648" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
