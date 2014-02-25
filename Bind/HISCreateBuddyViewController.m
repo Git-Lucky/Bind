@@ -16,7 +16,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import "HISSwitchTableViewCell.h"
 
-@interface HISCreateBuddyViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, ABPeoplePickerNavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface HISCreateBuddyViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, ABPeoplePickerNavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
 
 {
     UITextField *_selectedTextField;
@@ -61,12 +61,12 @@
 {
     [super viewDidLoad];
     
-    UIImage *namebadge = [UIImage imageNamed:@"namebadge_icon_grey.png"];
-    UIImage *phone = [UIImage imageNamed:@"phone_icon_grey.png"];
-    UIImage *mail = [UIImage imageNamed:@"closed_mail_icon_grey.png"];
-    UIImage *twitter = [UIImage imageNamed:@"twitter_icon_grey.png"];
-    UIImage *birthday = [UIImage imageNamed:@"calendar_icon_grey.png"];
-    UIImage *link = [UIImage imageNamed:@"link_icon_black.png"];
+    UIImage *namebadge = [UIImage imageNamed:@"namebadge_icon_blue.png"];
+    UIImage *phone = [UIImage imageNamed:@"phone_icon_blue.png"];
+    UIImage *mail = [UIImage imageNamed:@"closed_mail_icon_blue.png"];
+    UIImage *twitter = [UIImage imageNamed:@"twitter_icon_blue.png"];
+    UIImage *birthday = [UIImage imageNamed:@"calendar_icon_blue.png"];
+    UIImage *link = [UIImage imageNamed:@"bell_icon_blue.png"];
     self.formImages = [NSArray arrayWithObjects:namebadge, phone, mail, twitter, birthday, link, nil];
     
     self.imagePicker.layer.borderColor = [UIColor colorWithWhite:0.976 alpha:1.000].CGColor;
@@ -137,13 +137,13 @@
 
 - (IBAction)startPicker:(id)sender {
     
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            UIActionSheet *picChoice = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera", @"Photo Library", nil];
-            [picChoice showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
-        } else {
-            UIActionSheet *picChoice = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", nil];
-            [picChoice showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
-        }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIActionSheet *picChoice = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera", @"Photo Library", nil];
+        [picChoice showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
+    } else {
+        UIActionSheet *picChoice = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", nil];
+        [picChoice showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -297,32 +297,11 @@
     self.buddyToAdd.dateOfBirthString = self.birthdayTextField.text;
 }
 
-
 #pragma mark - Toolbar
 
 - (IBAction)cancel:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
-
-//#pragma mark - Segment
-//
-//- (IBAction)closenessSegment:(id)sender {
-//    if (self.closenessBar.selectedSegmentIndex == 0) {
-//        self.bestiesLabel.hidden = NO;
-//        self.buddyToAdd.priority = 1;
-//    } else {
-//        self.bestiesLabel.hidden = YES;
-//    }
-//    
-//    if (self.closenessBar.selectedSegmentIndex == 1) {
-//        self.everyoneLabel.hidden = NO;
-//        self.buddyToAdd.priority = 2;
-//    } else {
-//        self.everyoneLabel.hidden = YES;
-//    }
-//}
-
-
 
 #pragma mark - Text Field Delegate
 
@@ -348,9 +327,11 @@
     
     if ([textField.text isEqualToString:@"Name Required"]) {
         textField.text = @"";
+        textField.textColor = [UIColor blackColor];
     }
     if ([textField.text isEqualToString:@"Phone Required"]) {
         textField.text = @"";
+        textField.textColor = [UIColor blackColor];
     }
 }
 
@@ -395,9 +376,7 @@
         CGPoint scrollPoint = CGPointMake(0.0, tableBottomLeftPoint.y - visibleRect.size.height + 10);
         
         [self.scrollView setContentOffset:scrollPoint animated:YES];
-        
     }
-    
 }
 
 - (void)keyboardWillBeHidden:(NSNotification *)notification {
@@ -448,8 +427,6 @@
         
         return NO;
     }
-    
-    
     return 1;
 }
 

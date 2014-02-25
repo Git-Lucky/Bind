@@ -14,7 +14,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
 @property (weak, nonatomic) IBOutlet UILabel *name;
-@property (weak, nonatomic) IBOutlet UIView *greyBackView;
-@property (weak, nonatomic) IBOutlet UIView *innerGreyBorder;
 
 @end

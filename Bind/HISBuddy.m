@@ -22,6 +22,7 @@
     self.email = [aDecoder decodeObjectForKey:@"email"];
     self.phone = [aDecoder decodeObjectForKey:@"phone"];
     self.innerCircle = [aDecoder decodeBoolForKey:@"innerCircle"];
+    self.hasPlaceholderImage = [aDecoder decodeBoolForKey:@"hasPlaceholderImage"];
     self.getsReminders = [aDecoder decodeObjectForKey:@"reminders"];
     self.affinity = [[aDecoder decodeObjectForKey:@"affinity"] floatValue];
     self.dateOfBirth = [aDecoder decodeObjectForKey:@"dateOfBirth"];
@@ -42,6 +43,7 @@
     [aCoder encodeObject:self.email forKey:@"email"];
     [aCoder encodeObject:self.phone forKey:@"phone"];
     [aCoder encodeBool:self.innerCircle forKey:@"innerCircle"];
+    [aCoder encodeBool:self.hasPlaceholderImage forKey:@"hasPlaceholderImage"];
     [aCoder encodeObject:[NSNumber numberWithFloat:self.affinity] forKey:@"affinity"];
     [aCoder encodeObject:self.dateOfBirth forKey:@"dateOfBirth"];
     [aCoder encodeObject:self.dateOfBirthString forKey:@"dateOfBirthString"];
@@ -60,13 +62,7 @@
     self.imagePath = jpgPath;
 }
 
-//- (void)setAffinity:(CGFloat)affinity
-//{
-//    _previousAffinity = _affinity;
-//    _affinity = affinity;
-//}
-
-- (int)daysElapsed:(NSDate *)day1 and:(NSDate *)day2
+- (long)daysElapsed:(NSDate *)day1 and:(NSDate *)day2
 {
     NSUInteger dayUnit = NSDayCalendarUnit;
     NSCalendar *aCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];

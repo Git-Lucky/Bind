@@ -14,11 +14,12 @@
 #import "HISSwitchTableViewCell.h"
 #import "HISLocalNotificationController.h"
 
-@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *currentImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *editedImageView;
 @property (weak, nonatomic) IBOutlet UIButton *startPickerButton;
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 @property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IQActionSheetPickerView *datePicker;
@@ -54,17 +55,15 @@
 {
     [super viewDidLoad];
     
-    UIImage *namebadge = [UIImage imageNamed:@"namebadge_icon_grey.png"];
-    UIImage *phone = [UIImage imageNamed:@"phone_icon_grey.png"];
-    UIImage *mail = [UIImage imageNamed:@"closed_mail_icon_grey.png"];
-    UIImage *twitter = [UIImage imageNamed:@"twitter_icon_grey.png"];
-    UIImage *birthday = [UIImage imageNamed:@"calendar_icon_grey.png"];
-    UIImage *link = [UIImage imageNamed:@"link_icon_black.png"];
+    UIImage *namebadge = [UIImage imageNamed:@"namebadge_icon_blue.png"];
+    UIImage *phone = [UIImage imageNamed:@"phone_icon_blue.png"];
+    UIImage *mail = [UIImage imageNamed:@"closed_mail_icon_blue.png"];
+    UIImage *twitter = [UIImage imageNamed:@"twitter_icon_blue.png"];
+    UIImage *birthday = [UIImage imageNamed:@"calendar_icon_blue.png"];
+    UIImage *link = [UIImage imageNamed:@"bell_icon_blue.png"];
     self.formImages = [NSArray arrayWithObjects:namebadge, phone, mail, twitter, birthday, link, nil];
     
     [self setPlaceholdersWithBuddyDetails];
-    
-    [self.startPickerButton setImage:[UIImage imageNamed:@"camera_icon_full"] forState:UIControlStateNormal];
     
     [HISCollectionViewDataSource makeRoundView:self.currentImageView];
     [HISCollectionViewDataSource makeRoundView:self.editedImageView];
@@ -83,6 +82,9 @@
     
     [self setTapGestureToDismissKeyboard];
     [self configureTableView:self.formTableView];
+    
+    self.deleteButton.backgroundColor = [UIColor redColor];
+    self.deleteButton.layer.cornerRadius = 5;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -107,6 +109,8 @@
 
 - (void)setPlaceholdersWithBuddyDetails
 {
+    [self.startPickerButton setImage:[UIImage imageNamed:@"camera_icon_full"] forState:UIControlStateNormal];
+    
     self.nameTextField.text = self.buddy.name;
     self.phoneTextField.text = self.buddy.phone;
     self.emailTextField.text = self.buddy.email;
@@ -119,7 +123,6 @@
     } else if (self.buddy.imagePath) {
         self.currentImageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
     } else {
-        self.startPickerButton.titleLabel.textColor = [UIColor blackColor];
         self.currentImageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     }
 }
@@ -268,6 +271,20 @@
         [self performSegueWithIdentifier:@"deleteBuddy" sender:self];
     } else {
         return;
+    }
+}
+
+#pragma mark - Text Field
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if ([textField.text isEqualToString:@"Name Required"]) {
+        textField.text = @"";
+        textField.textColor = [UIColor blackColor];
+    }
+    if ([textField.text isEqualToString:@"Phone Required"]) {
+        textField.text = @"";
+        textField.textColor = [UIColor blackColor];
     }
 }
 
@@ -457,4 +474,33 @@
                       cancelButtonTitle:nil
                       otherButtonTitles:@"OK", nil] show];
 }
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"editedBuddy"]) {
+        if (![self.nameTextField.text length] && ![self.phoneTextField.text length]) {
+            self.nameTextField.text = @"Name Required";
+            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+            self.phoneTextField.text = @"Phone Required";
+            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+            return NO;
+        } else if (![self.phoneTextField.text length]) {
+            self.phoneTextField.text = @"Phone Required";
+            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+            return NO;
+        } else if (![self.nameTextField.text length]) {
+            self.nameTextField.text = @"Name Required";
+            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+            return NO;
+        } else if ([self.nameTextField.text isEqualToString:@"Name Required"]) {
+            return NO;
+        } else if ([self.nameTextField.text isEqualToString:@"Phone Required"]) {
+            return NO;
+        }else {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 @end

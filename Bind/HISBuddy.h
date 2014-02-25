@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) UIImage *pic;
 @property (strong, nonatomic) NSString *imagePath;
+@property (nonatomic) BOOL hasPlaceholderImage;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *phone;
 @property (strong, nonatomic) NSString *twitter;

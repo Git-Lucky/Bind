@@ -41,8 +41,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *textMessageButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
-@property (weak, nonatomic) IBOutlet UIView *innerGreyView;
-@property (weak, nonatomic) IBOutlet UIView *outerGreyView;
 @property (weak, nonatomic) IBOutletCollection(UILabel) NSArray *actionLabels;
 @property (weak, nonatomic) IBOutlet UIView *phoneView;
 @property (weak, nonatomic) IBOutlet UIView *textView;
@@ -94,16 +92,11 @@
     self.phoneButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
     self.phoneButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     
-    self.innerGreyView.backgroundColor = [UIColor clearColor];
-    self.outerGreyView.backgroundColor = [UIColor clearColor];
-    self.innerGreyView.layer.cornerRadius = self.innerGreyView.frame.size.height / 2;
-    self.outerGreyView.layer.cornerRadius = self.outerGreyView.frame.size.height / 2;
-    
     // RPL Animation
     _buttonsOut = NO;
     float vwMainBtnSide = 60;
     float vwMainBtnX = (self.view.frame.size.width/2) - (vwMainBtnSide/2);
-    float vwMainBtnY = (self.view.frame.size.height - vwMainBtnSide - 5); // 10 Padding
+    float vwMainBtnY = (self.view.frame.size.height - vwMainBtnSide - 20); // 10 Padding
     
     // Create "We" View
     self.vwMainBtn = [[UIView alloc]initWithFrame:CGRectMake(vwMainBtnX, vwMainBtnY, vwMainBtnSide, vwMainBtnSide)];
