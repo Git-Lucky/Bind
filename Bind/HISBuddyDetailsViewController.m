@@ -48,10 +48,14 @@
 @property (weak, nonatomic) IBOutlet UIView *textView;
 @property (weak, nonatomic) IBOutlet UIView *tweetView;
 @property (weak, nonatomic) IBOutlet UIView *emailView;
+
+@property (strong, nonatomic) NSMutableArray *weMoves;
+
 @property (nonatomic) CGPoint phoneViewStart;
 @property (nonatomic) CGPoint textViewStart;
 @property (nonatomic) CGPoint tweetViewStart;
 @property (nonatomic) CGPoint emailViewStart;
+
 
 
 // Animation View
@@ -95,8 +99,6 @@
     self.innerGreyView.layer.cornerRadius = self.innerGreyView.frame.size.height / 2;
     self.outerGreyView.layer.cornerRadius = self.outerGreyView.frame.size.height / 2;
     
-    self.localNotificationController = [[HISLocalNotificationController alloc] init];
-    
     // RPL Animation
     _buttonsOut = NO;
     float vwMainBtnSide = 60;
@@ -125,7 +127,6 @@
                                                            ACTIVITIES_ICON_SIZE,
                                                            ACTIVITIES_ICON_SIZE)];
     _pt0o_in = CGPointMake(self.vwMainBtn.frame.origin.x, self.vwMainBtn.frame.origin.y);
-//    self.view0o.backgroundColor = [UIColor greenColor];
     self.view0o.layer.masksToBounds = YES;
     self.view0o.layer.cornerRadius = ACTIVITIES_ICON_SIZE/2;
     [self.view addSubview:self.view0o];
@@ -143,13 +144,9 @@
                                                             self.vwMainBtn.frame.origin.y,
                                                             ACTIVITIES_ICON_SIZE,
                                                             ACTIVITIES_ICON_SIZE)];
-//    self.view45o.backgroundColor = [UIColor greenColor];
-//    self.view45o.layer.masksToBounds = YES;
-//    self.view45o.layer.cornerRadius = ACTIVITIES_ICON_SIZE/2;
     [self.view addSubview:self.view45o];
     
     UIButton *btn45o = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [btn45o setTitle:@"Wrote" forState:UIControlStateNormal];
     [btn45o setBackgroundImage:[UIImage imageNamed:@"social_icon.png"] forState:UIControlStateNormal];
     [btn45o addTarget:self action:@selector(pressed45oButton:) forControlEvents:UIControlEventTouchUpInside];
     [btn45o setFrame:CGRectMake(0, 0, self.view45o.frame.size.width, self.view45o.frame.size.height)];
@@ -162,13 +159,10 @@
                                                             self.vwMainBtn.frame.origin.y,
                                                             ACTIVITIES_ICON_SIZE,
                                                             ACTIVITIES_ICON_SIZE)];
-//    self.view90o.backgroundColor = [UIColor greenColor];
-//    self.view90o.layer.masksToBounds = YES;
-//    self.view90o.layer.cornerRadius = ACTIVITIES_ICON_SIZE/2;
+
     [self.view addSubview:self.view90o];
     
     UIButton *btn90o = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [btn90o setTitle:@"Hang" forState:UIControlStateNormal];
     [btn90o setBackgroundImage:[UIImage imageNamed:@"besties_icon.png"] forState:UIControlStateNormal];
     [btn90o addTarget:self action:@selector(pressed90oButton:) forControlEvents:UIControlEventTouchUpInside];
     [btn90o setFrame:CGRectMake(0, 0, self.view90o.frame.size.width, self.view90o.frame.size.height)];
@@ -181,13 +175,10 @@
                                                              self.vwMainBtn.frame.origin.y,
                                                              ACTIVITIES_ICON_SIZE,
                                                              ACTIVITIES_ICON_SIZE)];
-//    self.view135o.backgroundColor = [UIColor greenColor];
-//    self.view135o.layer.masksToBounds = YES;
-//    self.view135o.layer.cornerRadius = ACTIVITIES_ICON_SIZE/2;
+
     [self.view addSubview:self.view135o];
     
     UIButton *btn135o = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [btn135o setTitle:@"Gifted" forState:UIControlStateNormal];
     [btn135o setBackgroundImage:[UIImage imageNamed:@"messaged_icon.png"] forState:UIControlStateNormal];
     [btn135o addTarget:self action:@selector(pressed135oButton:) forControlEvents:UIControlEventTouchUpInside];
     [btn135o setFrame:CGRectMake(0, 0, self.view135o.frame.size.width, self.view135o.frame.size.height)];
@@ -200,13 +191,10 @@
                                                              self.vwMainBtn.frame.origin.y,
                                                              ACTIVITIES_ICON_SIZE,
                                                              ACTIVITIES_ICON_SIZE)];
-//    self.view180o.backgroundColor = [UIColor greenColor];
-//    self.view180o.layer.masksToBounds = YES;
-//    self.view180o.layer.cornerRadius = ACTIVITIES_ICON_SIZE/2;
+
     [self.view addSubview:self.view180o];
     
     UIButton *btn180o = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [btn180o setTitle:@"Social" forState:UIControlStateNormal];
     [btn180o setBackgroundImage:[UIImage imageNamed:@"we_called_icon.png"] forState:UIControlStateNormal];
     [btn180o addTarget:self action:@selector(pressed180oButton:) forControlEvents:UIControlEventTouchUpInside];
     [btn180o setFrame:CGRectMake(0, 0, self.view180o.frame.size.width, self.view180o.frame.size.height)];
@@ -234,6 +222,8 @@
     [super viewWillAppear:animated];
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    self.weMoves = nil;
 }
 
 - (void)setOutletsWithBuddyDetails
@@ -247,11 +237,6 @@
     }
     
     [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
-    
-//    [self makeButtonRoundWithWhiteBorder:self.phoneButton];
-//    [self makeButtonRoundWithWhiteBorder:self.textMessageButton];
-//    [self makeButtonRoundWithWhiteBorder:self.composeMessageButton];
-//    [self makeButtonRoundWithWhiteBorder:self.twitterButton];
 }
 
 - (void)makeButtonRoundWithWhiteBorder:(UIButton *)button
@@ -280,7 +265,7 @@
     phoneString = [phoneString stringByReplacingOccurrencesOfString:@")" withString:@""];
     phoneString = [phoneString stringByReplacingOccurrencesOfString:@" " withString:@""];
     phoneString = [phoneString stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    [self addAffinity:.2];
+    [self addAffinity:.20];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phoneString]]];
 }
 
@@ -307,7 +292,6 @@
 
 - (IBAction)textButton:(id)sender
 {
-//    [[UINavigationBar appearance] setTranslucent:NO];
     [self showSMS:nil];
 }
 
@@ -424,27 +408,41 @@
 
 -(void)pressed0oButton:(UIButton *)sender //gifted
 {
-    [self addAffinity:.28];
+    [self addAffinity:.22];
+//    [self createUndoAffinityObject:.22];
 }
 
 -(void)pressed45oButton:(UIButton *)sender //socialed
 {
-    [self addAffinity:.1];
+    [self addAffinity:.07];
+//    [self createUndoAffinityObject:.07];
 }
 
 -(void)pressed90oButton:(UIButton *)sender // Hang
 {
-    [self addAffinity:.4];
+    [self addAffinity:.30];
+//    [self createUndoAffinityObject:.30];
 }
 
 -(void)pressed135oButton:(UIButton *)sender // messaged
 {
-    [self addAffinity:.15];
+    [self addAffinity:.10];
+//    [self createUndoAffinityObject:.10];
 }
 
 -(void)pressed180oButton:(UIButton *)sender // talked
 {
-    [self addAffinity:.2];
+    [self addAffinity:.18];
+//    [self createUndoAffinityObject:.18];
+}
+
+- (IBAction)undoButton:(id)sender {
+    if ([self.weMoves lastObject]) {
+        NSNumber *wrappedAffinity = [self.weMoves lastObject];
+        double affinity = [wrappedAffinity doubleValue];
+        [self drainAffinity:affinity];
+        [self.weMoves removeObject:[self.weMoves lastObject]];
+    }
 }
 
 #pragma mark - Controller
@@ -501,17 +499,12 @@
 }
 
 - (IBAction)emailNow:(id)sender {
-        // Email Subject
-//        NSString *emailTitle = @"BooYah";
-        // Email Content
-//        NSString *messageBody = @"iOS programming is so fun!";
-        // To address
+
         NSArray *toRecipents = [NSArray arrayWithObject:self.buddy.email];
         
         MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
         mailComposeViewController.mailComposeDelegate = self;
-//        [mailComposeViewController setSubject:emailTitle];
-//        [mailComposeViewController setMessageBody:messageBody isHTML:NO];
+
         [mailComposeViewController setToRecipients:toRecipents];
         
         // Present mail view controller on screen
@@ -529,7 +522,7 @@
             NSLog(@"Mail saved");
             break;
         case MFMailComposeResultSent:
-            [self addAffinity:.08];
+            [self addAffinity:.12];
             NSLog(@"Mail sent");
             break;
         case MFMailComposeResultFailed:
@@ -542,13 +535,6 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (IBAction)drainAffinity:(id)sender {
-    self.buddy.affinity = self.buddy.affinity - .25;
-    [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
-    self.buddy.hasChanged = YES;
-    [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
-}
-
 - (void)addAffinity:(double)number
 {
     if (self.buddy.affinity < 1) {
@@ -556,14 +542,42 @@
         [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
         self.buddy.hasChanged = YES;
         
-        [self.localNotificationController cancelNotificationsForBuddy:self.buddy];
+        if (!self.localNotificationController){
+            self.localNotificationController = [[HISLocalNotificationController alloc] init];
+        }
         
-        self.buddy.dateOfLastInteraction = [NSDate date];
+        [self.localNotificationController cancelNotificationsForBuddy:self.buddy];
+        NSLog(@"Affinity Added: old notifs canceled");
+        
+        self.buddy.dateOfLastCalculation = [NSDate date];
         
         [self.localNotificationController scheduleNotificationsForBuddy:self.buddy];
+        NSLog(@"Affinity Added: new notifs scheduled");
         
         [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
     }
+}
+
+- (void)drainAffinity:(double)number
+{
+    self.buddy.affinity = self.buddy.affinity - number;
+    [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
+    
+    [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
+}
+
+- (void)createUndoAffinityObject:(double)number
+{
+    NSNumber *affinity = [NSNumber numberWithDouble:number];
+    [self.weMoves addObject:affinity];
+}
+
+- (NSMutableArray *)weMoves
+{
+    if (!_weMoves) {
+        _weMoves = [[NSMutableArray alloc] init];
+    }
+    return _weMoves;
 }
 
 #pragma mark - Navigation
@@ -593,6 +607,7 @@
         }
     }
 }
+
 
 
 #pragma mark - Commented Out

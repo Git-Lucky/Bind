@@ -21,12 +21,12 @@
     self.twitter = [aDecoder decodeObjectForKey:@"twitter"];
     self.email = [aDecoder decodeObjectForKey:@"email"];
     self.phone = [aDecoder decodeObjectForKey:@"phone"];
-    self.priority = [[aDecoder decodeObjectForKey:@"priority"] intValue];
+    self.innerCircle = [aDecoder decodeBoolForKey:@"innerCircle"];
     self.getsReminders = [aDecoder decodeObjectForKey:@"reminders"];
     self.affinity = [[aDecoder decodeObjectForKey:@"affinity"] floatValue];
     self.dateOfBirth = [aDecoder decodeObjectForKey:@"dateOfBirth"];
     self.dateOfBirthString = [aDecoder decodeObjectForKey:@"dateOfBirthString"];
-    self.dateOfLastInteraction = [aDecoder decodeObjectForKey:@"date"];
+    self.dateOfLastCalculation = [aDecoder decodeObjectForKey:@"date"];
     self.buddyID = [aDecoder decodeObjectForKey:@"buddyID"];
     
     //might not need this one
@@ -41,11 +41,11 @@
     [aCoder encodeObject:self.twitter forKey:@"twitter"];
     [aCoder encodeObject:self.email forKey:@"email"];
     [aCoder encodeObject:self.phone forKey:@"phone"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.priority] forKey:@"priority"];
+    [aCoder encodeBool:self.innerCircle forKey:@"innerCircle"];
     [aCoder encodeObject:[NSNumber numberWithFloat:self.affinity] forKey:@"affinity"];
     [aCoder encodeObject:self.dateOfBirth forKey:@"dateOfBirth"];
     [aCoder encodeObject:self.dateOfBirthString forKey:@"dateOfBirthString"];
-    [aCoder encodeObject:self.dateOfLastInteraction forKey:@"date"];
+    [aCoder encodeObject:self.dateOfLastCalculation forKey:@"date"];
     [aCoder encodeObject:self.buddyID forKey:@"buddyID"];
     [aCoder encodeObject:[NSNumber numberWithFloat:self.previousAffinity] forKey:@"previousAffinity"];
 }

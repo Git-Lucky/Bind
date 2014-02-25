@@ -12,6 +12,7 @@
 #import "IQActionSheetPickerView.h"
 #import "HISFormTableViewCell.h"
 #import "HISSwitchTableViewCell.h"
+#import "HISLocalNotificationController.h"
 
 @interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -111,6 +112,7 @@
     self.emailTextField.text = self.buddy.email;
     self.twitterTextField.text = self.buddy.twitter;
     self.birthdayTextField.text = self.buddy.dateOfBirthString;
+    self.remindersCell.remindersSwitch.On = self.buddy.innerCircle;
     
     if (self.buddy.pic) {
         self.currentImageView.image = self.buddy.pic;
@@ -135,11 +137,6 @@
 - (IBAction)saveButton:(id)sender
 {
     self.editedBuddy = [[HISBuddy alloc] init];
-    
-//    self.editedBuddy.name = self.nameField.text;
-//    self.editedBuddy.phone = self.phoneField.text;
-//    self.editedBuddy.email = self.emailField.text;
-//    self.editedBuddy.twitter = self.twitterField.text;
     
     self.editedBuddy.affinity = self.buddy.affinity;
     self.editedBuddy.hasAnimated = YES;
@@ -182,6 +179,12 @@
         self.editedBuddy.dateOfBirthString = self.birthdayTextField.text;
         self.editedBuddy.dateOfBirth = self.buddy.dateOfBirth;
     }
+    self.editedBuddy.innerCircle = self.remindersCell.remindersSwitch.isOn;
+    
+    HISLocalNotificationController *notifications = [[HISLocalNotificationController alloc] init];
+    
+    [notifications cancelNotificationsForBuddy:self.buddy];
+    [notifications scheduleNotificationsForBuddy:self.editedBuddy];
 
     [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
     

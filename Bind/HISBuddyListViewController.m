@@ -59,20 +59,6 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:image];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    if ([HISCollectionViewDataSource sharedDataSource].buddies.count == 0) {
-//        HISGetStartedViewController *getStartedViewController = [[HISGetStartedViewController alloc] init];
-//        getStartedViewController.view.backgroundColor = [UIColor clearColor]; // can be with 'alpha'
-//        [self presentViewController:getStartedViewController animated:YES completion:nil];
-    }
-}
-
-//- (HISCollectionViewDataSource *)dataSource
-//{
-//    return _dataSource;
-//}
-
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -86,7 +72,6 @@
         
         destVC.buddy = buddy;
         destVC.indexPath = indexPath;
-//        destVC.dataSource = self.dataSource;
     }
 }
 - (IBAction)removedFriend:(UIStoryboardSegue *)segue
@@ -97,7 +82,9 @@
         if (oldBuddy) {
             
             [[HISCollectionViewDataSource sharedDataSource].buddies removeObject:oldBuddy];
+            
             [self.localNotificationController cancelNotificationsForBuddy:oldBuddy];
+            
             [self.collectionView reloadData];
             
             [[HISCollectionViewDataSource sharedDataSource] saveRootObject];

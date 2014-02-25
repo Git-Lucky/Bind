@@ -125,6 +125,7 @@
 {
     _date = date;
     if (_date != nil)   _datePicker.date = _date;
+    NSLog(@"setDate: %@", _datePicker.date);
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component

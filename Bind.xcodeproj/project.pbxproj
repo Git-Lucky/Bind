@@ -19,6 +19,8 @@
 		0E0FD02018BAE26200FA2DA1 /* messaged_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0FD01F18BAE26200FA2DA1 /* messaged_icon.png */; };
 		0E0FD02218BAE6DD00FA2DA1 /* social_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0FD02118BAE6DD00FA2DA1 /* social_icon.png */; };
 		0E0FD03218BAEFF500FA2DA1 /* we.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0FD03118BAEFF500FA2DA1 /* we.png */; };
+		0E0FD03518BB10D000FA2DA1 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FD03418BB10D000FA2DA1 /* LXReorderableCollectionViewFlowLayout.m */; };
+		0E0FD03818BC05D300FA2DA1 /* undo_arrow_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0FD03718BC05D300FA2DA1 /* undo_arrow_icon.png */; };
 		0E1B9C3418B9997900FB8CF8 /* calendar_icon_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E1B9C2F18B9997900FB8CF8 /* calendar_icon_grey.png */; };
 		0E1B9C3518B9997900FB8CF8 /* closed_mail_icon_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E1B9C3018B9997900FB8CF8 /* closed_mail_icon_grey.png */; };
 		0E1B9C3618B9997900FB8CF8 /* namebadge_icon_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E1B9C3118B9997900FB8CF8 /* namebadge_icon_grey.png */; };
@@ -97,6 +99,9 @@
 		0E0FD01F18BAE26200FA2DA1 /* messaged_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messaged_icon.png; sourceTree = "<group>"; };
 		0E0FD02118BAE6DD00FA2DA1 /* social_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = social_icon.png; sourceTree = "<group>"; };
 		0E0FD03118BAEFF500FA2DA1 /* we.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = we.png; sourceTree = "<group>"; };
+		0E0FD03318BB10D000FA2DA1 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		0E0FD03418BB10D000FA2DA1 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		0E0FD03718BC05D300FA2DA1 /* undo_arrow_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo_arrow_icon.png; sourceTree = "<group>"; };
 		0E1B9C2F18B9997900FB8CF8 /* calendar_icon_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar_icon_grey.png; sourceTree = "<group>"; };
 		0E1B9C3018B9997900FB8CF8 /* closed_mail_icon_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closed_mail_icon_grey.png; sourceTree = "<group>"; };
 		0E1B9C3118B9997900FB8CF8 /* namebadge_icon_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = namebadge_icon_grey.png; sourceTree = "<group>"; };
@@ -226,6 +231,7 @@
 		0E0FD01818BAC20400FA2DA1 /* we_icons */ = {
 			isa = PBXGroup;
 			children = (
+				0E0FD03718BC05D300FA2DA1 /* undo_arrow_icon.png */,
 				0E0FD01F18BAE26200FA2DA1 /* messaged_icon.png */,
 				0E0FD02118BAE6DD00FA2DA1 /* social_icon.png */,
 				0E0FD03118BAEFF500FA2DA1 /* we.png */,
@@ -234,6 +240,15 @@
 				0E0FD01618BAC1FC00FA2DA1 /* besties_icon.png */,
 			);
 			name = we_icons;
+			sourceTree = "<group>";
+		};
+		0E0FD03618BBEAFD00FA2DA1 /* Flow Layout */ = {
+			isa = PBXGroup;
+			children = (
+				0E0FD03318BB10D000FA2DA1 /* LXReorderableCollectionViewFlowLayout.h */,
+				0E0FD03418BB10D000FA2DA1 /* LXReorderableCollectionViewFlowLayout.m */,
+			);
+			name = "Flow Layout";
 			sourceTree = "<group>";
 		};
 		0E1B9C3918B9998000FB8CF8 /* greyicons */ = {
@@ -320,6 +335,7 @@
 				0EFD7A87189DD9980088B675 /* Controller */,
 				0E03032418B809A900BF97EF /* IQDatePicker */,
 				0E3DE18A18AB44AA001C278B /* M13 */,
+				0E0FD03618BBEAFD00FA2DA1 /* Flow Layout */,
 				0E3DE18918AB4465001C278B /* AddressBook */,
 				0EFD7A7F189D8AF80088B675 /* Images.xcassets */,
 				0EFD7A46189CA9370088B675 /* Supporting Files */,
@@ -516,6 +532,7 @@
 				0E0FD01718BAC1FC00FA2DA1 /* besties_icon.png in Resources */,
 				0E1B9C3518B9997900FB8CF8 /* closed_mail_icon_grey.png in Resources */,
 				0E3DE18118AB43DE001C278B /* LICENSE.txt in Resources */,
+				0E0FD03818BC05D300FA2DA1 /* undo_arrow_icon.png in Resources */,
 				0E0FD01518BAB5D200FA2DA1 /* twitter_icon.png in Resources */,
 				0E0FD01218BAB21400FA2DA1 /* closed_mail_icon_full.png in Resources */,
 				0E3DE17718A9E255001C278B /* whiteComposeIcon.png in Resources */,
@@ -540,6 +557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E0FD03518BB10D000FA2DA1 /* LXReorderableCollectionViewFlowLayout.m in Sources */,
 				0EFD7A85189DD95B0088B675 /* HISBuddy.m in Sources */,
 				0EFD7A4C189CA9370088B675 /* main.m in Sources */,
 				0EFD7A9018A029FC0088B675 /* HISCreateBuddyViewController.m in Sources */,

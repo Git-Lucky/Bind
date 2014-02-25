@@ -16,12 +16,12 @@
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *phone;
 @property (strong, nonatomic) NSString *twitter;
-@property (nonatomic) NSInteger priority; // might be getting rid of this
+@property (nonatomic) BOOL innerCircle;
 @property (nonatomic) BOOL getsReminders;
 @property (nonatomic) CGFloat affinity;
 @property (strong, nonatomic) NSDate *dateOfBirth;
 @property (strong, nonatomic) NSString *dateOfBirthString;
-@property (strong, nonatomic) NSDate *dateOfLastInteraction;
+@property (strong, nonatomic) NSDate *dateOfLastCalculation;
 @property (nonatomic) BOOL hasAnimated;
 @property (nonatomic) BOOL hasChanged;
 @property (strong, nonatomic) NSString *buddyID;

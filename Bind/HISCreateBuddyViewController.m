@@ -40,7 +40,6 @@
 @property (strong, nonatomic) IBOutlet HISFormTableViewCell *birthdayCell;
 @property (weak, nonatomic) IBOutlet UITextField *birthdayTextField;
 @property (strong, nonatomic) IBOutlet HISSwitchTableViewCell *remindersCell;
-//@property (strong ,nonatomic) HISSwitchTableViewCell *switchCell;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
 @property (strong, nonatomic) IQActionSheetPickerView *datePicker;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -85,9 +84,6 @@
     self.formTableView.dataSource = self;
     
     [self setTapGestureToDismissKeyboard];
-    
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -141,8 +137,6 @@
 
 - (IBAction)startPicker:(id)sender {
     
-//    if (!self.buddy.imagePath) {
-    
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
             UIActionSheet *picChoice = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera", @"Photo Library", nil];
             [picChoice showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
@@ -150,7 +144,6 @@
             UIActionSheet *picChoice = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", nil];
             [picChoice showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
         }
-//    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -174,10 +167,8 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     
-//    if ([info objectForKey:UIImagePickerControllerSourceTypeCamera]) {
-//        <#statements#>
-//    }
     ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
     [library writeImageToSavedPhotosAlbum:editedImage.CGImage orientation:(ALAssetOrientation)editedImage.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error )
      {
@@ -573,8 +564,9 @@
             self.buddyToAdd.twitter = self.twitterTextField.text;
             self.buddyToAdd.getsReminders = self.
             self.buddyToAdd.affinity = .75;
-            self.buddyToAdd.dateOfLastInteraction = [NSDate date];
+            self.buddyToAdd.dateOfLastCalculation = [NSDate date];
             self.buddyToAdd.hasChanged = YES;
+            self.buddyToAdd.innerCircle = self.remindersCell.remindersSwitch.isOn;
             
             [self.localNotificationController scheduleNotificationsForBuddy:self.buddyToAdd];
             

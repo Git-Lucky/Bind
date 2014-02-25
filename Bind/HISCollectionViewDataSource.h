@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LXReorderableCollectionViewFlowLayout.h"
 
-@interface HISCollectionViewDataSource : NSObject <UICollectionViewDataSource>
+@interface HISCollectionViewDataSource : NSObject <UICollectionViewDataSource, LXReorderableCollectionViewDataSource>
 
 
 @property (strong, nonatomic) NSMutableArray *buddies;

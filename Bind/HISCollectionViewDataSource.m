@@ -85,6 +85,12 @@
     return self.buddies.count;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath willMoveToIndexPath:(NSIndexPath *)toIndexPath {
+    id object = [self.buddies objectAtIndex:fromIndexPath.item];
+    [self.buddies removeObjectAtIndex:fromIndexPath.item];
+    [self.buddies insertObject:object atIndex:toIndexPath.item];
+}
+
 + (void)makeRoundView:(UIView *)view
 {
     view.layer.cornerRadius = view.frame.size.width / 2;
@@ -118,7 +124,7 @@
     //loop through all objects and update affinity value
     NSDate *now = [NSDate date];
     for (HISBuddy *buddy in unarchivedArray) {
-        if (buddy.dateOfLastInteraction) {
+        if (buddy.dateOfLastCalculation) {
 
 //            NSDateComponents *components = [[NSDateComponents alloc]init];
 //            [components setDay:1];
@@ -126,12 +132,12 @@
 //            [components setYear:2014];
 //            NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 //            NSDate *date = [cal dateFromComponents:components];
-//            buddy.dateOfLastInteraction = date;
+//            buddy.dateOfLastCalculation = date;
             
-            NSDate *lastInteraction = buddy.dateOfLastInteraction;
+            NSDate *lastInteraction = buddy.dateOfLastCalculation;
             NSInteger daysBetween = [HISCollectionViewDataSource daysBetween:lastInteraction and:now];
             
-            NSLog(@"Affinity before %.2f, date: %@", buddy.affinity, buddy.dateOfLastInteraction);
+            NSLog(@"Affinity before %.2f, date: %@", buddy.affinity, buddy.dateOfLastCalculation);
             NSLog(@"days between %ld", (long)daysBetween);
             if (daysBetween > 0) {
                 float percentLost = (CGFloat)daysBetween/100.f;
@@ -139,8 +145,8 @@
                 if (buddy.affinity < 0) {
                     buddy.affinity = 0.05;
                 }
-                buddy.dateOfLastInteraction = now;
-                NSLog(@"Affinity After %.2f, date: %@", buddy.affinity, buddy.dateOfLastInteraction);
+                buddy.dateOfLastCalculation = now;
+                NSLog(@"Affinity After %.2f, date: %@", buddy.affinity, buddy.dateOfLastCalculation);
             }
             
         }
