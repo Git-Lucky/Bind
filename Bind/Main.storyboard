@@ -43,14 +43,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U1Q-84-oic">
+                                <rect key="frame" x="279" y="24" width="33" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xCs-Em-vfA">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <collectionViewLayout key="collectionViewLayout" id="mT7-5u-bGR" customClass="LXReorderableCollectionViewFlowLayout"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="Cell" reuseIdentifier="Cell" id="OfC-Et-7Yz" customClass="HISCVCell">
-                                        <rect key="frame" x="0.0" y="64" width="105" height="126"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="105" height="126"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="105" height="126"/>
@@ -101,6 +106,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="xCs-Em-vfA" id="L4a-wU-lDq"/>
+                        <outlet property="plusBorder" destination="U1Q-84-oic" id="Auy-Zt-ldR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fnZ-8r-IVK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -120,7 +126,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U9h-M8-59c">
-                                <rect key="frame" x="24" y="320" width="60" height="82"/>
+                                <rect key="frame" x="24" y="356" width="60" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvG-fg-6lp">
@@ -142,7 +148,7 @@
                                 </subviews>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xhg-ap-Ofo">
-                                <rect key="frame" x="94" y="355" width="60" height="82"/>
+                                <rect key="frame" x="94" y="391" width="60" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="91L-04-2xm">
@@ -165,7 +171,7 @@
                                 </subviews>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Suv-YE-vNB">
-                                <rect key="frame" x="167" y="352" width="60" height="82"/>
+                                <rect key="frame" x="167" y="388" width="60" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4e-gC-0cv">
@@ -189,7 +195,7 @@
                                 </subviews>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oa4-I9-P2U">
-                                <rect key="frame" x="238" y="320" width="60" height="82"/>
+                                <rect key="frame" x="238" y="356" width="60" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OVx-Xc-oEM">
@@ -212,14 +218,21 @@
                                 </subviews>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pzk-ms-vBT" customClass="M13ProgressViewPie">
-                                <rect key="frame" x="19" y="66" width="282" height="282"/>
+                                <rect key="frame" x="19" y="102" width="282" height="282"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uXY-Nh-wy6">
-                                <rect key="frame" x="35" y="82" width="250" height="250"/>
+                                <rect key="frame" x="35" y="118" width="250" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ock-A1-gPj">
+                                <rect key="frame" x="20" y="54" width="280" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="30"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.47058826684951782" green="0.89019614458084106" blue="0.99215692281723022" alpha="1" colorSpace="deviceRGB"/>
                     </view>
@@ -239,6 +252,7 @@
                         <outlet property="progressViewPie" destination="Pzk-ms-vBT" id="AgY-iI-MTi"/>
                         <outlet property="textMessageButton" destination="91L-04-2xm" id="UH2-ut-xMD"/>
                         <outlet property="textView" destination="Xhg-ap-Ofo" id="ENh-aL-sFC"/>
+                        <outlet property="titleLabel" destination="ock-A1-gPj" id="DPa-y4-ojc"/>
                         <outlet property="tweetView" destination="Suv-YE-vNB" id="MTB-XI-M4I"/>
                         <outlet property="twitterButton" destination="D4e-gC-0cv" id="5wR-6h-1gn"/>
                         <outletCollection property="actionLabels" destination="fj8-Xr-ad9" id="AeE-jP-VTZ"/>
@@ -282,7 +296,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UnE-cK-UJK">
-                                        <rect key="frame" x="58" y="223" width="204" height="30"/>
+                                        <rect key="frame" x="58" y="231" width="204" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                         <state key="normal" title="+ Import from Contacts">
@@ -307,7 +321,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="37" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="QS6-Sl-xgb">
-                                        <rect key="frame" x="20" y="261" width="280" height="239"/>
+                                        <rect key="frame" x="20" y="276" width="280" height="239"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <sections>
                                             <tableViewSection id="1fd-X2-t13">
@@ -458,14 +472,14 @@
                                         </sections>
                                     </tableView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="*correct year optional" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="US3-ex-6ZA">
-                                        <rect key="frame" x="206" y="439" width="102" height="21"/>
+                                        <rect key="frame" x="206" y="451" width="102" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="9"/>
                                         <color key="textColor" red="0.13813376913265307" green="0.13813376913265307" blue="0.13813376913265307" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Rp-aI-Inl">
-                                        <rect key="frame" x="58" y="423" width="242" height="36"/>
+                                        <rect key="frame" x="58" y="437" width="242" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -474,24 +488,28 @@
                                             <action selector="datePickerButton:" destination="91V-ve-NVq" eventType="touchUpInside" id="chI-Od-UD6"/>
                                         </connections>
                                     </button>
-                                    <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ZW-MW-tnS">
-                                        <rect key="frame" x="0.0" y="21" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <items>
-                                            <navigationItem id="PdX-bi-qhg">
-                                                <barButtonItem key="leftBarButtonItem" title="Cancel" id="wha-Ht-ANn">
-                                                    <connections>
-                                                        <action selector="cancel:" destination="91V-ve-NVq" id="thZ-JR-hSX"/>
-                                                    </connections>
-                                                </barButtonItem>
-                                                <barButtonItem key="rightBarButtonItem" title="Done" id="trN-W0-Kxx">
-                                                    <connections>
-                                                        <segue destination="5wX-N3-0Cs" kind="unwind" identifier="addedFriend" unwindAction="addedFriend:" id="fqE-7R-swj"/>
-                                                    </connections>
-                                                </barButtonItem>
-                                            </navigationItem>
-                                        </items>
-                                    </navigationBar>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="twy-N3-Q1H">
+                                        <rect key="frame" x="0.0" y="23" width="84" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancel:" destination="91V-ve-NVq" eventType="touchUpInside" id="8wl-F5-thW"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Acr-XD-SmD">
+                                        <rect key="frame" x="246" y="23" width="77" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Done">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="5wX-N3-0Cs" kind="unwind" unwindAction="addedFriend:" id="n8t-6R-Vha"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -547,12 +565,12 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YuZ-Lu-cXQ" customClass="M13ProgressViewPie">
-                                        <rect key="frame" x="76" y="68" width="177" height="177"/>
+                                        <rect key="frame" x="76" y="54" width="177" height="177"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aOr-4W-Jvn">
-                                        <rect key="frame" x="141" y="107" width="46" height="30"/>
+                                        <rect key="frame" x="141" y="93" width="46" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -562,15 +580,15 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dkp-dq-vmR">
-                                        <rect key="frame" x="84" y="77" width="160" height="160"/>
+                                        <rect key="frame" x="84" y="63" width="160" height="160"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="syZ-g8-ngK">
-                                        <rect key="frame" x="84" y="77" width="160" height="160"/>
+                                        <rect key="frame" x="84" y="63" width="160" height="160"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KTk-qR-ncY">
-                                        <rect key="frame" x="84" y="77" width="160" height="160"/>
+                                        <rect key="frame" x="84" y="63" width="160" height="160"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
@@ -604,7 +622,7 @@
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="37" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="KGy-6F-2t2">
-                                        <rect key="frame" x="22" y="253" width="280" height="239"/>
+                                        <rect key="frame" x="22" y="250" width="280" height="239"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <sections>
                                             <tableViewSection id="biw-kg-TDF">
@@ -623,7 +641,7 @@
                                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                                                                     <connections>
-                                                                        <outlet property="delegate" destination="91V-ve-NVq" id="Msj-05-Dll"/>
+                                                                        <outlet property="delegate" destination="MgP-On-bRh" id="AtV-VC-iew"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -647,7 +665,7 @@
                                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="phonePad"/>
                                                                     <connections>
-                                                                        <outlet property="delegate" destination="91V-ve-NVq" id="NQV-fP-hUm"/>
+                                                                        <outlet property="delegate" destination="MgP-On-bRh" id="70U-8L-04O"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -671,7 +689,7 @@
                                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                                                                     <connections>
-                                                                        <outlet property="delegate" destination="91V-ve-NVq" id="Cyp-mc-2CT"/>
+                                                                        <outlet property="delegate" destination="MgP-On-bRh" id="YY6-oU-Mf0"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -695,7 +713,7 @@
                                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="twitter"/>
                                                                     <connections>
-                                                                        <outlet property="delegate" destination="91V-ve-NVq" id="PZZ-ce-rzI"/>
+                                                                        <outlet property="delegate" destination="MgP-On-bRh" id="2Tx-1Y-IW9"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -718,6 +736,9 @@
                                                                     <color key="textColor" red="0.0090680803571429047" green="0.0090680803571429047" blue="0.0090680803571429047" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                                                     <textInputTraits key="textInputTraits"/>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="MgP-On-bRh" id="GT1-W1-T4c"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                         </tableViewCellContentView>
@@ -761,6 +782,35 @@
                                         <color key="textColor" red="0.1381337691" green="0.1381337691" blue="0.1381337691" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hPa-SL-m7w">
+                                        <rect key="frame" x="9" y="25" width="62" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancel:" destination="MgP-On-bRh" eventType="touchUpInside" id="nAL-Rg-GUv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Txn-Nk-gvC">
+                                        <rect key="frame" x="262" y="31" width="46" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngP-rG-V66">
+                                        <rect key="frame" x="257" y="25" width="57" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Save">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveButton:" destination="MgP-On-bRh" eventType="touchUpInside" id="cDe-tI-ncd"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SwV-Wh-qvf">
@@ -774,24 +824,6 @@
                                     <action selector="datePickerButton:" destination="MgP-On-bRh" eventType="touchUpInside" id="ddd-kX-hac"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E4u-nC-dU9">
-                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem id="sJh-1T-ZtF">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="yzP-Ow-Fmq">
-                                            <connections>
-                                                <action selector="cancel:" destination="MgP-On-bRh" id="KmG-m8-BBq"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Save" id="bLc-1A-VzQ">
-                                            <connections>
-                                                <action selector="saveButton:" destination="MgP-On-bRh" id="On4-67-hHC"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" red="0.45219659625696573" green="0.88978141998851923" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>

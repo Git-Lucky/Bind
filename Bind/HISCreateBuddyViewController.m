@@ -76,7 +76,7 @@
     [self configureTableView:self.formTableView];
     
     [self processAndDisplayBackgroundImage:backgroundImage];
-
+    
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
     
     self.scrollView.delegate = self;
@@ -251,24 +251,51 @@
         fullName = @"";
     }
     
-     self.nameTextField.text = fullName;
+    self.nameTextField.text = fullName;
+    self.nameTextField.textColor = [UIColor blackColor];
     
     NSString* phone = nil;
     ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
     if (ABMultiValueGetCount(phoneNumbers) > 0) {
         phone = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
         self.phoneTextField.text = phone;
+        self.phoneTextField.textColor = [UIColor blackColor];
+    } else {
+        self.phoneTextField.text = @"";
     }
         
     ABMutableMultiValueRef eMail  = ABRecordCopyValue(person, kABPersonEmailProperty);
     if(ABMultiValueGetCount(eMail) > 0) {
         eMail = (__bridge ABMutableMultiValueRef)((__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(eMail, 0));
         self.emailTextField.text = (__bridge NSString *)(eMail);
+        self.emailTextField.textColor = [UIColor blackColor];
+    } else {
+        self.emailTextField.text = @"";
     }
     
     NSData *imgData = (__bridge_transfer NSData *)ABPersonCopyImageData(person);
-    
     UIImage *image = [UIImage imageWithData:imgData];
+    UIImage *tempImage = nil;
+    
+    NSLog(@"image height %f", image.size.height);
+    
+    if (image.size.height > 1000 || image.size.width > 1000) {
+        CGSize targetSize = CGSizeMake(image.size.width/6, image.size.height/5);
+        UIGraphicsBeginImageContext(targetSize);
+        
+        CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+        thumbnailRect.origin = CGPointMake(0, 0);
+        thumbnailRect.size.width = targetSize.width;
+        thumbnailRect.size.height = targetSize.height;
+        
+        [image drawInRect:thumbnailRect];
+        
+        tempImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        image = tempImage;
+    }
     
     if (image) {
         self.buddyToAdd.pic = image;
@@ -279,6 +306,13 @@
         self.imagePicker.layer.borderWidth = 0;
         
         [HISCollectionViewDataSource makeRoundView:self.imageView];
+    } else {
+        self.buddyToAdd.pic = nil;
+        self.imageView.image = nil;
+        self.buddyToAdd.imagePath = nil;
+        self.imagePicker.layer.borderColor = [UIColor colorWithWhite:0.976 alpha:1.000].CGColor;
+        self.imagePicker.layer.borderWidth = 2;
+        self.imagePicker.layer.cornerRadius = self.imagePicker.layer.frame.size.width / 2;
     }
 }
 
@@ -506,50 +540,46 @@
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-    if ([identifier isEqualToString:@"addedFriend"]) {
-        if (![self.nameTextField.text length] && ![self.phoneTextField.text length]) {
-            self.nameTextField.text = @"Name Required";
-            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-            self.phoneTextField.text = @"Phone Required";
-            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-            return NO;
-        } else if (![self.phoneTextField.text length]) {
-            self.phoneTextField.text = @"Phone Required";
-            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-            return NO;
-        } else if (![self.nameTextField.text length]) {
-            self.nameTextField.text = @"Name Required";
-            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-            return NO;
-        } else if ([self.nameTextField.text isEqualToString:@"Name Required"]) {
-            return NO;
-        } else if ([self.nameTextField.text isEqualToString:@"Phone Required"]) {
-            return NO;
-        }else {
-            return YES;
-        }
+    if (![self.nameTextField.text length] && ![self.phoneTextField.text length]) {
+        self.nameTextField.text = @"Name Required";
+        self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+        self.phoneTextField.text = @"Phone Required";
+        self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+        return NO;
+    } else if (![self.phoneTextField.text length]) {
+        self.phoneTextField.text = @"Phone Required";
+        self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+        return NO;
+    } else if (![self.nameTextField.text length]) {
+        self.nameTextField.text = @"Name Required";
+        self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+        return NO;
+    } else if ([self.nameTextField.text isEqualToString:@"Name Required"]) {
+        return NO;
+    } else if ([self.nameTextField.text isEqualToString:@"Phone Required"]) {
+        return NO;
+    }else {
+        return YES;
     }
     return NO;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"addedFriend"]) {
-        if (self.buddyToAdd) {
-            self.buddyToAdd.name = self.nameTextField.text;
-            self.buddyToAdd.phone = self.phoneTextField.text;
-            self.buddyToAdd.email = self.emailTextField.text;
-            self.buddyToAdd.twitter = self.twitterTextField.text;
-            self.buddyToAdd.getsReminders = self.
-            self.buddyToAdd.affinity = .75;
-            self.buddyToAdd.dateOfLastCalculation = [NSDate date];
-            self.buddyToAdd.hasChanged = YES;
-            self.buddyToAdd.innerCircle = self.remindersCell.remindersSwitch.isOn;
-            
-            [self.localNotificationController scheduleNotificationsForBuddy:self.buddyToAdd];
-            
-            [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
-        }
+    if (self.buddyToAdd) {
+        self.buddyToAdd.name = self.nameTextField.text;
+        self.buddyToAdd.phone = self.phoneTextField.text;
+        self.buddyToAdd.email = self.emailTextField.text;
+        self.buddyToAdd.twitter = self.twitterTextField.text;
+        self.buddyToAdd.getsReminders = self.
+        self.buddyToAdd.affinity = .75;
+        self.buddyToAdd.dateOfLastCalculation = [NSDate date];
+        self.buddyToAdd.hasChanged = YES;
+        self.buddyToAdd.innerCircle = self.remindersCell.remindersSwitch.isOn;
+        
+        [self.localNotificationController scheduleNotificationsForBuddy:self.buddyToAdd];
+        
+        [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
     }
 }
 

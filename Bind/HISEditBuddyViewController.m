@@ -14,7 +14,7 @@
 #import "HISSwitchTableViewCell.h"
 #import "HISLocalNotificationController.h"
 
-@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,UINavigationControllerDelegate>
+@interface HISEditBuddyViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *currentImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *editedImageView;
@@ -75,7 +75,7 @@
     [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
 
     [self processAndDisplayBackgroundImage:backgroundImage];
-    
+
     self.scrollView.delegate = self;
     self.formTableView.delegate = self;
     self.formTableView.dataSource = self;
@@ -186,14 +186,24 @@
     }
     self.editedBuddy.innerCircle = self.remindersCell.remindersSwitch.isOn;
     
-    HISLocalNotificationController *notifications = [[HISLocalNotificationController alloc] init];
-    
-    [notifications cancelNotificationsForBuddy:self.buddy];
-    [notifications scheduleNotificationsForBuddy:self.editedBuddy];
-
-    [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
-    
-    [self performSegueWithIdentifier:@"editedBuddy" sender:self];
+    if (![self.nameTextField.text length] && ![self.phoneTextField.text length]) {
+        self.nameTextField.text = @"Name Required";
+        self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+        self.phoneTextField.text = @"Phone Required";
+        self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+    } else if (![self.phoneTextField.text length]) {
+        self.phoneTextField.text = @"Phone Required";
+        self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+    } else if (![self.nameTextField.text length]) {
+        self.nameTextField.text = @"Name Required";
+        self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+    } else {
+        HISLocalNotificationController *notifications = [[HISLocalNotificationController alloc] init];
+        [notifications cancelNotificationsForBuddy:self.buddy];
+        [notifications scheduleNotificationsForBuddy:self.editedBuddy];
+        [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
+        [self performSegueWithIdentifier:@"editedBuddy" sender:self];
+    }
 }
 
 #pragma mark - Photo Picker
@@ -476,33 +486,33 @@
                       cancelButtonTitle:nil
                       otherButtonTitles:@"OK", nil] show];
 }
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
-    if ([identifier isEqualToString:@"editedBuddy"]) {
-        if (![self.nameTextField.text length] && ![self.phoneTextField.text length]) {
-            self.nameTextField.text = @"Name Required";
-            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-            self.phoneTextField.text = @"Phone Required";
-            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-            return NO;
-        } else if (![self.phoneTextField.text length]) {
-            self.phoneTextField.text = @"Phone Required";
-            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-            return NO;
-        } else if (![self.nameTextField.text length]) {
-            self.nameTextField.text = @"Name Required";
-            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-            return NO;
-        } else if ([self.nameTextField.text isEqualToString:@"Name Required"]) {
-            return NO;
-        } else if ([self.nameTextField.text isEqualToString:@"Phone Required"]) {
-            return NO;
-        }else {
-            return YES;
-        }
-    }
-    return NO;
-}
+// seems this only works from nav bar buttons
+//- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+//{
+//    if ([identifier isEqualToString:@"editedBuddy"]) {
+//        if (![self.nameTextField.text length] && ![self.phoneTextField.text length]) {
+//            self.nameTextField.text = @"Name Required";
+//            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+//            self.phoneTextField.text = @"Phone Required";
+//            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+//            return NO;
+//        } else if (![self.phoneTextField.text length]) {
+//            self.phoneTextField.text = @"Phone Required";
+//            self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+//            return NO;
+//        } else if (![self.nameTextField.text length]) {
+//            self.nameTextField.text = @"Name Required";
+//            self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
+//            return NO;
+//        } else if ([self.nameTextField.text isEqualToString:@"Name Required"]) {
+//            return NO;
+//        } else if ([self.nameTextField.text isEqualToString:@"Phone Required"]) {
+//            return NO;
+//        }else {
+//            return YES;
+//        }
+//    }
+//    return NO;
+//}
 
 @end

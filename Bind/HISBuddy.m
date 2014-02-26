@@ -56,7 +56,7 @@
     
     _pic = pic;
     
-    NSData *jpgData = UIImageJPEGRepresentation(_pic, .6);
+    NSData *jpgData = UIImageJPEGRepresentation(_pic, .3f);
     NSString *jpgPath = [[HISCollectionViewDataSource documentsDirectoryPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[[NSUUID UUID] UUIDString]]];
     [jpgData writeToFile:jpgPath atomically:YES];
     self.imagePath = jpgPath;

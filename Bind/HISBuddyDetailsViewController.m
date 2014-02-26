@@ -34,6 +34,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *phoneButton;
 @property (nonatomic, readwrite) CGRect phoneButtonBounds;
 @property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
@@ -49,10 +50,10 @@
 
 @property (strong, nonatomic) NSMutableArray *weMoves;
 
-@property (nonatomic) CGPoint phoneViewStart;
-@property (nonatomic) CGPoint textViewStart;
-@property (nonatomic) CGPoint tweetViewStart;
-@property (nonatomic) CGPoint emailViewStart;
+//@property (nonatomic) CGPoint phoneViewStart;
+//@property (nonatomic) CGPoint textViewStart;
+//@property (nonatomic) CGPoint tweetViewStart;
+//@property (nonatomic) CGPoint emailViewStart;
 
 
 
@@ -81,34 +82,92 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = self.buddy.name;
+//    [self renderNavBarItemBorders:self.navBackground];
+//    [self renderNavBarItemBorders:self.navBackgroundRight];
     
     [HISCollectionViewDataSource makeRoundView:self.imageView];
     
-    [self setOutletsWithBuddyDetails];
     [self processAndDisplayBackgroundImage:backgroundImage];
     
-    self.phoneButtonBounds = self.phoneButton.bounds;
-    self.phoneButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
-    self.phoneButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    [self setUpWeButtonToAnimate];
     
+//    self.phoneButtonBounds = self.phoneButton.bounds;
+//    self.phoneButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+//    self.phoneButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+ 
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    [self setOutletsWithBuddyDetails];
+    self.titleLabel.text = self.buddy.name;
+    
+    self.weMoves = nil;
+}
+
+- (void)setOutletsWithBuddyDetails
+{
+    if (self.buddy.pic) {
+        self.imageView.image = self.buddy.pic;
+    } else if (self.buddy.imagePath) {
+        self.imageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
+    } else {
+        self.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+    }
+    
+    [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
+}
+
+//- (void)renderNavBarItemBorders:(UIView *)navBackground;
+//{
+////    navBackground.layer.cornerRadius = self.navBackground.frame.size.height / 2;
+//    navBackground.layer.backgroundColor = [[UIColor clearColor] CGColor];
+//    navBackground.layer.borderColor = [[UIColor whiteColor] CGColor];
+//    navBackground.layer.borderWidth = 2;
+//}
+
+- (void)makeButtonRoundWithWhiteBorder:(UIButton *)button
+{
+    button.layer.borderWidth = 2;
+    button.layer.borderColor = [UIColor whiteColor].CGColor;
+    button.layer.cornerRadius = button.frame.size.width / 2;
+}
+
+- (void)processAndDisplayBackgroundImage:(NSString *)imageName
+{
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:imageName] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+}
+
+#pragma mark - Animations on WE button
+
+- (void)setUpWeButtonToAnimate
+{
     // RPL Animation
     _buttonsOut = NO;
     float vwMainBtnSide = 60;
     float vwMainBtnX = (self.view.frame.size.width/2) - (vwMainBtnSide/2);
-    float vwMainBtnY = (self.view.frame.size.height - vwMainBtnSide - 20); // 10 Padding
+    float vwMainBtnY = (self.view.frame.size.height - vwMainBtnSide - 10); // 10 Padding
     
     // Create "We" View
     self.vwMainBtn = [[UIView alloc]initWithFrame:CGRectMake(vwMainBtnX, vwMainBtnY, vwMainBtnSide, vwMainBtnSide)];
     self.vwMainBtn.backgroundColor = [UIColor colorWithRed:0.144 green:0.615 blue:0.801 alpha:1.000];
     self.vwMainBtn.layer.masksToBounds = YES;
     self.vwMainBtn.layer.cornerRadius = vwMainBtnSide/2;
-//    self.vwMainBtn.layer.borderWidth = 2;
+    //    self.vwMainBtn.layer.borderWidth = 2;
     
     // Create "We" Button
     UIButton *btnMain = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [btnMain setTitle:@"We" forState:UIControlStateNormal];
-//    [btnMain setTitleColor:[UIColor colorWithWhite:0.215 alpha:1.000] forState:UIControlStateNormal];
+    //    [btnMain setTitle:@"We" forState:UIControlStateNormal];
+    //    [btnMain setTitleColor:[UIColor colorWithWhite:0.215 alpha:1.000] forState:UIControlStateNormal];
     [btnMain setBackgroundImage:[UIImage imageNamed:@"we.png"] forState:UIControlStateNormal];
     [btnMain addTarget:self action:@selector(pressedMainButton:) forControlEvents:UIControlEventTouchUpInside];  // #pragma mark - selectors
     [btnMain setFrame:CGRectMake(0, 0, self.vwMainBtn.frame.size.width, self.vwMainBtn.frame.size.height)];
@@ -152,7 +211,7 @@
                                                             self.vwMainBtn.frame.origin.y,
                                                             ACTIVITIES_ICON_SIZE,
                                                             ACTIVITIES_ICON_SIZE)];
-
+    
     [self.view addSubview:self.view90o];
     
     UIButton *btn90o = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -168,7 +227,7 @@
                                                              self.vwMainBtn.frame.origin.y,
                                                              ACTIVITIES_ICON_SIZE,
                                                              ACTIVITIES_ICON_SIZE)];
-
+    
     [self.view addSubview:self.view135o];
     
     UIButton *btn135o = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -184,7 +243,7 @@
                                                              self.vwMainBtn.frame.origin.y,
                                                              ACTIVITIES_ICON_SIZE,
                                                              ACTIVITIES_ICON_SIZE)];
-
+    
     [self.view addSubview:self.view180o];
     
     UIButton *btn180o = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -197,56 +256,16 @@
     [self.view180o addSubview:btn180o];
     
     // Set starting points for the buttons under circle pic
-    self.phoneViewStart = CGPointMake(self.phoneView.frame.origin.x + self.phoneView.frame.size.width/2, self.phoneView.frame.origin.y + self.phoneView.frame.size.height/2);
-    self.textViewStart = CGPointMake(self.textView.frame.origin.x + self.textView.frame.size.width/2, self.textView.frame.origin.y + self.textView.frame.size.height/2);
-    self.tweetViewStart = CGPointMake(self.tweetView.frame.origin.x + self.tweetView.frame.size.width/2, self.tweetView.frame.origin.y + self.tweetView.frame.size.height/2);
-    self.emailViewStart = CGPointMake(self.emailView.frame.origin.x + self.emailView.frame.size.width/2, self.emailView.frame.origin.y + self.emailView.frame.size.height/2);
-
+    //    self.phoneViewStart = CGPointMake(self.phoneView.frame.origin.x + self.phoneView.frame.size.width/2, self.phoneView.frame.origin.y + self.phoneView.frame.size.height/2);
+    //    self.textViewStart = CGPointMake(self.textView.frame.origin.x + self.textView.frame.size.width/2, self.textView.frame.origin.y + self.textView.frame.size.height/2);
+    //    self.tweetViewStart = CGPointMake(self.tweetView.frame.origin.x + self.tweetView.frame.size.width/2, self.tweetView.frame.origin.y + self.tweetView.frame.size.height/2);
+    //    self.emailViewStart = CGPointMake(self.emailView.frame.origin.x + self.emailView.frame.size.width/2, self.emailView.frame.origin.y + self.emailView.frame.size.height/2);
+    
     // Add "We" View
     [self.view addSubview:self.vwMainBtn];
     
     // Dynamics
     _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
- 
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    
-    self.weMoves = nil;
-}
-
-- (void)setOutletsWithBuddyDetails
-{
-    if (self.buddy.pic) {
-        self.imageView.image = self.buddy.pic;
-    } else if (self.buddy.imagePath) {
-        self.imageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
-    } else {
-        self.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
-    }
-    
-    [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
-}
-
-- (void)makeButtonRoundWithWhiteBorder:(UIButton *)button
-{
-    button.layer.borderWidth = 2;
-    button.layer.borderColor = [UIColor whiteColor].CGColor;
-    button.layer.cornerRadius = button.frame.size.width / 2;
-}
-
-- (void)processAndDisplayBackgroundImage:(NSString *)imageName
-{
-    UIGraphicsBeginImageContext(self.view.frame.size);
-    [[UIImage imageNamed:imageName] drawInRect:self.view.bounds];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
 }
 
 #pragma mark - Action Buttons
@@ -316,30 +335,43 @@
         CGPoint pt180o = CGPointMake(self.vwMainBtn.frame.origin.x-adjacentLength-ACTIVITIES_ICON_SIZE/2+ACTIVITIES_ICON_SIZE/2 - 4, self.vwMainBtn.frame.origin.y);
         _snap180o = [[UISnapBehavior alloc] initWithItem:self.view180o snapToPoint:pt180o];
         
-        UISnapBehavior *phoneSnap = [[UISnapBehavior alloc] initWithItem:self.phoneView snapToPoint:self.imageView.center];
-        UISnapBehavior *textSnap = [[UISnapBehavior alloc] initWithItem:self.textView snapToPoint:self.imageView.center];
-        UISnapBehavior *tweetSnap = [[UISnapBehavior alloc] initWithItem:self.tweetView snapToPoint:self.imageView.center];
-        UISnapBehavior *emailSnap = [[UISnapBehavior alloc] initWithItem:self.emailView snapToPoint:self.imageView.center];
+//        UISnapBehavior *phoneSnap = [[UISnapBehavior alloc] initWithItem:self.phoneView snapToPoint:self.imageView.center];
+//        UISnapBehavior *textSnap = [[UISnapBehavior alloc] initWithItem:self.textView snapToPoint:self.imageView.center];
+//        UISnapBehavior *tweetSnap = [[UISnapBehavior alloc] initWithItem:self.tweetView snapToPoint:self.imageView.center];
+//        UISnapBehavior *emailSnap = [[UISnapBehavior alloc] initWithItem:self.emailView snapToPoint:self.imageView.center];
         
         [_snap0o setDamping:0.5];
         [_snap45o setDamping:0.5];
         [_snap90o setDamping:0.5];
         [_snap135o setDamping:0.5];
         [_snap180o setDamping:0.5];
-        [phoneSnap setDamping:1];
-        [tweetSnap setDamping:1];
-        [textSnap setDamping:1];
-        [emailSnap setDamping:1];
+//        [phoneSnap setDamping:1];
+//        [tweetSnap setDamping:1];
+//        [textSnap setDamping:1];
+//        [emailSnap setDamping:1];
         
         [_animator addBehavior:_snap0o];
         [_animator addBehavior:_snap45o];
         [_animator addBehavior:_snap90o];
         [_animator addBehavior:_snap135o];
         [_animator addBehavior:_snap180o];
-        [_animator addBehavior:phoneSnap];
-        [_animator addBehavior:textSnap];
-        [_animator addBehavior:tweetSnap];
-        [_animator addBehavior:emailSnap];
+//        [_animator addBehavior:phoneSnap];
+//        [_animator addBehavior:textSnap];
+//        [_animator addBehavior:tweetSnap];
+//        [_animator addBehavior:emailSnap];
+        
+        [UIView animateWithDuration:.2f animations:^{
+            self.phoneView.alpha = 0;
+        }];
+        [UIView animateWithDuration:.2f animations:^{
+            self.textView.alpha = 0;
+        }];
+        [UIView animateWithDuration:.2f animations:^{
+            self.tweetView.alpha = 0;
+        }];
+        [UIView animateWithDuration:.2f animations:^{
+            self.emailView.alpha = 0;
+        }];
         
         _buttonsOut = YES;
         
@@ -370,30 +402,43 @@
                                      self.vwMainBtn.frame.origin.y+ACTIVITIES_ICON_SIZE/2);
         snap180o = [[UISnapBehavior alloc] initWithItem:self.view180o snapToPoint:pt180o];
         
-        UISnapBehavior *phoneSnap = [[UISnapBehavior alloc] initWithItem:self.phoneView snapToPoint:self.phoneViewStart];
-        UISnapBehavior *textSnap = [[UISnapBehavior alloc] initWithItem:self.textView snapToPoint:self.textViewStart];
-        UISnapBehavior *tweetSnap = [[UISnapBehavior alloc] initWithItem:self.tweetView snapToPoint:self.tweetViewStart];
-        UISnapBehavior *emailSnap = [[UISnapBehavior alloc] initWithItem:self.emailView snapToPoint:self.emailViewStart];
+//        UISnapBehavior *phoneSnap = [[UISnapBehavior alloc] initWithItem:self.phoneView snapToPoint:self.phoneViewStart];
+//        UISnapBehavior *textSnap = [[UISnapBehavior alloc] initWithItem:self.textView snapToPoint:self.textViewStart];
+//        UISnapBehavior *tweetSnap = [[UISnapBehavior alloc] initWithItem:self.tweetView snapToPoint:self.tweetViewStart];
+//        UISnapBehavior *emailSnap = [[UISnapBehavior alloc] initWithItem:self.emailView snapToPoint:self.emailViewStart];
     
         [snap0oBack setDamping:0.5];
         [snap45o setDamping:0.5];
         [snap90o setDamping:0.5];
         [snap135o setDamping:0.5];
         [snap180o setDamping:0.5];
-        [phoneSnap setDamping:1];
-        [tweetSnap setDamping:1];
-        [textSnap setDamping:1];
-        [emailSnap setDamping:1];
+//        [phoneSnap setDamping:1];
+//        [tweetSnap setDamping:1];
+//        [textSnap setDamping:1];
+//        [emailSnap setDamping:1];
         
         [_animator addBehavior:snap0oBack];
         [_animator addBehavior:snap45o];
         [_animator addBehavior:snap90o];
         [_animator addBehavior:snap135o];
         [_animator addBehavior:snap180o];
-        [_animator addBehavior:phoneSnap];
-        [_animator addBehavior:textSnap];
-        [_animator addBehavior:tweetSnap];
-        [_animator addBehavior:emailSnap];
+//        [_animator addBehavior:phoneSnap];
+//        [_animator addBehavior:textSnap];
+//        [_animator addBehavior:tweetSnap];
+//        [_animator addBehavior:emailSnap];
+        
+        [UIView animateWithDuration:.3f animations:^{
+            self.phoneView.alpha = 1;
+        }];
+        [UIView animateWithDuration:.3f animations:^{
+            self.textView.alpha = 1;
+        }];
+        [UIView animateWithDuration:.3f animations:^{
+            self.tweetView.alpha = 1;
+        }];
+        [UIView animateWithDuration:.3f animations:^{
+            self.emailView.alpha = 1;
+        }];
         
         _buttonsOut = NO;
     }
@@ -590,13 +635,11 @@
         HISBuddy *editedBuddy = editBuddyViewController.editedBuddy;
         
         if (editedBuddy) {
-//            [self.dataSource.buddies removeObject:self.buddy];
-//            [self.dataSource.buddies insertObject:editedBuddy atIndex:self.indexPath.row];
             [[HISCollectionViewDataSource sharedDataSource].buddies removeObject:self.buddy];
             [[HISCollectionViewDataSource sharedDataSource].buddies insertObject:editedBuddy atIndex:self.indexPath.row];
             [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
             self.buddy = editedBuddy;
-            [self setOutletsWithBuddyDetails];
+//            [self setOutletsWithBuddyDetails];
         }
     }
 }

@@ -18,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
+@property (weak, nonatomic) IBOutlet UIView *plusBorder;
 
 @end
 
@@ -40,13 +41,16 @@
     self.collectionView.dataSource = [HISCollectionViewDataSource sharedDataSource];
     
     self.collectionView.backgroundColor = [UIColor clearColor];
-    [self processAndDisplayBackgroundImage:backgroundImage];
     
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     [self.collectionView reloadData];
+    
+    [self processAndDisplayBackgroundImage:backgroundImage];
 }
 
 - (void)processAndDisplayBackgroundImage:(NSString *)imageName
@@ -57,6 +61,15 @@
     UIGraphicsEndImageContext();
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+    
+    self.plusBorder.layer.borderWidth = 1;
+    self.plusBorder.layer.borderColor = [[UIColor clearColor]CGColor];
+    self.plusBorder.layer.backgroundColor = [[UIColor clearColor]CGColor];
+    self.plusBorder.layer.cornerRadius = self.plusBorder.frame.size.height / 2;
+    
+    [UIView animateWithDuration:1.f animations:^{
+        self.plusBorder.layer.borderColor = [[UIColor whiteColor]CGColor];
+    }];
 }
 
 #pragma mark - Navigation
