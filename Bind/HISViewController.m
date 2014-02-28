@@ -75,7 +75,6 @@
 {
     HISCVCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     
-//    cell.imageView.image = [UIImage imageNamed:@"happyfacepurp"];
     [self makeRoundView:cell];
     
     return cell;

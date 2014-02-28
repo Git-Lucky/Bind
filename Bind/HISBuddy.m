@@ -18,16 +18,18 @@
     }
     self.name = [aDecoder decodeObjectForKey:@"name"];
     self.imagePath = [aDecoder decodeObjectForKey:@"imagePath"];
-    self.twitter = [aDecoder decodeObjectForKey:@"twitter"];
+    self.hasPlaceholderImage = [aDecoder decodeBoolForKey:@"hasPlaceholderImage"];
     self.email = [aDecoder decodeObjectForKey:@"email"];
     self.phone = [aDecoder decodeObjectForKey:@"phone"];
+    self.twitter = [aDecoder decodeObjectForKey:@"twitter"];
     self.innerCircle = [aDecoder decodeBoolForKey:@"innerCircle"];
-    self.hasPlaceholderImage = [aDecoder decodeBoolForKey:@"hasPlaceholderImage"];
-    self.getsReminders = [aDecoder decodeObjectForKey:@"reminders"];
+    self.getsReminders = [aDecoder decodeBoolForKey:@"reminders"];
     self.affinity = [[aDecoder decodeObjectForKey:@"affinity"] floatValue];
     self.dateOfBirth = [aDecoder decodeObjectForKey:@"dateOfBirth"];
     self.dateOfBirthString = [aDecoder decodeObjectForKey:@"dateOfBirthString"];
     self.dateOfLastCalculation = [aDecoder decodeObjectForKey:@"date"];
+    self.hasAnimated = [aDecoder decodeBoolForKey:@"animated"];
+    self.hasChanged = [aDecoder decodeBoolForKey:@"changed"];
     self.buddyID = [aDecoder decodeObjectForKey:@"buddyID"];
     
     //might not need this one
@@ -39,15 +41,18 @@
     
     [aCoder encodeObject:self.name forKey:@"name"];
     [aCoder encodeObject:self.imagePath forKey:@"imagePath"];
-    [aCoder encodeObject:self.twitter forKey:@"twitter"];
+    [aCoder encodeBool:self.hasPlaceholderImage forKey:@"hasPlaceholderImage"];
     [aCoder encodeObject:self.email forKey:@"email"];
     [aCoder encodeObject:self.phone forKey:@"phone"];
+    [aCoder encodeObject:self.twitter forKey:@"twitter"];
     [aCoder encodeBool:self.innerCircle forKey:@"innerCircle"];
-    [aCoder encodeBool:self.hasPlaceholderImage forKey:@"hasPlaceholderImage"];
+    [aCoder encodeBool:self.getsReminders forKey:@"reminders"];
     [aCoder encodeObject:[NSNumber numberWithFloat:self.affinity] forKey:@"affinity"];
     [aCoder encodeObject:self.dateOfBirth forKey:@"dateOfBirth"];
     [aCoder encodeObject:self.dateOfBirthString forKey:@"dateOfBirthString"];
     [aCoder encodeObject:self.dateOfLastCalculation forKey:@"date"];
+    [aCoder encodeBool:self.hasAnimated forKey:@"animated"];
+    [aCoder encodeBool:self.hasChanged forKey:@"changed"];
     [aCoder encodeObject:self.buddyID forKey:@"buddyID"];
     [aCoder encodeObject:[NSNumber numberWithFloat:self.previousAffinity] forKey:@"previousAffinity"];
 }

@@ -111,7 +111,7 @@
 
 - (void)setPlaceholdersWithBuddyDetails
 {
-    [self.startPickerButton setImage:[UIImage imageNamed:@"camera_icon_full"] forState:UIControlStateNormal];
+    [self.startPickerButton setImage:[UIImage imageNamed:@"camera_icon_small"] forState:UIControlStateNormal];
     
     self.nameTextField.text = self.buddy.name;
     self.phoneTextField.text = self.buddy.phone;
@@ -125,7 +125,7 @@
     } else if (self.buddy.imagePath) {
         self.currentImageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
     } else {
-        self.currentImageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+        self.currentImageView.image = [UIImage imageNamed:@"Placeholder_female_superhero_c.png"];
     }
 }
 
@@ -366,6 +366,9 @@
         
         NSUInteger length = decimalString.length;
         BOOL hasLeadingOne = length > 0 && [decimalString characterAtIndex:0] == '1';
+        if (hasLeadingOne && range.location == 1) {
+            hasLeadingOne = NO;
+        }
         
         if (length == 0 || (length > 10 && !hasLeadingOne) || (length > 11)) {
             textField.text = decimalString;
@@ -470,6 +473,11 @@
                                                   object:nil];
     
 }
+
+//- (UIStatusBarStyle)preferredStatusBarStyle
+//{
+//    return UIStatusBarStyleLightContent;
+//}
 
 #pragma mark - Toolbar
 

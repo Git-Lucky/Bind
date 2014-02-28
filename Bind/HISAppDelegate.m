@@ -22,10 +22,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     application.applicationIconBadgeNumber = 0;
+    
     // Detect the Notification after a user taps it
     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    
     if (localNotification) {
-        
         self.dataSource = [[HISCollectionViewDataSource alloc] init];
         [[HISCollectionViewDataSource sharedDataSource] load];
         
@@ -39,22 +40,22 @@
                 break;
             }
         }
-
-        
      NSLog(@"Recieved Notification while closed - %@", localNotification);
     }
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
     return YES;
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
 	// Handle the notification when the app is running
-	NSLog(@"Recieved Notification while running %@", [notification.userInfo objectForKey:@"ID"]);
-//    application.applicationIconBadgeNumber = 0;
-//    
+    NSLog(@"Recieved Notification while running %@", [notification.userInfo objectForKey:@"ID"]);
+    application.applicationIconBadgeNumber = 0;
+       
 //    self.dataSource = [[HISCollectionViewDataSource alloc] init];
 //    [HISCollectionViewDataSource load];
 //    

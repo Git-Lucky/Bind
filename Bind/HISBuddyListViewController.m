@@ -12,6 +12,7 @@
 #import "HISEditBuddyViewController.h"
 #import "HISGetStartedViewController.h"
 #import "HISLocalNotificationController.h"
+#import "HISCreateBuddyViewController.h"
 
 
 @interface HISBuddyListViewController ()
@@ -42,8 +43,9 @@
     
     self.collectionView.backgroundColor = [UIColor clearColor];
     
+    LXReorderableCollectionViewFlowLayout *collectionViewLayout = (LXReorderableCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    collectionViewLayout.sectionInset = UIEdgeInsetsMake(25, 0, 0, 0);
 }
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -51,6 +53,13 @@
     [self.collectionView reloadData];
     
     [self processAndDisplayBackgroundImage:backgroundImage];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[HISCollectionViewDataSource sharedDataSource] saveRootObject];
 }
 
 - (void)processAndDisplayBackgroundImage:(NSString *)imageName
@@ -72,6 +81,22 @@
     }];
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    HISCollectionViewDataSource *dataSource = [HISCollectionViewDataSource sharedDataSource];
+    
+    if (indexPath.row == dataSource.buddies.count) {
+        [self performSegueWithIdentifier:@"toCreate" sender:self];
+    } else {
+        [self performSegueWithIdentifier:@"toDetails" sender:self];
+    }
+}
+
+//- (UIStatusBarStyle)preferredStatusBarStyle
+//{
+//    return UIStatusBarStyleLightContent;
+//}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -80,8 +105,10 @@
         
         NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] lastObject];
         
+        HISCollectionViewDataSource *dataSource = [HISCollectionViewDataSource sharedDataSource];
+        
         HISBuddyDetailsViewController *destVC = segue.destinationViewController;
-        HISBuddy *buddy = [[HISCollectionViewDataSource sharedDataSource].buddies objectAtIndex:indexPath.row];
+        HISBuddy *buddy = [dataSource.buddies objectAtIndex:indexPath.row];
         
         destVC.buddy = buddy;
         destVC.indexPath = indexPath;
@@ -112,7 +139,6 @@
         HISBuddy *newBuddy = createBuddy.buddyToAdd;
         
         if (newBuddy) {
-            NSLog(@"newbuddy %@", newBuddy.dateOfBirth);
             [[HISCollectionViewDataSource sharedDataSource].buddies addObject:newBuddy];
             [self.collectionView reloadData];
             

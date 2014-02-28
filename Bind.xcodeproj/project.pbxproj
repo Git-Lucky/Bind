@@ -36,10 +36,15 @@
 		0E3DE18118AB43DE001C278B /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E3DE18018AB43DE001C278B /* LICENSE.txt */; };
 		0E3DE18418AB440D001C278B /* APAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3DE18318AB440D001C278B /* APAddressBook.m */; };
 		0E3DE18818AB4461001C278B /* APContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3DE18618AB4461001C278B /* APContact.m */; };
+		0E4EBEB218BFC6AF00DD48AE /* plus_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E4EBEB018BFC6AF00DD48AE /* plus_grey.png */; };
+		0E4EBEB318BFC6AF00DD48AE /* plus_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E4EBEB118BFC6AF00DD48AE /* plus_white.png */; };
+		0E4EBEB718C00EE500DD48AE /* Placeholder_female_superhero_c.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E4EBEB618C00EE500DD48AE /* Placeholder_female_superhero_c.png */; };
+		0E4EBEB918C0101900DD48AE /* camera_icon_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E4EBEB818C0101900DD48AE /* camera_icon_small.png */; };
 		0E51592A18A4391E00B7ABE8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E51592918A4391E00B7ABE8 /* MessageUI.framework */; };
 		0E51592D18A457AB00B7ABE8 /* HISLocalNotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */; };
 		0E5A221A18ADD0840075D91B /* HISRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A221918ADD0840075D91B /* HISRootViewController.m */; };
 		0E5A222018AEFE760075D91B /* HISCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A221F18AEFE760075D91B /* HISCollectionViewLayout.m */; };
+		0E5ABEE018BF053E009E55A4 /* circle_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E5ABEDF18BF053E009E55A4 /* circle_shadow.png */; };
 		0E68951218B9B97400EF7988 /* HISSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E68951118B9B97400EF7988 /* HISSwitchTableViewCell.m */; };
 		0E8C200B18A6001200B1F52E /* facePlate.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8C200A18A6001200B1F52E /* facePlate.png */; };
 		0E8C201018A605A600B1F52E /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C200D18A605A600B1F52E /* M13ProgressView.m */; };
@@ -89,7 +94,6 @@
 		0E0239FE18AD9D93008F280D /* HISGatheredCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISGatheredCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		0E03032118B809A400BF97EF /* IQActionSheetPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQActionSheetPickerView.h; sourceTree = "<group>"; };
 		0E03032218B809A400BF97EF /* IQActionSheetPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQActionSheetPickerView.m; sourceTree = "<group>"; };
-		0E0FD00C18B9E75100FA2DA1 /* camera_icon_full */ = {isa = PBXFileReference; lastKnownFileType = file; path = camera_icon_full; sourceTree = "<group>"; };
 		0E0FD00D18BAB20900FA2DA1 /* phone_icon_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone_icon_full.png; sourceTree = "<group>"; };
 		0E0FD00F18BAB21400FA2DA1 /* chat_icon_full */ = {isa = PBXFileReference; lastKnownFileType = file; path = chat_icon_full; sourceTree = "<group>"; };
 		0E0FD01018BAB21400FA2DA1 /* closed_mail_icon_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closed_mail_icon_full.png; sourceTree = "<group>"; };
@@ -122,6 +126,10 @@
 		0E3DE18518AB4461001C278B /* APContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APContact.h; sourceTree = "<group>"; };
 		0E3DE18618AB4461001C278B /* APContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APContact.m; sourceTree = "<group>"; };
 		0E3DE18718AB4461001C278B /* APTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APTypes.h; sourceTree = "<group>"; };
+		0E4EBEB018BFC6AF00DD48AE /* plus_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus_grey.png; sourceTree = "<group>"; };
+		0E4EBEB118BFC6AF00DD48AE /* plus_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus_white.png; sourceTree = "<group>"; };
+		0E4EBEB618C00EE500DD48AE /* Placeholder_female_superhero_c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Placeholder_female_superhero_c.png; sourceTree = "<group>"; };
+		0E4EBEB818C0101900DD48AE /* camera_icon_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_icon_small.png; sourceTree = "<group>"; };
 		0E51592918A4391E00B7ABE8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0E51592B18A457AB00B7ABE8 /* HISLocalNotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISLocalNotificationController.h; sourceTree = "<group>"; };
 		0E51592C18A457AB00B7ABE8 /* HISLocalNotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISLocalNotificationController.m; sourceTree = "<group>"; };
@@ -129,6 +137,7 @@
 		0E5A221918ADD0840075D91B /* HISRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISRootViewController.m; sourceTree = "<group>"; };
 		0E5A221E18AEFE760075D91B /* HISCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISCollectionViewLayout.h; sourceTree = "<group>"; };
 		0E5A221F18AEFE760075D91B /* HISCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISCollectionViewLayout.m; sourceTree = "<group>"; };
+		0E5ABEDF18BF053E009E55A4 /* circle_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle_shadow.png; sourceTree = "<group>"; };
 		0E68951018B9B97400EF7988 /* HISSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HISSwitchTableViewCell.h; sourceTree = "<group>"; };
 		0E68951118B9B97400EF7988 /* HISSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HISSwitchTableViewCell.m; sourceTree = "<group>"; };
 		0E8C200A18A6001200B1F52E /* facePlate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facePlate.png; sourceTree = "<group>"; };
@@ -351,11 +360,15 @@
 				0EFD7A4E189CA9370088B675 /* HISAppDelegate.h */,
 				0EFD7A4F189CA9370088B675 /* HISAppDelegate.m */,
 				0E99EEEB18B2BBF8005A3DD0 /* Constants.h */,
+				0E5ABEDF18BF053E009E55A4 /* circle_shadow.png */,
 				0E0FD04618BC67B500FA2DA1 /* camera_icon_black.png */,
 				0E0FD04518BC61A200FA2DA1 /* blue_icons */,
 				0E0FD01818BAC20400FA2DA1 /* we_icons */,
 				0E0FD01318BAB21F00FA2DA1 /* whiteicons */,
-				0E0FD00C18B9E75100FA2DA1 /* camera_icon_full */,
+				0E4EBEB018BFC6AF00DD48AE /* plus_grey.png */,
+				0E4EBEB118BFC6AF00DD48AE /* plus_white.png */,
+				0E4EBEB818C0101900DD48AE /* camera_icon_small.png */,
+				0E4EBEB618C00EE500DD48AE /* Placeholder_female_superhero_c.png */,
 				0E3DE17E18AB3341001C278B /* circlebackground.jpg */,
 				0E3DE17C18A9E503001C278B /* whiteChatIcon.png */,
 				0E3DE17A18A9E3DF001C278B /* whitePhoneIcon.png */,
@@ -480,6 +493,7 @@
 				ORGANIZATIONNAME = CleverKnot;
 				TargetAttributes = {
 					0EFD7A3B189CA9370088B675 = {
+						DevelopmentTeam = A57KTL95E8;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -515,6 +529,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E5ABEE018BF053E009E55A4 /* circle_shadow.png in Resources */,
 				0EFD7A82189D967D0088B675 /* BlueGradient.png in Resources */,
 				0E0FD01C18BADB1200FA2DA1 /* gift_icon.png in Resources */,
 				0E0FD04418BC619D00FA2DA1 /* twitter_icon_blue.png in Resources */,
@@ -525,6 +540,7 @@
 				0E0FD02218BAE6DD00FA2DA1 /* social_icon.png in Resources */,
 				0EFD7A4A189CA9370088B675 /* InfoPlist.strings in Resources */,
 				0EFD7A80189D8AF80088B675 /* Images.xcassets in Resources */,
+				0E4EBEB918C0101900DD48AE /* camera_icon_small.png in Resources */,
 				0E0FD03218BAEFF500FA2DA1 /* we.png in Resources */,
 				0E0FD02018BAE26200FA2DA1 /* messaged_icon.png in Resources */,
 				0E8C200B18A6001200B1F52E /* facePlate.png in Resources */,
@@ -539,9 +555,12 @@
 				0E0FD01518BAB5D200FA2DA1 /* twitter_icon.png in Resources */,
 				0E0FD01218BAB21400FA2DA1 /* closed_mail_icon_full.png in Resources */,
 				0E0FD03F18BC619D00FA2DA1 /* bell_icon_blue.png in Resources */,
+				0E4EBEB318BFC6AF00DD48AE /* plus_white.png in Resources */,
 				0E3DE17718A9E255001C278B /* whiteComposeIcon.png in Resources */,
+				0E4EBEB718C00EE500DD48AE /* Placeholder_female_superhero_c.png in Resources */,
 				0E8C201518A6067D00B1F52E /* Main.storyboard in Resources */,
 				0E3DE17B18A9E3DF001C278B /* whitePhoneIcon.png in Resources */,
+				0E4EBEB218BFC6AF00DD48AE /* plus_grey.png in Resources */,
 				0E3DE17D18A9E503001C278B /* whiteChatIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -704,10 +723,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bind/Bind-Prefix.pch";
 				INFOPLIST_FILE = "Bind/Bind-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -717,10 +739,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bind/Bind-Prefix.pch";
 				INFOPLIST_FILE = "Bind/Bind-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

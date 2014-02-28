@@ -33,51 +33,59 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     HISCVCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     
-    HISBuddy *buddy = self.buddies[indexPath.row];
-    NSString *firstName;
-    firstName = [[buddy.name componentsSeparatedByString:@" "] firstObject];
-    
-    cell.name.text = firstName;
-
-    if (buddy.imagePath) {
-        cell.imageView.image = [UIImage imageWithContentsOfFile:buddy.imagePath];
+    if (indexPath.row < self.buddies.count) {
+        HISBuddy *buddy = self.buddies[indexPath.row];
+        
+        NSString *firstName;
+        firstName = [[buddy.name componentsSeparatedByString:@" "] firstObject];
+        cell.name.text = firstName;
+        
+        if (buddy.imagePath) {
+            cell.imageView.image = [UIImage imageWithContentsOfFile:buddy.imagePath];
+        } else {
+            cell.imageView.image = [UIImage imageNamed:@"Placeholder_female_superhero_c.png"];
+        }
+        
+        if (!buddy.hasAnimated) {
+            [cell.progressViewPie setAnimationDuration:2];
+            buddy.hasAnimated = YES;
+        } else if (buddy.hasChanged) {
+            [cell.progressViewPie setAnimationDuration:2];
+            buddy.hasChanged = NO;
+        } else {
+            [cell.progressViewPie setAnimationDuration:.01];
+        }
+            [cell.progressViewPie setProgress:buddy.previousAffinity animated:NO];
+            [cell.progressViewPie setProgress:buddy.affinity animated:YES];
+            buddy.previousAffinity = buddy.affinity;
+        
+        [HISCollectionViewDataSource makeRoundView:cell.imageView];
+        cell.backgroundColor = [UIColor clearColor];
+        cell.progressViewPie.hidden = NO;
     } else {
-        cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+        cell.name.text = @"Add Friend";
+        cell.imageView.image = [UIImage imageNamed:@"plus_white.png"];
+        [HISCollectionViewDataSource makeRoundView:cell.imageView];
+        cell.progressViewPie.hidden = YES;
+        cell.backgroundColor = [UIColor clearColor];
     }
-    
-    if (!buddy.hasAnimated) {
-        [cell.progressViewPie setAnimationDuration:2];
-        buddy.hasAnimated = YES;
-    } else if (buddy.hasChanged) {
-        [cell.progressViewPie setAnimationDuration:2];
-        buddy.hasChanged = NO;
-    } else {
-        [cell.progressViewPie setAnimationDuration:.01];
-    }
-    
-    [cell.progressViewPie setProgress:buddy.previousAffinity animated:NO];
-    [cell.progressViewPie setProgress:buddy.affinity animated:YES];
-    
-    buddy.previousAffinity = buddy.affinity;
-    
-    [HISCollectionViewDataSource makeRoundView:cell.imageView];
-    
-    cell.backgroundColor = [UIColor clearColor];
-    
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.buddies.count;
+    return self.buddies.count + 1;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath willMoveToIndexPath:(NSIndexPath *)toIndexPath {
-    id object = [self.buddies objectAtIndex:fromIndexPath.item];
-    [self.buddies removeObjectAtIndex:fromIndexPath.item];
-    [self.buddies insertObject:object atIndex:toIndexPath.item];
+    if (toIndexPath.row < self.buddies.count && fromIndexPath.row < self.buddies.count) {
+        id object = [self.buddies objectAtIndex:fromIndexPath.item];
+        [self.buddies removeObjectAtIndex:fromIndexPath.item];
+        [self.buddies insertObject:object atIndex:toIndexPath.item];
+    }
 }
 
 + (void)makeRoundView:(UIView *)view
@@ -137,7 +145,6 @@
                 buddy.dateOfLastCalculation = now;
                 NSLog(@"Affinity After %.2f, date: %@", buddy.affinity, buddy.dateOfLastCalculation);
             }
-            
         }
     }
     return unarchivedArray;

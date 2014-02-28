@@ -106,7 +106,7 @@
     if (buddy.imagePath) {
         cell.imageView.image = buddy.pic;
     } else {
-        cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+        cell.imageView.image = [UIImage imageNamed:@"Placeholder_female_superhero_c.png"];
     }
     
     return cell;

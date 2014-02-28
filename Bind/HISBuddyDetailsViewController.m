@@ -106,6 +106,9 @@
     [self setOutletsWithBuddyDetails];
     self.titleLabel.text = self.buddy.name;
     
+//    self.progressViewPie.layer.shadowOpacity = .3f;
+//    self.progressViewPie.layer.shadowOffset = CGSizeMake(-2.0f, 5.0f);
+    
     self.weMoves = nil;
 }
 
@@ -116,7 +119,7 @@
     } else if (self.buddy.imagePath) {
         self.imageView.image = [UIImage imageWithContentsOfFile:self.buddy.imagePath];
     } else {
-        self.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+        self.imageView.image = [UIImage imageNamed:@"Placeholder_female_superhero_c.png"];
     }
     
     [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
@@ -617,6 +620,11 @@
     }
     return _weMoves;
 }
+
+//- (UIStatusBarStyle)preferredStatusBarStyle
+//{
+//    return UIStatusBarStyleLightContent;
+//}
 
 #pragma mark - Navigation
 

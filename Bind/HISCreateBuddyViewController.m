@@ -84,6 +84,7 @@
     self.formTableView.dataSource = self;
     
     [self setTapGestureToDismissKeyboard];
+    
     [[UITextField appearance] setTintColor:[UIColor colorWithWhite:0.230 alpha:1.000]];
 }
 
@@ -160,6 +161,9 @@
     } else {
         return;
     }
+    
+    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
     [self presentViewController:imagePicker animated:YES completion:^{
         
     }];
@@ -238,6 +242,8 @@
 
 - (void)displayPerson:(ABRecordRef)person
 {
+    
+    //name
     NSString* firstName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonFirstNameProperty);
     NSString* lastName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonLastNameProperty);
     NSString* fullName;
@@ -254,6 +260,8 @@
     self.nameTextField.text = fullName;
     self.nameTextField.textColor = [UIColor blackColor];
     
+    
+    //phone number
     NSString* phone = nil;
     ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
     if (ABMultiValueGetCount(phoneNumbers) > 0) {
@@ -263,14 +271,22 @@
     } else {
         self.phoneTextField.text = @"";
     }
-        
-    ABMutableMultiValueRef eMail  = ABRecordCopyValue(person, kABPersonEmailProperty);
-    if(ABMultiValueGetCount(eMail) > 0) {
-        eMail = (__bridge ABMutableMultiValueRef)((__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(eMail, 0));
-        self.emailTextField.text = (__bridge NSString *)(eMail);
-        self.emailTextField.textColor = [UIColor blackColor];
+    
+    //emails
+    ABMultiValueRef  emails = ABRecordCopyValue(person, kABPersonEmailProperty);
+    NSString *emailId = (__bridge NSString *)ABMultiValueCopyValueAtIndex(emails, 0);//0 for "Home Email" and 1 for "Work Email".
+    if (emailId) {
+        self.emailTextField.text = emailId;
     } else {
         self.emailTextField.text = @"";
+    }
+    
+    //birthday
+    ABMutableMultiValueRef birthday = ABRecordCopyValue(person, kABPersonBirthdayProperty);
+    if (birthday) {
+        self.birthdayTextField.text = [NSDateFormatter localizedStringFromDate:CFBridgingRelease(birthday) dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
+    } else {
+        self.birthdayTextField.text = @"";
     }
     
     NSData *imgData = (__bridge_transfer NSData *)ABPersonCopyImageData(person);
@@ -380,6 +396,11 @@
     [self.scrollView endEditing:YES];
 }
 
+//- (UIStatusBarStyle)preferredStatusBarStyle
+//{
+//    return UIStatusBarStyleLightContent;
+//}
+
 //makes the phone field edit on the fly
 
 #pragma mark - Scroll View Behavior
@@ -428,8 +449,11 @@
         NSString *decimalString = [components componentsJoinedByString:@""];
         
         NSUInteger length = decimalString.length;
-        BOOL hasLeadingOne = length > 0 && [decimalString characterAtIndex:0] == '1';
         
+        BOOL hasLeadingOne = length > 0 && [decimalString characterAtIndex:0] == '1';
+        if (hasLeadingOne && range.location == 1) {
+            hasLeadingOne = NO;
+        }
         if (length == 0 || (length > 10 && !hasLeadingOne) || (length > 11)) {
             textField.text = decimalString;
             return NO;

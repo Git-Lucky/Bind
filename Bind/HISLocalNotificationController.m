@@ -104,7 +104,7 @@
 
 - (NSDate *)addNumberOfDays:(NSInteger)days toDate:(NSDate *)date
 {
-    return [date dateByAddingTimeInterval:10];
+    return [date dateByAddingTimeInterval:60*60*24*days];
     
 //    60*60*24*days
 }
