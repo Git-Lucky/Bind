@@ -59,6 +59,7 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
     return image;
 }
 
+
 @end
 
 @interface LXReorderableCollectionViewFlowLayout ()
@@ -503,5 +504,6 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
 - (void)setUpGestureRecognizersOnCollectionView {
     // Do nothing...
 }
+
 
 @end

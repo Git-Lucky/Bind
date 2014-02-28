@@ -10,6 +10,7 @@
 #import "HISCollectionViewDataSource.h"
 #import "HISCVCell.h"
 #import "HISBuddy.h"
+#import "HISAddFriendFooter.h"
 
 @interface HISCollectionViewDataSource ()
 
@@ -87,6 +88,28 @@
         [self.buddies insertObject:object atIndex:toIndexPath.item];
     }
 }
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *reusableView;
+    
+    if (kind == UICollectionElementKindSectionFooter) {
+        
+        HISAddFriendFooter *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"addFriendFooter" forIndexPath:indexPath];
+        
+        footer.button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+        footer.button.imageView.backgroundColor = [UIColor redColor];
+        footer.name = [[UILabel alloc] initWithFrame:CGRectMake(0, 65, 60, 30)];
+        footer.name.backgroundColor = [UIColor purpleColor];
+        
+        reusableView = footer;
+    }
+    
+    
+    return reusableView;
+}
+
+
 
 + (void)makeRoundView:(UIView *)view
 {

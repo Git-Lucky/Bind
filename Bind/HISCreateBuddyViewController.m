@@ -265,9 +265,13 @@
     NSString* phone = nil;
     ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
     if (ABMultiValueGetCount(phoneNumbers) > 0) {
-        phone = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-        self.phoneTextField.text = phone;
-        self.phoneTextField.textColor = [UIColor blackColor];
+        for (int i = 0; i < ABMultiValueGetCount(phoneNumbers); i++) {
+            phone = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, i);
+            if (phone) {
+                self.phoneTextField.text = phone;
+                self.phoneTextField.textColor = [UIColor blackColor];
+            }
+        };
     } else {
         self.phoneTextField.text = @"";
     }

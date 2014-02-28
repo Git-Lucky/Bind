@@ -13,9 +13,10 @@
 #import "HISGetStartedViewController.h"
 #import "HISLocalNotificationController.h"
 #import "HISCreateBuddyViewController.h"
+#import "HISAddFriendFooter.h"
 
 
-@interface HISBuddyListViewController ()
+@interface HISBuddyListViewController () <UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
@@ -45,7 +46,10 @@
     
     LXReorderableCollectionViewFlowLayout *collectionViewLayout = (LXReorderableCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     collectionViewLayout.sectionInset = UIEdgeInsetsMake(25, 0, 0, 0);
+    
+    [self.collectionView registerClass:[HISAddFriendFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"addFriendFooter"];
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

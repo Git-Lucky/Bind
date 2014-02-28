@@ -9,6 +9,6 @@
 #ifndef Bind_Constants_h
 #define Bind_Constants_h
 
-#define backgroundImage @"circlebackground.jpg"
+#define backgroundImage @"bluebubblesglow.jpg"
 
 #endif
