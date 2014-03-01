@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
+UIKIT_EXTERN NSString * const FlowLayoutHeaderKind;
+
 @interface LXReorderableCollectionViewFlowLayout : UICollectionViewFlowLayout <UIGestureRecognizerDelegate>
 
 @property (assign, nonatomic) CGFloat scrollingSpeed;

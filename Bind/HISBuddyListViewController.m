@@ -45,7 +45,7 @@
     self.collectionView.backgroundColor = [UIColor clearColor];
     
     LXReorderableCollectionViewFlowLayout *collectionViewLayout = (LXReorderableCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    collectionViewLayout.sectionInset = UIEdgeInsetsMake(25, 0, 0, 0);
+    collectionViewLayout.sectionInset = UIEdgeInsetsMake(35, 0, 0, 0);
     
     [self.collectionView registerClass:[HISAddFriendFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"addFriendFooter"];
 }

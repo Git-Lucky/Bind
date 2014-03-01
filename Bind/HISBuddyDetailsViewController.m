@@ -11,6 +11,7 @@
 #import "M13ProgressViewPie.h"
 #import "HISLocalNotificationController.h"
 #import <Social/Social.h>
+#import <Twitter/Twitter.h>
 
 //*****************************************
 // Icon and Animation Constants
@@ -89,6 +90,9 @@
     
     [self processAndDisplayBackgroundImage:backgroundImage];
     
+    [self makeAutoConstraintsRetainAspectRatio:self.imageView];
+    [self makeAutoConstraintsRetainAspectRatio:self.progressViewPie];
+    
     [self setUpWeButtonToAnimate];
     
 //    self.phoneButtonBounds = self.phoneButton.bounds;
@@ -138,6 +142,11 @@
     button.layer.borderWidth = 2;
     button.layer.borderColor = [UIColor whiteColor].CGColor;
     button.layer.cornerRadius = button.frame.size.width / 2;
+}
+
+- (void)makeAutoConstraintsRetainAspectRatio:(UIView *)view;
+{
+    view.frame = CGRectMake(view.center.x-view.frame.size.height/2, view.frame.origin.y, view.frame.size.height, view.frame.size.height);
 }
 
 - (void)processAndDisplayBackgroundImage:(NSString *)imageName
@@ -280,8 +289,15 @@
     phoneString = [phoneString stringByReplacingOccurrencesOfString:@")" withString:@""];
     phoneString = [phoneString stringByReplacingOccurrencesOfString:@" " withString:@""];
     phoneString = [phoneString stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    [self addAffinity:.20];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phoneString]]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phoneString]]]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phoneString]]];
+        [self addAffinity:.20];
+    } else {
+        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't have a phone!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warningAlert show];
+        return;
+    }
 }
 
 - (IBAction)tweetButton:(id)sender
@@ -292,8 +308,19 @@
                                                composeViewControllerForServiceType:SLServiceTypeTwitter];
         NSString *address = [NSString stringWithFormat:@"%@ ",self.buddy.twitter];
         [tweetSheet setInitialText:address];
-        [self presentViewController:tweetSheet animated:YES completion:nil];
+        [self presentViewController:tweetSheet animated:YES completion:^{
+            
+        }];
+        if (tweetSheet.completionHandler) {
+            [self addAffinity:.1];
+        }
+    } else {
+        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device is not setup for twitter" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warningAlert show];
+        return;
     }
+    
+
 }
 
 - (IBAction)facebookButton:(id)sender {

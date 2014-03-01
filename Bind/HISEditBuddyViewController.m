@@ -8,7 +8,6 @@
 
 #import "HISEditBuddyViewController.h"
 #import "HISCollectionViewDataSource.h"
-#import "M13ProgressViewPie.h"
 #import "IQActionSheetPickerView.h"
 #import "HISFormTableViewCell.h"
 #import "HISSwitchTableViewCell.h"
@@ -20,7 +19,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *editedImageView;
 @property (weak, nonatomic) IBOutlet UIButton *startPickerButton;
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
-@property (weak, nonatomic) IBOutlet M13ProgressViewPie *progressViewPie;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IQActionSheetPickerView *datePicker;
 @property (strong, nonatomic) IBOutlet HISFormTableViewCell *nameCell;
@@ -67,12 +65,13 @@
     
     [HISCollectionViewDataSource makeRoundView:self.currentImageView];
     [HISCollectionViewDataSource makeRoundView:self.editedImageView];
+    [HISCollectionViewDataSource makeRoundView:self.startPickerButton];
     
-    self.startPickerButton.layer.cornerRadius = self.startPickerButton.layer.frame.size.width / 2;
-    self.startPickerButton.layer.masksToBounds = YES;
+    self.currentImageView.layer.borderWidth = 2;
+    self.currentImageView.layer.borderColor = [[UIColor whiteColor] CGColor];
     
-    self.progressViewPie.backgroundRingWidth = 0;
-    [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
+    self.editedImageView.layer.borderWidth = 2;
+    self.editedImageView.layer.borderColor = [[UIColor whiteColor] CGColor];
 
     [self processAndDisplayBackgroundImage:backgroundImage];
 
@@ -84,7 +83,7 @@
     [self configureTableView:self.formTableView];
     
     self.deleteButton.backgroundColor = [UIColor redColor];
-    self.deleteButton.layer.cornerRadius = 5;
+    self.deleteButton.layer.cornerRadius = 8;
     
     [[UITextField appearance] setTintColor:[UIColor colorWithWhite:0.230 alpha:1.000]];
 }
@@ -94,6 +93,10 @@
     [super viewWillAppear:animated];
     
     [self registerForKeyboardNotifications];
+    
+    [self makeAutoConstraintsRetainAspectRatio:self.currentImageView];
+    [self makeAutoConstraintsRetainAspectRatio:self.editedImageView];
+    [self makeAutoConstraintsRetainAspectRatio:self.startPickerButton];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -107,6 +110,11 @@
 {
     tableView.layer.cornerRadius = 12;
     tableView.layer.masksToBounds = YES;
+}
+
+- (void)makeAutoConstraintsRetainAspectRatio:(UIView *)view;
+{
+    view.frame = CGRectMake(view.center.x-view.frame.size.height/2, view.frame.origin.y, view.frame.size.height, view.frame.size.height);
 }
 
 - (void)setPlaceholdersWithBuddyDetails

@@ -22,9 +22,8 @@
     UITextField *_selectedTextField;
 }
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIButton *imagePicker;
-//@property (strong, nonatomic) NSMutableArray *formCells;
+
+@property (weak, nonatomic) IBOutlet UIButton *photoPickerButton;
 @property (weak, nonatomic) IBOutlet UILabel *bestiesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *everyoneLabel;
 @property (weak, nonatomic) IBOutlet UITableView *formTableView;
@@ -69,13 +68,16 @@
     UIImage *link = [UIImage imageNamed:@"bell_icon_blue.png"];
     self.formImages = [NSArray arrayWithObjects:namebadge, phone, mail, twitter, birthday, link, nil];
     
-    self.imagePicker.layer.borderColor = [UIColor colorWithWhite:0.976 alpha:1.000].CGColor;
-    self.imagePicker.layer.borderWidth = 2;
-    self.imagePicker.layer.cornerRadius = self.imagePicker.layer.frame.size.width / 2;
+    self.datePicker.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.datePicker.layer.borderWidth = 2;
+    self.datePicker.layer.cornerRadius = self.datePicker.layer.frame.size.height / 2;
     
     [self configureTableView:self.formTableView];
     
     [self processAndDisplayBackgroundImage:backgroundImage];
+    [HISCollectionViewDataSource makeRoundView:self.photoPickerButton.imageView];
+    self.photoPickerButton.imageView.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.photoPickerButton.imageView.layer.borderWidth = 2;
     
     self.localNotificationController = [[HISLocalNotificationController alloc] init];
     
@@ -85,7 +87,7 @@
     
     [self setTapGestureToDismissKeyboard];
     
-    [[UITextField appearance] setTintColor:[UIColor colorWithWhite:0.230 alpha:1.000]];
+    [[UITextField appearance] setTintColor:[UIColor whiteColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -95,6 +97,8 @@
     [self registerForKeyboardNotifications];
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    [self makeAutoConstraintsRetainAspectRatio:self.photoPickerButton];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -114,8 +118,13 @@
 
 - (void)configureTableView:(UITableView *)tableView
 {
-    tableView.layer.cornerRadius = 12;
+    tableView.layer.cornerRadius = 8;
     tableView.layer.masksToBounds = YES;
+}
+
+- (void)makeAutoConstraintsRetainAspectRatio:(UIView *)view;
+{
+    view.frame = CGRectMake(view.center.x-view.frame.size.height/2, view.frame.origin.y, view.frame.size.height, view.frame.size.height);
 }
 
 - (void)processAndDisplayBackgroundImage:(NSString *)imageName
@@ -172,7 +181,12 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
-    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+//    self.imagePicker.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    self.buddyToAdd.pic = editedImage;
+    self.photoPickerButton.imageView.image = editedImage;
+    
+//    [HISCollectionViewDataSource makeRoundView:self.imagePicker.imageView];
     
     ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
     [library writeImageToSavedPhotosAlbum:editedImage.CGImage orientation:(ALAssetOrientation)editedImage.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error )
@@ -187,15 +201,6 @@
               NSLog(@"Error loading asset");
           }];
      }];
-    
-    self.buddyToAdd.pic = editedImage;
-    self.imageView.image = editedImage;
-    self.imageView.layer.borderWidth = 2;
-    self.imageView.layer.borderColor = [UIColor colorWithWhite:0.988 alpha:1.000].CGColor;
-    self.imagePicker.titleLabel.text = @"";
-    self.imagePicker.layer.borderWidth = 0;
-    
-    [HISCollectionViewDataSource makeRoundView:self.imageView];
     
     [self dismissViewControllerAnimated:YES completion:^{
     }];
@@ -319,20 +324,14 @@
     
     if (image) {
         self.buddyToAdd.pic = image;
-        self.imageView.image = image;
-        self.imageView.layer.borderWidth = 2;
-        self.imageView.layer.borderColor = [UIColor colorWithWhite:0.988 alpha:1.000].CGColor;
-        self.imagePicker.titleLabel.text = @"";
-        self.imagePicker.layer.borderWidth = 0;
+        self.photoPickerButton.imageView.image = image;
+//        self.imagePicker.layer.borderWidth = 2;
+//        self.imagePicker.layer.borderColor = [UIColor whiteColor].CGColor;
         
-        [HISCollectionViewDataSource makeRoundView:self.imageView];
+//        [HISCollectionViewDataSource makeRoundView:self.imagePicker];
     } else {
-        self.buddyToAdd.pic = nil;
-        self.imageView.image = nil;
-        self.buddyToAdd.imagePath = nil;
-        self.imagePicker.layer.borderColor = [UIColor colorWithWhite:0.976 alpha:1.000].CGColor;
-        self.imagePicker.layer.borderWidth = 2;
-        self.imagePicker.layer.cornerRadius = self.imagePicker.layer.frame.size.width / 2;
+        self.photoPickerButton.imageView.image = [UIImage imageNamed:@"camera_icon_small.png"];
+//        self.photoPickerButton.layer.cornerRadius = self.photoPickerButton.layer.frame.size.width / 2;
     }
 }
 

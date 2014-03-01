@@ -386,14 +386,14 @@
     [self setNeedsDisplay];
 }
 
-- (void)setFrame:(CGRect)frame
-{
-    //Keep the progress view square.
-    if (frame.size.width != frame.size.height) {
-        frame.size.height = frame.size.width;
-    }
-    [super setFrame:frame];
-}
+//- (void)setFrame:(CGRect)frame
+//{
+//    //Keep the progress view square.
+//    if (frame.size.width != frame.size.height) {
+//        frame.size.height = frame.size.width;
+//    }
+//    [super setFrame:frame];
+//}
 
 
 #pragma mark Drawing

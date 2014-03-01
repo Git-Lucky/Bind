@@ -9,6 +9,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
+NSString * const FlowLayoutHeaderKind = @"searchHeader";
+
 #define LX_FRAMES_PER_SECOND 60.0
 
 #ifndef CGGEOMETRY_LXSUPPORT_H_
@@ -139,6 +141,13 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
         layoutAttributes.hidden = YES;
     }
 }
+
+//- (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind
+//                                                                     atIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    return self.layoutInfo[BHPhotoAlbumLayoutAlbumTitleKind][indexPath];
+//}
 
 - (id<LXReorderableCollectionViewDataSource>)dataSource {
     return (id<LXReorderableCollectionViewDataSource>)self.collectionView.dataSource;
@@ -317,7 +326,7 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
              animations:^{
                  __strong typeof(self) strongSelf = weakSelf;
                  if (strongSelf) {
-                     strongSelf.currentView.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
+                     strongSelf.currentView.transform = CGAffineTransformMakeScale(1.4f, 1.4f);
                      highlightedImageView.alpha = 0.0f;
                      imageView.alpha = 1.0f;
                  }

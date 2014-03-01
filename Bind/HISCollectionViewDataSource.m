@@ -113,7 +113,7 @@
 
 + (void)makeRoundView:(UIView *)view
 {
-    view.layer.cornerRadius = view.frame.size.width / 2;
+    view.layer.cornerRadius = view.frame.size.height / 2;
     view.layer.masksToBounds = YES;
 //    view.layer.borderColor = [UIColor colorWithRed:0.940 green:0.964 blue:0.975 alpha:1.000].CGColor;
 //    view.layer.borderWidth = 0;
