@@ -14,6 +14,7 @@
 #import "HISLocalNotificationController.h"
 #import "HISCreateBuddyViewController.h"
 #import "HISAddFriendFooter.h"
+#import "HISSearchHeader.h"
 
 
 @interface HISBuddyListViewController () <UICollectionViewDelegateFlowLayout>
@@ -48,6 +49,8 @@
     collectionViewLayout.sectionInset = UIEdgeInsetsMake(35, 0, 0, 0);
     
     [self.collectionView registerClass:[HISAddFriendFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"addFriendFooter"];
+    
+    [self.collectionView registerClass:[HISSearchHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"searchbar"];
 }
 
 - (void)viewWillAppear:(BOOL)animated

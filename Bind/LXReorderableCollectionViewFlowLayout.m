@@ -142,12 +142,21 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
     }
 }
 
-//- (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind
-//                                                                     atIndexPath:(NSIndexPath *)indexPath
-//{
-//    
-//    return self.layoutInfo[BHPhotoAlbumLayoutAlbumTitleKind][indexPath];
-//}
+- (void)prepareLayout{
+    
+}
+
+- (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind
+                                                                     atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:kind withIndexPath:indexPath];
+    
+    if (kind == UICollectionElementKindSectionHeader) {
+        attributes.frame = CGRectMake(0, 0, 200, 40);
+    }
+    
+    return attributes;
+}
 
 - (id<LXReorderableCollectionViewDataSource>)dataSource {
     return (id<LXReorderableCollectionViewDataSource>)self.collectionView.dataSource;
@@ -436,7 +445,8 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
 #pragma mark - UICollectionViewLayout overridden methods
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
-    NSArray *layoutAttributesForElementsInRect = [super layoutAttributesForElementsInRect:rect];
+    
+    NSMutableArray *layoutAttributesForElementsInRect = [[super layoutAttributesForElementsInRect:rect] mutableCopy];
     
     for (UICollectionViewLayoutAttributes *layoutAttributes in layoutAttributesForElementsInRect) {
         switch (layoutAttributes.representedElementCategory) {
@@ -448,7 +458,10 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
             } break;
         }
     }
-    
+//    
+//    UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForSupplementaryViewOfKind:@"searchbar" atIndexPath:];
+//    [layoutAttributesForElementsInRect addObject:attributes];
+//    
     return layoutAttributesForElementsInRect;
 }
 

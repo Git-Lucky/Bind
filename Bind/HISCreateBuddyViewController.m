@@ -87,7 +87,7 @@
     
     [self setTapGestureToDismissKeyboard];
     
-    [[UITextField appearance] setTintColor:[UIColor whiteColor]];
+    [[UITextField appearance] setTintColor:[UIColor colorWithWhite:0.230 alpha:1.000]];
 }
 
 - (void)viewWillAppear:(BOOL)animated

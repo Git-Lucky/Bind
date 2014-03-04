@@ -11,6 +11,7 @@
 #import "HISCVCell.h"
 #import "HISBuddy.h"
 #import "HISAddFriendFooter.h"
+#import "HISSearchHeader.h"
 
 @interface HISCollectionViewDataSource ()
 
@@ -105,6 +106,12 @@
         reusableView = footer;
     }
     
+    if (kind == UICollectionElementKindSectionHeader) {
+        HISSearchHeader *searchbar = [collectionView dequeueReusableCellWithReuseIdentifier:@"searchbar" forIndexPath:indexPath];
+        
+        reusableView = searchbar;
+    }
+    
     
     return reusableView;
 }
@@ -115,8 +122,6 @@
 {
     view.layer.cornerRadius = view.frame.size.height / 2;
     view.layer.masksToBounds = YES;
-//    view.layer.borderColor = [UIColor colorWithRed:0.940 green:0.964 blue:0.975 alpha:1.000].CGColor;
-//    view.layer.borderWidth = 0;
 }
 
 - (NSMutableArray *)buddies
