@@ -21,7 +21,6 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) HISLocalNotificationController *localNotificationController;
-@property (weak, nonatomic) IBOutlet UIView *plusBorder;
 
 @end
 
@@ -46,7 +45,7 @@
     self.collectionView.backgroundColor = [UIColor clearColor];
     
     LXReorderableCollectionViewFlowLayout *collectionViewLayout = (LXReorderableCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    collectionViewLayout.sectionInset = UIEdgeInsetsMake(35, 0, 0, 0);
+    collectionViewLayout.sectionInset = UIEdgeInsetsMake(35, 5, 0, 0);
     
     [self.collectionView registerClass:[HISAddFriendFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"addFriendFooter"];
     
@@ -77,15 +76,6 @@
     UIGraphicsEndImageContext();
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:image];
-    
-    self.plusBorder.layer.borderWidth = 1;
-    self.plusBorder.layer.borderColor = [[UIColor clearColor]CGColor];
-    self.plusBorder.layer.backgroundColor = [[UIColor clearColor]CGColor];
-    self.plusBorder.layer.cornerRadius = self.plusBorder.frame.size.height / 2;
-    
-    [UIView animateWithDuration:1.f animations:^{
-        self.plusBorder.layer.borderColor = [[UIColor whiteColor]CGColor];
-    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

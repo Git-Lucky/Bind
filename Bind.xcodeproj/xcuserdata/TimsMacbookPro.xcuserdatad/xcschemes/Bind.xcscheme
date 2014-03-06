@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0EFD7A3B189CA9370088B675"
-               BuildableName = "Bind.app"
-               BlueprintName = "Bind"
+               BuildableName = "Inner Circle.app"
+               BlueprintName = "Inner Circle"
                ReferencedContainer = "container:Bind.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0EFD7A3B189CA9370088B675"
-            BuildableName = "Bind.app"
-            BlueprintName = "Bind"
+            BuildableName = "Inner Circle.app"
+            BlueprintName = "Inner Circle"
             ReferencedContainer = "container:Bind.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0EFD7A3B189CA9370088B675"
-            BuildableName = "Bind.app"
-            BlueprintName = "Bind"
+            BuildableName = "Inner Circle.app"
+            BlueprintName = "Inner Circle"
             ReferencedContainer = "container:Bind.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -80,8 +80,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0EFD7A3B189CA9370088B675"
-            BuildableName = "Bind.app"
-            BlueprintName = "Bind"
+            BuildableName = "Inner Circle.app"
+            BlueprintName = "Inner Circle"
             ReferencedContainer = "container:Bind.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
