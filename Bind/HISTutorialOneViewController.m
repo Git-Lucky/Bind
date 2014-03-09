@@ -14,10 +14,12 @@
 @interface HISTutorialOneViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *welcome;
 @property (weak, nonatomic) IBOutlet UILabel *add;
-@property (weak, nonatomic) IBOutlet UILabel *to;
+@property (weak, nonatomic) IBOutlet UILabel *friend;
+@property (weak, nonatomic) IBOutlet UILabel *started;
+@property (weak, nonatomic) IBOutlet UIView *addFriendButtonView;
+@property (weak, nonatomic) IBOutlet UIImageView *plusImageView;
+@property (weak, nonatomic) IBOutlet UIButton *addFriendButton;
 @property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *innerCircle;
-@property (weak, nonatomic) IBOutlet UIImageView *arrow;
-@property (weak, nonatomic) IBOutlet UIButton *addFriend;
 @property (weak, nonatomic) IBOutlet UIImageView *whiteCircle;
 @property (strong, nonatomic) NSArray *animationArray;
 @property (nonatomic) BOOL onScreen;
@@ -39,13 +41,16 @@
 {
     [super viewDidLoad];
     
-    [self processAndDisplayBackgroundImage:[UIImage imageNamed:@"tutorialviewintro1"]];
+    [self processAndDisplayBackgroundImage:[UIImage imageNamed:@"bluebubblesglow.jpg"]];
     
     self.welcome.alpha = 0.f;
     self.add.alpha = 0.f;
-    self.to.alpha = 0.f;
-    self.arrow.alpha = 0.f;
+    self.friend.alpha = 0.f;
+    self.started.alpha = 0.f;
     self.whiteCircle.alpha = 0.f;
+    self.addFriendButtonView.alpha = 0.f;
+    self.plusImageView.layer.cornerRadius = self.plusImageView.frame.size.width / 2;
+    self.plusImageView.layer.masksToBounds = YES;
     
     for (UILabel *letter in self.innerCircle) {
         letter.alpha = 0.f;
@@ -125,34 +130,30 @@
     
     [operationQueue addOperationWithBlock:^{
         [animator sleep:.2];
-        [animator fadeIn:self.to withDuration:.4];
-        [animator shrink:self.to withDuration:.4];
+        [animator fadeIn:self.friend withDuration:.4];
+        [animator shrink:self.friend withDuration:.4];
     }];
     
     [operationQueue addOperationWithBlock:^{
         [animator sleep:.2];
-        [animator fadeIn:self.arrow withDuration:.4];
-        [animator shrink:self.arrow withDuration:.4];
+        [animator fadeIn:self.started withDuration:.4];
+        [animator shrink:self.started withDuration:.4];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        [animator sleep:.2];
+        [animator fadeIn:self.addFriendButtonView withDuration:.4];
+        [animator shrink:self.addFriendButtonView withDuration:.4];
     }];
     
     [operationQueue addOperationWithBlock:^{
         while (self.onScreen) {
-            [animator fadeOut:self.arrow withDuration:1];
+            [animator grow:self.addFriendButtonView withDuration:1];
             [animator sleep:1];
-            [animator fadeIn:self.arrow withDuration:1];
+            [animator shrink:self.addFriendButtonView withDuration:1];
             [animator sleep:1];
         }
     }];
-    
-//    [operationQueue addOperationWithBlock:^{
-//        for (int i = 0; i < 5; i++) {
-//            [animator fadeOut:self.arrow withDuration:1];
-//            [animator sleep:1];
-//            [animator fadeIn:self.arrow withDuration:1];
-//            [animator sleep:1];
-//        }
-//    }];
-    
 }
 
 

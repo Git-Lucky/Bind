@@ -15,6 +15,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *first;
 @property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *second;
+@property (nonatomic) int stage;
+@property (strong, nonatomic) Animator *animator;
+@property (nonatomic) BOOL nextButtonOn;
 
 
 
@@ -46,11 +49,13 @@
     }
     
     self.nextButton.alpha = 0;
+    self.nextButtonOn = YES;
     
     self.nextButton.layer.cornerRadius = self.nextButton.frame.size.height / 2;
     self.nextButton.layer.borderColor = [[UIColor whiteColor] CGColor];
     self.nextButton.layer.borderWidth = 2;
     
+    self.stage = 0;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -71,12 +76,16 @@
 }
 
 - (IBAction)toContinue1:(id)sender {
-    [self continue1];
+    
+    if (self.stage == 0) {
+        [self continue1];
+//        self.stage ++;
+    }
 }
 
 - (void)showIntro
 {
-    Animator *animator = [[Animator alloc] init];
+    self.animator = [[Animator alloc] init];
     
     AnimatorOperationQueue *operationQueue = [AnimatorOperationQueue sharedOperationQueue];
     
@@ -84,37 +93,34 @@
     
     [operationQueue addOperationWithBlock:^{
         for (UILabel *sentence in self.first) {
-            [animator sleep:.5];
-            [animator fadeIn:sentence withDuration:.4];
-            [animator shrink:sentence withDuration:.4];
+            [self.animator sleep:.5];
+            [self.animator fadeIn:sentence withDuration:.4];
+            [self.animator shrink:sentence withDuration:.4];
         }
     }];
     
     [operationQueue addOperationWithBlock:^{
-        [animator sleep:1];
+        [self.animator sleep:1];
     }];
     
     [operationQueue addOperationWithBlock:^{
-        [animator sleep:.5];
-        [animator fadeIn:self.nextButton withDuration:.4];
-        [animator shrink:self.nextButton withDuration:.4];
+        [self.animator sleep:.5];
+        [self.animator fadeIn:self.nextButton withDuration:.4];
+        [self.animator shrink:self.nextButton withDuration:.4];
     }];
     
     [operationQueue addOperationWithBlock:^{
-        while (true) {
-            [animator grow:self.nextButton withDuration:1];
-            [animator sleep:1];
-            [animator shrink:self.nextButton withDuration:1];
-            [animator sleep:1];
+        while (self.nextButtonOn) {
+            [self.animator grow:self.nextButton withDuration:1];
+            [self.animator sleep:1];
+            [self.animator shrink:self.nextButton withDuration:1];
+            [self.animator sleep:1];
         }
     }];
-
 }
 
 - (void)continue1
 {
-    Animator *animator = [[Animator alloc] init];
-    
     AnimatorOperationQueue *operationQueue = [AnimatorOperationQueue sharedOperationQueue];
     
     [operationQueue cancelAllOperations];
@@ -122,12 +128,38 @@
     [operationQueue setMaxConcurrentOperationCount:1];
     
     [operationQueue addOperationWithBlock:^{
-        for (UILabel *sentence in self.first) {
-            [animator sleep:.5];
-            [animator fadeIn:sentence withDuration:.4];
-            [animator shrink:sentence withDuration:.4];
+        for (UILabel *label in self.first) {
+            [self.animator fadeOut:label withDuration:.2];
         }
     }];
+    
+    [operationQueue addOperationWithBlock:^{
+        for (UILabel *sentence in self.first) {
+            [self.animator sleep:.5];
+            [self.animator fadeIn:sentence withDuration:.4];
+            [self.animator shrink:sentence withDuration:.4];
+        }
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        [self.animator sleep:1];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        [self.animator sleep:.5];
+        [self.animator fadeIn:self.nextButton withDuration:.4];
+        [self.animator shrink:self.nextButton withDuration:.4];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        while (true) {
+            [self.animator grow:self.nextButton withDuration:1];
+            [self.animator sleep:1];
+            [self.animator shrink:self.nextButton withDuration:1];
+            [self.animator sleep:1];
+        }
+    }];
+
 }
 
 @end

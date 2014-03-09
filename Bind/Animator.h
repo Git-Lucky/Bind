@@ -14,6 +14,8 @@
 
 - (void)fadeOut:(UIView *)view withDuration:(double)duration;
 
+- (void)repeatFade:(UIView *)view withDuration:(double)duration;
+
 - (void)shrink:(UIView *)view withDuration:(double)duration;
 
 - (void)grow:(UIView *)view withDuration:(double)duration;
