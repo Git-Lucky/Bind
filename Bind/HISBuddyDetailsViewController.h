@@ -10,11 +10,14 @@
 #import <MessageUI/MessageUI.h>
 #import "HISBuddy.h"
 #import "HISCollectionViewDataSource.h"
+#import "M13ProgressViewPie.h"
 
 @interface HISBuddyDetailsViewController : UIViewController
 
 @property (strong, nonatomic) HISBuddy *buddy;
 //@property (strong, nonatomic) HISCollectionViewDataSource *dataSource;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+@property (weak, nonatomic) IBOutlet UIImageView *buddyImageView;
+@property (weak, nonatomic) IBOutlet M13ProgressViewPie *pieImageView;
 
 @end

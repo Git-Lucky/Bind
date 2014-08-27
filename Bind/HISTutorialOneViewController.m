@@ -16,11 +16,16 @@
 @property (weak, nonatomic) IBOutlet UILabel *add;
 @property (weak, nonatomic) IBOutlet UILabel *friend;
 @property (weak, nonatomic) IBOutlet UILabel *started;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *insideCircleTextPart1;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *insideCircleTextPart2;
+@property (weak, nonatomic) IBOutlet UILabel *useWiselyLabel;
+
 @property (weak, nonatomic) IBOutlet UIView *addFriendButtonView;
 @property (weak, nonatomic) IBOutlet UIImageView *plusImageView;
 @property (weak, nonatomic) IBOutlet UIButton *addFriendButton;
 @property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *innerCircle;
 @property (weak, nonatomic) IBOutlet UIImageView *whiteCircle;
+@property (weak, nonatomic) IBOutlet UIImageView *whiteFillImageView;
 @property (strong, nonatomic) NSArray *animationArray;
 @property (nonatomic) BOOL onScreen;
 
@@ -101,6 +106,10 @@
     [operationQueue setMaxConcurrentOperationCount:1];
     
     [operationQueue addOperationWithBlock:^{
+        [animator sleep:.6];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
         [animator sleep:.5];
         [animator fadeIn:self.welcome withDuration:.4];
         [animator shrink:self.welcome withDuration:.4];
@@ -124,24 +133,50 @@
     
     [operationQueue addOperationWithBlock:^{
         [animator sleep:2];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        [animator fadeIn:self.whiteFillImageView withDuration:2];
+        [animator sleep:2];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        for (UILabel *label in self.insideCircleTextPart1) {
+            [animator fadeIn:label withDuration:.4];
+//            [animator grow:label withDuration:.4];
+        }
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        [animator sleep:2];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        for (UILabel *label in self.insideCircleTextPart2) {
+            [animator fadeIn:label withDuration:.4];
+//            [animator grow:label withDuration:.4];
+        }
+        [animator sleep:2];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        [animator fadeIn:self.useWiselyLabel withDuration:.4];
+    }];
+    
+    [operationQueue addOperationWithBlock:^{
+        [animator sleep:2];
         [animator fadeIn:self.add withDuration:.4];
         [animator shrink:self.add withDuration:.4];
-    }];
-    
-    [operationQueue addOperationWithBlock:^{
-        [animator sleep:.2];
+        
         [animator fadeIn:self.friend withDuration:.4];
         [animator shrink:self.friend withDuration:.4];
-    }];
-    
-    [operationQueue addOperationWithBlock:^{
-        [animator sleep:.2];
+        
         [animator fadeIn:self.started withDuration:.4];
         [animator shrink:self.started withDuration:.4];
     }];
     
     [operationQueue addOperationWithBlock:^{
-        [animator sleep:.2];
+        [animator sleep:1.2];
         [animator fadeIn:self.addFriendButtonView withDuration:.4];
         [animator shrink:self.addFriendButtonView withDuration:.4];
     }];

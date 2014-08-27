@@ -10,6 +10,7 @@
 #import "HISCollectionViewDataSource.h"
 #import "HISBuddy.h"
 #import "HISBuddyDetailsViewController.h"
+#import "HISTutorialOneViewController.h"
 
 @interface HISAppDelegate ()
 
@@ -47,6 +48,15 @@
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    //BOOL tutorial = FALSE;
+//    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+//                                                             bundle: nil];
+//    
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"startupTutorial"]) {
+//        HISTutorialOneViewController *viewController = [mainStoryboard instantiateViewControllerWithIdentifier: @"tutorial"];
+//        self.window.rootViewController = viewController;
+//    }
     
     return YES;
 }

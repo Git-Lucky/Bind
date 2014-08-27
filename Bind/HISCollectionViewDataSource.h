@@ -14,6 +14,7 @@
 
 @property (strong, nonatomic) NSMutableArray *buddies;
 @property (strong, nonatomic) UIImage *navBarImage;
+@property (strong, nonatomic) NSIndexPath *indexPath;
 
 + (HISCollectionViewDataSource *)sharedDataSource;
 

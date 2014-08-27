@@ -35,8 +35,9 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     HISCVCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+ 
+    cell.hidden = NO;
     
     if (indexPath.row < self.buddies.count) {
         HISBuddy *buddy = self.buddies[indexPath.row];
@@ -60,8 +61,7 @@
         } else {
             [cell.progressViewPie setAnimationDuration:.01];
         }
-            [cell.progressViewPie setProgress:buddy.previousAffinity animated:NO];
-            [cell.progressViewPie setProgress:buddy.affinity animated:YES];
+            [cell.progressViewPie setProgress:buddy.affinity animated:NO];
             buddy.previousAffinity = buddy.affinity;
         
         [HISCollectionViewDataSource makeRoundView:cell.imageView];
@@ -73,6 +73,12 @@
         [HISCollectionViewDataSource makeRoundView:cell.imageView];
         cell.progressViewPie.hidden = YES;
         cell.backgroundColor = [UIColor clearColor];
+    }
+    
+    if(self.indexPath) {
+        if(self.indexPath.row == indexPath.row) {
+            cell.hidden = YES;
+        }
     }
     return cell;
 }

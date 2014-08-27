@@ -10,4 +10,5 @@
 
 @interface HISFormTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UITextField *cellTextField;
+
 @end

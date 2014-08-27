@@ -20,6 +20,8 @@
 
 - (void)grow:(UIView *)view withDuration:(double)duration;
 
+- (void)changeBackground:(UIImageView *)view toImage:(UIImage *)image withDuration:(double)duration;
+
 - (void)sleep:(double)timeInSeconds;
 
 @end

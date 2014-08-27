@@ -21,20 +21,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IQActionSheetPickerView *datePicker;
-@property (strong, nonatomic) IBOutlet HISFormTableViewCell *nameCell;
+@property (weak, nonatomic) IBOutlet UIImageView *formBkg;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (strong, nonatomic) IBOutlet HISFormTableViewCell *phoneCell;
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
-@property (strong, nonatomic) IBOutlet HISFormTableViewCell *emailCell;
-@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
-@property (strong, nonatomic) IBOutlet HISFormTableViewCell *twitterCell;
 @property (weak, nonatomic) IBOutlet UITextField *twitterTextField;
-@property (strong, nonatomic) IBOutlet HISFormTableViewCell *birthdayCell;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *birthdayTextField;
-@property (strong, nonatomic) IBOutlet HISSwitchTableViewCell *remindersCell;
-@property (weak, nonatomic) IBOutlet UITableView *formTableView;
-@property (strong, nonatomic) NSArray *formImages;
-
+@property (weak, nonatomic) IBOutlet UISwitch *remindersSwitch;
+@property (weak, nonatomic) IBOutlet UIView *importName;
 
 @end
 
@@ -53,19 +47,19 @@
 {
     [super viewDidLoad];
     
-    UIImage *namebadge = [UIImage imageNamed:@"namebadge_icon_blue.png"];
-    UIImage *phone = [UIImage imageNamed:@"phone_icon_blue.png"];
-    UIImage *mail = [UIImage imageNamed:@"closed_mail_icon_blue.png"];
-    UIImage *twitter = [UIImage imageNamed:@"twitter_icon_blue.png"];
-    UIImage *birthday = [UIImage imageNamed:@"calendar_icon_blue.png"];
-    UIImage *link = [UIImage imageNamed:@"bell_icon_blue.png"];
-    self.formImages = [NSArray arrayWithObjects:namebadge, phone, mail, twitter, birthday, link, nil];
+//    UIImage *namebadge = [UIImage imageNamed:@"namebadge_icon_blue.png"];
+//    UIImage *phone = [UIImage imageNamed:@"phone_icon_blue.png"];
+//    UIImage *mail = [UIImage imageNamed:@"closed_mail_icon_blue.png"];
+//    UIImage *twitter = [UIImage imageNamed:@"twitter_icon_blue.png"];
+//    UIImage *birthday = [UIImage imageNamed:@"calendar_icon_blue.png"];
+//    UIImage *link = [UIImage imageNamed:@"bell_icon_blue.png"];
     
     [self setPlaceholdersWithBuddyDetails];
     
     [HISCollectionViewDataSource makeRoundView:self.currentImageView];
     [HISCollectionViewDataSource makeRoundView:self.editedImageView];
     [HISCollectionViewDataSource makeRoundView:self.startPickerButton];
+    [self makeViewRound:self.importName];
     
     self.currentImageView.layer.borderWidth = 2;
     self.currentImageView.layer.borderColor = [[UIColor whiteColor] CGColor];
@@ -76,14 +70,12 @@
     [self processAndDisplayBackgroundImage:backgroundImage];
 
     self.scrollView.delegate = self;
-    self.formTableView.delegate = self;
-    self.formTableView.dataSource = self;
     
     [self setTapGestureToDismissKeyboard];
-    [self configureTableView:self.formTableView];
     
     self.deleteButton.backgroundColor = [UIColor redColor];
-    self.deleteButton.layer.cornerRadius = 8;
+    self.deleteButton.layer.cornerRadius = 5;
+    self.formBkg.layer.cornerRadius = 5;
     
     [[UITextField appearance] setTintColor:[UIColor colorWithWhite:0.230 alpha:1.000]];
 }
@@ -126,7 +118,7 @@
     self.emailTextField.text = self.buddy.email;
     self.twitterTextField.text = self.buddy.twitter;
     self.birthdayTextField.text = self.buddy.dateOfBirthString;
-    self.remindersCell.remindersSwitch.On = self.buddy.innerCircle;
+    self.remindersSwitch.On = self.buddy.innerCircle;
     
     if (self.buddy.pic) {
         self.currentImageView.image = self.buddy.pic;
@@ -145,6 +137,10 @@
     UIGraphicsEndImageContext();
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+}
+
+- (void)makeViewRound:(UIView *)view {
+    view.layer.cornerRadius = view.frame.size.height/2;
 }
 
 - (IBAction)saveButton:(id)sender
@@ -192,17 +188,9 @@
         self.editedBuddy.dateOfBirthString = self.birthdayTextField.text;
         self.editedBuddy.dateOfBirth = self.buddy.dateOfBirth;
     }
-    self.editedBuddy.innerCircle = self.remindersCell.remindersSwitch.isOn;
+    self.editedBuddy.innerCircle = self.remindersSwitch.isOn;
     
-    if (![self.nameTextField.text length] && ![self.phoneTextField.text length]) {
-        self.nameTextField.text = @"Name Required";
-        self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-        self.phoneTextField.text = @"Phone Required";
-        self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-    } else if (![self.phoneTextField.text length]) {
-        self.phoneTextField.text = @"Phone Required";
-        self.phoneTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
-    } else if (![self.nameTextField.text length]) {
+    if (![self.nameTextField.text length]) {
         self.nameTextField.text = @"Name Required";
         self.nameTextField.textColor = [UIColor colorWithRed:1.000 green:0.453 blue:0.412 alpha:1.000];
     } else {
@@ -302,10 +290,6 @@
         textField.text = @"";
         textField.textColor = [UIColor blackColor];
     }
-    if ([textField.text isEqualToString:@"Phone Required"]) {
-        textField.text = @"";
-        textField.textColor = [UIColor blackColor];
-    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -336,13 +320,13 @@
     [self.scrollView addGestureRecognizer:tapGesture];
 }
 
-- (void)keyboardWasShown:(NSNotification *)notification {
+- (void)keyboardWillShow:(NSNotification *)notification {
     
     NSDictionary *info = [notification userInfo];
     
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
-    CGPoint tableBottomLeftPoint = CGPointMake(self.formTableView.frame.origin.x, self.formTableView.frame.origin.y + self.formTableView.frame.size.height);
+    CGPoint tableBottomLeftPoint = CGPointMake(self.formBkg.frame.origin.x, self.formBkg.frame.origin.y + self.formBkg.frame.size.height);
     
     CGRect visibleRect = self.view.frame;
     
@@ -413,55 +397,14 @@
     return 1;
 }
 
-#pragma mark - Form TableView Datasource
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell;
-    long row = indexPath.row;
-    switch (row) {
-        case 0:
-            cell = self.nameCell;
-            break;
-        case 1:
-            cell = self.phoneCell;
-            break;
-        case 2:
-            cell = self.emailCell;
-            break;
-        case 3:
-            cell = self.twitterCell;
-            break;
-        case 4:
-            cell = self.birthdayCell;
-            break;
-        case 5:
-            cell = self.remindersCell;
-            break;
-    }
-    
-    cell.imageView.image = [self.formImages objectAtIndex:indexPath.row];
-    
-    return cell;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 6;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 40;
-}
 
 #pragma mark - Keyboard Notifications
 
 - (void)registerForKeyboardNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -473,7 +416,7 @@
 - (void)deregisterFromKeyboardNotifications {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardDidHideNotification
+                                                    name:UIKeyboardWillShowNotification
                                                   object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self

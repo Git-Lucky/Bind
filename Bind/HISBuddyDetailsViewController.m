@@ -12,6 +12,9 @@
 #import "HISLocalNotificationController.h"
 #import <Social/Social.h>
 #import <Twitter/Twitter.h>
+#import "MPNotificationView.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 //*****************************************
 // Icon and Animation Constants
@@ -19,7 +22,7 @@
     const float HYPOTENUSE = 75;
 //*****************************************
 
-@interface HISBuddyDetailsViewController () <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIActionSheetDelegate>{
+@interface HISBuddyDetailsViewController () <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>{
     //Animation Vars
     UIDynamicAnimator *_animator;
     UIGravityBehavior *_gravity;
@@ -34,6 +37,7 @@
     CGPoint _pt0o_in;
 }
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollingView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *phoneButton;
@@ -48,6 +52,15 @@
 @property (weak, nonatomic) IBOutlet UIView *textView;
 @property (weak, nonatomic) IBOutlet UIView *tweetView;
 @property (weak, nonatomic) IBOutlet UIView *emailView;
+@property (weak, nonatomic) IBOutlet UITextField *inputField;
+@property (weak, nonatomic) IBOutlet UIImageView *inputFieldImage;
+@property (weak, nonatomic) IBOutlet UIImageView *inputFieldBkg;
+@property (weak, nonatomic) IBOutlet UIButton *inputFieldSaveButton;
+@property (weak, nonatomic) IBOutlet UIButton *inputFieldDismissButton;
+@property (weak, nonatomic) IBOutlet UIView *inputFieldView;
+@property (weak, nonatomic) IBOutlet UIButton *importButton;
+@property (weak, nonatomic) IBOutlet UILabel *importLabel;
+@property (nonatomic) BOOL isPhoneField;
 
 @property (strong, nonatomic) NSMutableArray *weMoves;
 
@@ -83,9 +96,6 @@
 {
     [super viewDidLoad];
     
-//    [self renderNavBarItemBorders:self.navBackground];
-//    [self renderNavBarItemBorders:self.navBackgroundRight];
-    
     [HISCollectionViewDataSource makeRoundView:self.imageView];
     
     [self processAndDisplayBackgroundImage:backgroundImage];
@@ -95,10 +105,10 @@
     
     [self setUpWeButtonToAnimate];
     
-//    self.phoneButtonBounds = self.phoneButton.bounds;
-//    self.phoneButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
-//    self.phoneButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
- 
+    self.scrollingView.delegate = self;
+    self.inputField.delegate = self;
+    [self setTapGestureToDismissKeyboard];
+    [[UITextField appearance] setTintColor:[UIColor colorWithWhite:0.230 alpha:1.000]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -107,13 +117,21 @@
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     
+    [self registerForKeyboardNotifications];
+    
     [self setOutletsWithBuddyDetails];
     self.titleLabel.text = self.buddy.name;
     
-//    self.progressViewPie.layer.shadowOpacity = .3f;
-//    self.progressViewPie.layer.shadowOffset = CGSizeMake(-2.0f, 5.0f);
-    
     self.weMoves = nil;
+    
+    [self setupContactButtons];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self deregisterFromKeyboardNotifications];
 }
 
 - (void)setOutletsWithBuddyDetails
@@ -126,16 +144,8 @@
         self.imageView.image = [UIImage imageNamed:@"Placeholder_female_superhero_c.png"];
     }
     
-    [self.progressViewPie setProgress:self.buddy.affinity animated:NO];
+    [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
 }
-
-//- (void)renderNavBarItemBorders:(UIView *)navBackground;
-//{
-////    navBackground.layer.cornerRadius = self.navBackground.frame.size.height / 2;
-//    navBackground.layer.backgroundColor = [[UIColor clearColor] CGColor];
-//    navBackground.layer.borderColor = [[UIColor whiteColor] CGColor];
-//    navBackground.layer.borderWidth = 2;
-//}
 
 - (void)makeButtonRoundWithWhiteBorder:(UIButton *)button
 {
@@ -158,6 +168,274 @@
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:image];
 }
+
+- (void)setupContactButtons
+{
+    NSString *phoneString = self.buddy.phone;
+    phoneString = [phoneString stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    phoneString = [phoneString stringByReplacingOccurrencesOfString:@")" withString:@""];
+    phoneString = [phoneString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    phoneString = [phoneString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    
+    //No Phone Number
+    if (phoneString.length < 7) {
+        [self.phoneButton setAlpha:.5];
+        [self.textMessageButton setAlpha:.5];
+        [self.phoneButton removeTarget:self action:@selector(phoneButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.phoneButton addTarget:self action:@selector(showPhoneInputField) forControlEvents:UIControlEventTouchUpInside];
+        [self.textMessageButton removeTarget:self action:@selector(textButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.textMessageButton addTarget:self action:@selector(showPhoneInputField) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+    //Valid Phone Number
+        [self.phoneButton setAlpha:1.0];
+        [self.textMessageButton setAlpha:1.0];
+        [self.phoneButton removeTarget:self action:@selector(showPhoneInputField) forControlEvents:UIControlEventTouchUpInside];
+        [self.phoneButton addTarget:self action:@selector(phoneButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.textMessageButton removeTarget:self action:@selector(showPhoneInputField) forControlEvents:UIControlEventTouchUpInside];
+        [self.textMessageButton addTarget:self action:@selector(textButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    //No Twitter name
+    if (!self.buddy.twitter) {
+        [self.twitterButton setAlpha:.5];
+        [self.twitterButton removeTarget:self action:@selector(tweetButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.twitterButton addTarget:self action:@selector(showTwitterInputField) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+    //Valid Twitter Name
+        [self.twitterButton setAlpha:1.0];
+        [self.twitterButton removeTarget:self action:@selector(showTwitterInputField) forControlEvents:UIControlEventTouchUpInside];
+        [self.twitterButton addTarget:self action:@selector(tweetButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    //No Email Address
+    if (!self.buddy.email) {
+        [self.composeMessageButton setAlpha:.5];
+        [self.composeMessageButton removeTarget:self action:@selector(emailNow:) forControlEvents:UIControlEventTouchUpInside];
+        [self.composeMessageButton addTarget:self action:@selector(showEmailInputField) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+    //Valid Email Address
+        [self.composeMessageButton setAlpha:1.0];
+        [self.composeMessageButton removeTarget:self action:@selector(showEmailInputField) forControlEvents:UIControlEventTouchUpInside];
+        [self.composeMessageButton addTarget:self action:@selector(emailNow:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    self.inputFieldBkg.layer.cornerRadius = 5;
+    self.inputFieldSaveButton.layer.cornerRadius = 5;
+    self.inputFieldDismissButton.layer.cornerRadius = 5;
+    self.importButton.layer.cornerRadius = 5;
+}
+
+- (void)toggleWeButtonAndInputField
+{
+    //We Button Showing --> Going to Input Field
+    if (!self.vwMainBtn.hidden) {
+        self.inputFieldView.hidden = NO;
+        self.inputFieldView.alpha = 0.0f;
+        self.vwMainBtn.hidden = YES;
+        self.view0o.hidden = YES;
+        self.view135o.hidden = YES;
+        self.view180o.hidden = YES;
+        self.view45o.hidden = YES;
+        self.view90o.hidden = YES;
+        [UIView animateWithDuration:0.3f delay:0 options:0 animations:^{
+            self.inputFieldView.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+        }];
+    } else {
+    //Input Field Showing --> Going to We Button
+        self.vwMainBtn.hidden = NO;
+        self.vwMainBtn.alpha = 0.0f;
+        //clears previous input
+        self.inputField.text = @"";
+        [UIView animateWithDuration:0.3f delay:0 options:0 animations:^{
+            self.inputFieldView.alpha = 0.0f;
+            self.vwMainBtn.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+            self.inputFieldView.hidden = YES;
+            self.view0o.hidden = NO;
+            self.view135o.hidden = NO;
+            self.view180o.hidden = NO;
+            self.view45o.hidden = NO;
+            self.view90o.hidden = NO;
+        }];
+    }
+}
+
+- (void)showPhoneInputField
+{
+    if (!self.vwMainBtn.hidden) {
+        [self toggleWeButtonAndInputField];
+    }
+    self.isPhoneField = YES;
+    self.inputFieldImage.image = [UIImage imageNamed:@"phone_icon_blue"];
+    self.inputField.keyboardType = UIKeyboardTypePhonePad;
+    self.inputField.placeholder = @"Phone";
+    self.importButton.hidden = NO;
+    self.importLabel.hidden = NO;
+}
+
+- (void)showTwitterInputField
+{
+    if (!self.vwMainBtn.hidden) {
+        [self toggleWeButtonAndInputField];
+    }
+    self.isPhoneField = NO;
+    self.inputFieldImage.image = [UIImage imageNamed:@"twitter_icon_blue"];
+    self.inputField.keyboardType = UIKeyboardTypeTwitter;
+    self.inputField.placeholder = @"@twitter";
+    self.importButton.hidden = YES;
+    self.importLabel.hidden = YES;
+}
+
+- (void)showEmailInputField
+{
+    if (!self.vwMainBtn.hidden) {
+        [self toggleWeButtonAndInputField];
+    }
+    self.isPhoneField = NO;
+    self.inputFieldImage.image = [UIImage imageNamed:@"closed_mail_icon_blue"];
+    self.inputField.keyboardType = UIKeyboardTypeEmailAddress;
+    self.inputField.placeholder = @"Email";
+    self.importButton.hidden = NO;
+    self.importLabel.hidden = NO;
+}
+
+#pragma mark - TextFields
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+    return NO;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+- (void)hideKeyboard
+{
+    [self.scrollingView endEditing:YES];
+}
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (self.isPhoneField) {
+        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        NSArray *components = [newString componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+        NSString *decimalString = [components componentsJoinedByString:@""];
+        
+        NSUInteger length = decimalString.length;
+        
+        BOOL hasLeadingOne = length > 0 && [decimalString characterAtIndex:0] == '1';
+        if (hasLeadingOne && range.location == 1) {
+            hasLeadingOne = NO;
+        }
+        if (length == 0 || (length > 10 && !hasLeadingOne) || (length > 11)) {
+            textField.text = decimalString;
+            return NO;
+        }
+        
+        NSUInteger index = 0;
+        NSMutableString *formattedString = [NSMutableString string];
+        
+        if (hasLeadingOne) {
+            [formattedString appendString:@"1 "];
+            index += 1;
+        }
+        
+        if (length - index > 3) {
+            NSString *areaCode = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"(%@) ",areaCode];
+            index += 3;
+        }
+        
+        if (length - index > 3) {
+            NSString *prefix = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"%@-",prefix];
+            index += 3;
+        }
+        
+        NSString *remainder = [decimalString substringFromIndex:index];
+        [formattedString appendString:remainder];
+        
+        textField.text = formattedString;
+        
+        return NO;
+    }
+    return 1;
+}
+
+
+#pragma mark - Scroll View Behavior
+
+- (void)setTapGestureToDismissKeyboard
+{
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    
+    // prevents the scroll view from swallowing up the touch event of child buttons
+    tapGesture.cancelsTouchesInView = NO;
+    
+    [self.scrollingView addGestureRecognizer:tapGesture];
+}
+
+- (void)keyboardWasShown:(NSNotification *)notification {
+    
+    NSDictionary *info = [notification userInfo];
+    
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    CGPoint tableBottomLeftPoint = CGPointMake(self.inputFieldView.frame.origin.x, self.inputFieldView.frame.origin.y + self.inputFieldView.frame.size.height);
+    
+    CGRect visibleRect = self.view.frame;
+    
+    visibleRect.size.height -= keyboardSize.height;
+    
+    if (!CGRectContainsPoint(visibleRect, tableBottomLeftPoint)) {
+        
+        CGPoint scrollPoint = CGPointMake(0.0, tableBottomLeftPoint.y - visibleRect.size.height + 10);
+        
+        [self.scrollingView setContentOffset:scrollPoint animated:YES];
+    }
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+    
+    CGPoint returnPoint = CGPointMake(0.0, -60);
+    
+    [self.scrollingView setContentOffset:returnPoint animated:YES];
+    
+}
+
+
+#pragma mark - Keyboard Notifications
+
+- (void)registerForKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)deregisterFromKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+    
+}
+
+
 
 #pragma mark - Animations on WE button
 
@@ -323,18 +601,110 @@
 
 }
 
-- (IBAction)facebookButton:(id)sender {
-    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        
-        [controller setInitialText:@"Hello"];
-        [self presentViewController:controller animated:YES completion:Nil];
-    }
-}
+//- (IBAction)facebookButton:(id)sender {
+//    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+//        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+//        
+//        [controller setInitialText:@"Hello"];
+//        [self presentViewController:controller animated:YES completion:Nil];
+//    }
+//}
 
 - (IBAction)textButton:(id)sender
 {
     [self showSMS:nil];
+}
+
+- (IBAction)saveButton:(id)sender {
+    if (self.inputFieldImage.image == [UIImage imageNamed:@"phone_icon_blue"]) {
+        self.buddy.phone = self.inputField.text;
+    } else if (self.inputFieldImage.image == [UIImage imageNamed:@"twitter_icon_blue"]) {
+        if (self.inputField.text.length > 0 && [self.inputField.text hasPrefix:@"@"]) {
+            self.buddy.twitter = self.inputField.text;
+        }
+    } else if (self.inputFieldImage.image == [UIImage imageNamed:@"closed_mail_icon_blue"]) {
+        if (self.inputField.text.length > 0) {
+             self.buddy.email = self.inputField.text;
+        }
+    }
+    
+    [self toggleWeButtonAndInputField];
+    [self setupContactButtons];
+    
+}
+
+- (IBAction)dismissButton:(id)sender {
+    [self toggleWeButtonAndInputField];
+}
+
+- (IBAction)importButton:(id)sender {
+    [self importFromContacts:nil];
+}
+
+#pragma mark - People Picker
+
+- (IBAction)importFromContacts:(id)sender {
+    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    
+    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    [self presentViewController:picker animated:YES completion:^{
+        
+    }];
+}
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+    
+    [self displayPerson:person];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
+    return NO;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person
+                                property:(ABPropertyID)property
+                              identifier:(ABMultiValueIdentifier)identifier
+{
+    return NO;
+}
+
+- (void)displayPerson:(ABRecordRef)person
+{
+    
+    //name
+    if ([self.inputField.placeholder isEqualToString:@"Phone"]) {
+        //phone number
+        NSString* phone = nil;
+        ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+        if (ABMultiValueGetCount(phoneNumbers) > 0) {
+            for (int i = 0; i < ABMultiValueGetCount(phoneNumbers); i++) {
+                phone = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, i);
+                if (phone) {
+                    self.buddy.phone = phone;
+                }
+            };
+        }
+    }
+    
+    if ([self.inputField.placeholder isEqualToString:@"Email"]) {
+        //emails
+        ABMultiValueRef  emails = ABRecordCopyValue(person, kABPersonEmailProperty);
+        NSString *emailId = (__bridge NSString *)ABMultiValueCopyValueAtIndex(emails, 0);//0 for "Home Email" and 1 for "Work Email".
+        if (emailId) {
+            self.buddy.email = emailId;
+        }
+    }
 }
 
 #pragma mark - Selector - Activity Buttons
@@ -476,32 +846,87 @@
 
 -(void)pressed0oButton:(UIButton *)sender //gifted
 {
-    [self addAffinity:.22];
 //    [self createUndoAffinityObject:.22];
+    if (self.buddy.affinity < 1) {
+        [MPNotificationView notifyWithText:@"...exchanged gifts."
+                                    detail:@"20 Points!"
+                                     image:[UIImage imageNamed:@"gift_icon_blue"]
+                               andDuration:3];
+    } else {
+        [MPNotificationView notifyWithText:@"For now, your circle is complete"
+                                    detail:@"Maximum points reached for today"
+                                     image:[UIImage imageNamed:@"checkmark_icon"]
+                               andDuration:3];
+    }
+    [self addAffinity:.22];
 }
 
 -(void)pressed45oButton:(UIButton *)sender //socialed
 {
-    [self addAffinity:.07];
 //    [self createUndoAffinityObject:.07];
+    if (self.buddy.affinity < 1) {
+    [MPNotificationView notifyWithText:@"...socialed."
+                                detail:@"7 Points!"
+                                 image:[UIImage imageNamed:@"social_icon_blue"]
+                           andDuration:3];
+    } else {
+        [MPNotificationView notifyWithText:@"For now, your circle is complete"
+                                    detail:@"Maximum points reached for today"
+                                     image:[UIImage imageNamed:@"checkmark_icon"]
+                               andDuration:3];
+    }
+    [self addAffinity:.07];
 }
 
 -(void)pressed90oButton:(UIButton *)sender // Hang
 {
-    [self addAffinity:.30];
 //    [self createUndoAffinityObject:.30];
+    if (self.buddy.affinity < 1) {
+    [MPNotificationView notifyWithText:@"...hung out."
+                                detail:@"30 Points!"
+                                 image:[UIImage imageNamed:@"besties_icon_blue"]
+                           andDuration:3];
+    } else {
+        [MPNotificationView notifyWithText:@"For now, your circle is complete"
+                                    detail:@"Maximum points reached for today"
+                                     image:[UIImage imageNamed:@"checkmark_icon"]
+                               andDuration:3];
+    }
+    [self addAffinity:.30];
 }
 
 -(void)pressed135oButton:(UIButton *)sender // messaged
 {
-    [self addAffinity:.10];
 //    [self createUndoAffinityObject:.10];
+    if (self.buddy.affinity < 1) {
+    [MPNotificationView notifyWithText:@"...messaged."
+                                detail:@"10 Points!"
+                                 image:[UIImage imageNamed:@"messaged_icon_blue"]
+                           andDuration:3];
+    } else {
+        [MPNotificationView notifyWithText:@"For now, your circle is complete"
+                                    detail:@"Maximum points reached for today"
+                                     image:[UIImage imageNamed:@"checkmark_icon"]
+                               andDuration:3];
+    }
+    [self addAffinity:.10];
 }
 
 -(void)pressed180oButton:(UIButton *)sender // talked
 {
-    [self addAffinity:.18];
 //    [self createUndoAffinityObject:.18];
+    if (self.buddy.affinity < 1) {
+    [MPNotificationView notifyWithText:@"...talked."
+                                detail:@"20 Points!"
+                                 image:[UIImage imageNamed:@"we_called_icon_blue"]
+                           andDuration:3];
+    } else {
+        [MPNotificationView notifyWithText:@"For now, your circle is complete"
+                                    detail:@"Maximum points reached for today"
+                                     image:[UIImage imageNamed:@"checkmark_icon"]
+                               andDuration:3];
+    }
+    [self addAffinity:.18];
 }
 
 - (IBAction)undoButton:(id)sender {
@@ -554,7 +979,7 @@
     
     
     NSArray *recipents = @[self.buddy.phone];
-    NSString *message = @"I really miss you buddy";
+    NSString *message = @"";
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;
@@ -608,6 +1033,12 @@
     if (self.buddy.affinity < 1) {
         self.buddy.affinity = self.buddy.affinity + number;
         [self.progressViewPie setProgress:self.buddy.affinity animated:YES];
+        [UIView animateWithDuration:0.3f delay:0 options:0 animations:^{
+            
+        } completion:^(BOOL finished) {
+            
+        }];
+        
         self.buddy.hasChanged = YES;
         
         if (!self.localNotificationController){
@@ -679,7 +1110,9 @@
     }
 }
 
-
+- (void)percentCounterDisplay {
+    
+}
 
 #pragma mark - Commented Out
 

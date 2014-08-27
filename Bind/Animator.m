@@ -26,7 +26,7 @@
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [UIView animateWithDuration:duration delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
-            [view setAlpha:0.2f];
+            [view setAlpha:0.0f];
         } completion:nil];
     }];
 }
@@ -63,9 +63,13 @@
     }];
 }
 
-- (void)oscillateSize:(UIView *)view withDuration:(double)duration
+- (void)changeBackground:(UIImageView *)view toImage:(UIImage *)image withDuration:(double)duration
 {
-    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [UIView animateWithDuration:duration delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            view.image = image;
+        } completion:nil];
+    }];
 }
 
 - (void)sleep:(double)timeInSeconds
@@ -73,6 +77,15 @@
     usleep(timeInSeconds * 1000000);
 }
 
-
+- (void)points:(UIView *)view withDuration:(double)duration
+{
+    CATransform3D transform3d = CATransform3DMakeScale(5, 5, 5);
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [UIView animateWithDuration:duration delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            view.layer.transform = transform3d;
+        } completion:nil];
+    }];
+}
 
 @end
